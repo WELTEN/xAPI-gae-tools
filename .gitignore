@@ -1,2 +1,8 @@
 # Google App Engine generated folder
 appengine-generated/
+.idea/
+.DS_Store
+datanucleus.log
+target/
+xapi-gae-tools.iml
+						 
