@@ -196,6 +196,7 @@
                     <api>JDO</api>
                     <props>${basedir}/datanucleus.properties</props>
                     <verbose>true</verbose>
+                    <fork>true</fork>
                     <enhancerName>ASM</enhancerName>
 
 
