@@ -1,6 +1,4 @@
-package nl.welteninstituut.tel.la.importers.rescuetime;
-
-import nl.welteninstituut.tel.la.importers.Importer;
+package nl.welteninstituut.tel.la.importers;
 
 /**
  * ****************************************************************************
@@ -22,9 +20,15 @@ import nl.welteninstituut.tel.la.importers.Importer;
  * Contributors: Stefaan Ternier
  * ****************************************************************************
  */
-public class RescueTimeImport extends Importer {
+public class CronStarter extends javax.servlet.http.HttpServlet {
 
-    public void startImport(){
-        System.out.println("start heavy lifting");
+
+    public void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws java.io.IOException {
+        System.out.println("test");
+
+        for (Importer importer: Importer.getImporters()) {
+            importer.startImport();
+        }
+
     }
 }

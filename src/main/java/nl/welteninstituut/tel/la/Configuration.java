@@ -17,6 +17,7 @@ public class Configuration {
     public static final String BQTableId = "bigQueryTableId";
 
     public static final String EXPORTERS = "exporters";
+    public static final String IMPORTERS = "importers";
     private static Properties props = new Properties();
     private static String serviceAccountName = AppIdentityServiceFactory.getAppIdentityService().getServiceAccountName();
 

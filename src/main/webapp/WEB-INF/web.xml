@@ -12,6 +12,12 @@
         </servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>CronStarter</servlet-name>
+        <servlet-class>
+            nl.welteninstituut.tel.la.importers.CronStarter
+        </servlet-class>
+    </servlet>
 
     <servlet>
         <servlet-name>pipeline</servlet-name>
@@ -30,6 +36,11 @@
     <servlet-mapping>
         <servlet-name>AsyncTasksServlet</servlet-name>
         <url-pattern>/asyncTask</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CronStarter</servlet-name>
+        <url-pattern>/importers</url-pattern>
     </servlet-mapping>
 
     <servlet>
