@@ -6,3 +6,5 @@ datanucleus.log
 target/
 xapi-gae-tools.iml
 						 
+/.classpath
+/.project
