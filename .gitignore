@@ -8,3 +8,7 @@ xapi-gae-tools.iml
 						 
 /.classpath
 /.project
+
+module_xapi-gae-tools.xml
+xapi-gae-tools.properties
+xapi-gae-tools.xml
