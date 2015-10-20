@@ -26,15 +26,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.urlfetch.FetchOptions;
-import org.apache.commons.codec.binary.Base64;
 import nl.welteninstituut.tel.oauth.jdo.UserLoggedInManager;
+
+import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -83,6 +82,12 @@ public abstract class OauthWorker {
 			UserLoggedInManager.submitOauthUser(id, authToken);
 		}
 	}
+	
+	protected void saveAccessToken(String id, String authToken, String refreshToken) {
+		if (authToken != null) {
+			UserLoggedInManager.submitOauthUser(id, authToken, refreshToken);
+		}
+	}
 
 	protected String readURL(URL url) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -124,6 +129,7 @@ public abstract class OauthWorker {
 	public class RequestAccessToken {
 
 		private String accessToken;
+		private String refreshToken;
 		private long expires_in;
 	    
 
@@ -174,6 +180,7 @@ public abstract class OauthWorker {
 			JSONObject resultJson = new JSONObject(result);
 			accessToken = resultJson.getString("access_token");
 			expires_in = resultJson.getLong("expires_in");
+			refreshToken = resultJson.getString("refresh_token");
 		}
 
 		public String getAccessToken() {
@@ -182,6 +189,10 @@ public abstract class OauthWorker {
 
 		public long getExpires_in() {
 			return expires_in;
+		}
+		
+		public String getRefreshToken() {
+			return refreshToken;
 		}
 
 	}
