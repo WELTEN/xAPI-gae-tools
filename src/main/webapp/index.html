@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="dist/css/style.css">
 
+    <script src='http://www.google.com/jsapi' type='text/javascript'></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -26,8 +28,6 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
-
 
 </head>
 <body class="skin-blue sidebar-mini">
@@ -82,9 +82,9 @@
                         <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href=""><i class="fa fa-circle-o"></i> Learner</a></li>
-                        <li><a href=""><i class="fa fa-circle-o"></i> Teacher</a></li>
-                        <li><a href=""><i class="fa fa-circle-o"></i> Administrator</a></li>
+                        <li><a href="#/mooc/12/student"><i class="fa fa-circle-o"></i> Learner</a></li>
+                        <li><a href="#/mooc/12/teacher"><i class="fa fa-circle-o"></i> Teacher</a></li>
+                        <li><a href="#/mooc/12/admin"><i class="fa fa-circle-o"></i> Administrator</a></li>
                     </ul>
                 </li>
             </ul>
@@ -289,7 +289,8 @@
 <script src="plugins/underscore/underscore-min.js"></script>
 <!-- Backbone plugin -->
 <script src="plugins/backbone/backbone-min.js"></script>
-
+<!-- Google Chart plugin for backbone-->
+<script src='/plugins/GoogleChart.js' type='text/javascript'></script>
 <script src="dist/js/models/model.js"></script>
 <script src="dist/js/views/view.js"></script>
 <script src="dist/js/utils.js"></script>

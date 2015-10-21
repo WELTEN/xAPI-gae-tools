@@ -7,6 +7,15 @@ window.User = Backbone.Model.extend({
     }
 });
 
+////////////
+// Calendar
+///////////
+window.CalendarUser = Backbone.Model.extend({
+    url: function(){
+        return "/data-proxy/query/result-fake/calendar/user";
+    }
+});
+
 window.CurrentUser = Backbone.Collection.extend({
     model: User,
     url: "/rest/account/accountDetails"
@@ -21,16 +30,6 @@ window.UserRunCollection = Backbone.Collection.extend({
         return response.users;
     }
 });
-
-////////////
-// Calendar
-///////////
-window.CalendarCourse = Backbone.Collection.extend({
-    url: function(){
-        return "http://xapi-proxy-dev.appspot.com/data-proxy/query/result/calendar/course/"+this.courseId;
-    }
-});
-
 
 //////////////////////////////////////////
 // Defined header to make the service call
@@ -61,8 +60,6 @@ var setHeader = function (xhr) {
         $.cookie("arlearn.OauthType", 2, {expires: date, path: "/"});
 
         document.location = "/";
-
-
     }
 
     if($.cookie("arlearn.AccessToken")){
