@@ -12,9 +12,34 @@ var AppRouter = Backbone.Router.extend({
     initialize: function() {
     },
     routes: {
-        ""			: "login",
+        "login"		: "login",
+        ""          : "main",
         "oauth"     : "oauth", // If we managed to redirect the login callback to the route "oauth" then we can generate everything there
-        "logout"    : "logout"
+        "logout"    : "logout",
+        "teachers"  : "teachers",
+        "learners"  : "learners",
+        "admin"     : "admin"
+    },
+    main: function(){
+        if (!this.CalendarCourse) {
+            this.CalendarCourse = new CalendarCourse();
+            this.CalendarCourse.courseId = "humance";
+            this.CalendarCourse.fetch({
+                beforeSend: setHeader,
+                success: function(response, jsonData) {
+                    //console.log(response,jsonData);
+
+                    //if (jsonData == "{}") {
+                    //    setTimeout(function func() {
+                    //        timeout = timeout *2;
+                    //        drawChart()
+                    //    }, timeout * 1000);
+                    //} else {
+                        new CalendarCourseView({ model: jsonData }).render().el;
+                    //}
+                }
+            });
+        }
     },
     logout: function() {
         $.cookie("arlearn.AccessToken", null, { path: '/' });

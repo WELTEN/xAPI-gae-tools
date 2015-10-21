@@ -22,6 +22,15 @@ window.UserRunCollection = Backbone.Collection.extend({
     }
 });
 
+////////////
+// Calendar
+///////////
+window.CalendarCourse = Backbone.Collection.extend({
+    url: function(){
+        return "http://xapi-proxy-dev.appspot.com/data-proxy/query/result/calendar/course/"+this.courseId;
+    }
+});
+
 
 //////////////////////////////////////////
 // Defined header to make the service call
