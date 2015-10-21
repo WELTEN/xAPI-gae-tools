@@ -49,7 +49,8 @@ var AppRouter = Backbone.Router.extend({
     },
     studentView: function (id) {
         console.log("listing student view for " + id);
-        $('.content').append(new DashBoardLearnerView().render().el);
+        this.showView('.content', new DashBoardLearnerView());
+        //$('.content').append(new DashBoardLearnerView().render().el);
         var oldthis = this;
         google.load('visualization', '1', {
             packages: ['calendar', 'bar'], callback: function () {
@@ -60,9 +61,17 @@ var AppRouter = Backbone.Router.extend({
 
 
     },
+    showView: function(selector, view) {
+        if (this.currentView)
+            this.currentView.close();
+        $(selector).html(view.render().el);
+        this.currentView = view;
+        return view;
+    },
     teacherView: function (id) {
         console.log("listing student view for " + id);
-        $('.content').append(new DashBoardTeacherView().render().el);
+        this.showView('.content', new DashBoardTeacherView());
+        //$('.content').append(new DashBoardTeacherView().render().el);
         var oldthis = this;
         google.load('visualization', '1', {
             packages: ['calendar', 'bar'], callback: function () {
@@ -74,7 +83,8 @@ var AppRouter = Backbone.Router.extend({
     },
     adminView: function (id) {
         console.log("listing student view for " + id);
-        $('.content').append(new DashBoardAdminView().render().el);
+        this.showView('.content', new DashBoardAdminView());
+        //$('.content').append(new DashBoardAdminView().render().el);
         var oldthis = this;
         google.load('visualization', '1', {
             packages: ['calendar', 'bar', 'corechart'], callback: function () {
