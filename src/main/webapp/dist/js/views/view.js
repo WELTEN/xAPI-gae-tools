@@ -26,3 +26,42 @@ window.UserSidebarView = Backbone.View.extend({
         return this;
     }
 });
+
+window.DashBoardLearnerView = Backbone.View.extend({
+    tagName:  "div",
+    className: "dashboard-learner",
+    initialize:function () {
+        this.template = _.template(tpl.get('dashboard-learner'));
+    },
+
+    render:function () {
+        $(this.el).html(this.template(this.model));
+        return this;
+    }
+});
+
+window.DashBoardTeacherView = Backbone.View.extend({
+    tagName:  "div",
+    className: "dashboard-learner",
+    initialize:function () {
+        this.template = _.template(tpl.get('dashboard-teacher'));
+    },
+
+    render:function () {
+        $(this.el).html(this.template(this.model));
+        return this;
+    }
+});
+
+window.DashBoardAdminView = Backbone.View.extend({
+    tagName:  "div",
+    className: "dashboard-learner",
+    initialize:function () {
+        this.template = _.template(tpl.get('dashboard-admin'));
+    },
+
+    render:function () {
+        $(this.el).html(this.template(this.model));
+        return this;
+    }
+});
