@@ -9,6 +9,7 @@ Backbone.View.prototype.close = function () {
 
 var AppRouter = Backbone.Router.extend({
     initialize: function () {
+        this.Graphs = new GraphsCollection();
     },
     routes: {
         "": "login",
@@ -47,16 +48,40 @@ var AppRouter = Backbone.Router.extend({
         //}
     },
     studentView: function (id) {
-        console.log("listing student view for " + id);
-        this.showView('.content', new DashBoardLearnerView());
-        //$('.content').append(new DashBoardLearnerView().render().el);
-        var oldthis = this;
-        google.load('visualization', '1', {
-            packages: ['calendar', 'bar'], callback: function () {
-                oldthis.loadCalendarActivities();
-                oldthis.loadPerformance();
+        //if(this.Graphs.get("aaa")) {
+        //    console.log("Not in the collection");
+            this.CalendarActivity = new CalendarActivity();
+            this.CalendarActivity.fetch({
+                beforeSend: setHeader,
+                success: function (response, jsonData) {
+                    //console.log(jsonData);
+                    app.showView('.content > .row', new CalendarView({ model: jsonData }));
+
+                    app.addRepresentationObject("aaa", jsonData);
+                }
+            });
+        //}else{
+        //    console.log("Already in the collection");
+        //}
+
+        console.log(app.Graphs);
+
+        //if(this.Graphs.get("aada")) {
+        this.Perfomance = new Perfomance();
+        this.Perfomance.fetch({
+            beforeSend: setHeader,
+            success: function (response, jsonData) {
+                var perf_view = new PerfomanceView({ model: jsonData })
+                if (perf_view)
+                    perf_view.close();
+                $('.content > .row').append(perf_view.render().el);
+
+                app.addRepresentationObject("addaa", jsonData);
             }
         });
+        //}else{
+        //    console.log("Already in the collection");
+        //}
     },
     showView: function(selector, view) {
         if (this.currentView)
@@ -66,30 +91,28 @@ var AppRouter = Backbone.Router.extend({
         return view;
     },
     teacherView: function (id) {
-        console.log("listing student view for " + id);
-        this.showView('.content', new DashBoardTeacherView());
-        //$('.content').append(new DashBoardTeacherView().render().el);
-        var oldthis = this;
-        google.load('visualization', '1', {
-            packages: ['calendar', 'bar'], callback: function () {
-                oldthis.loadCalendarActivitiesCourse();
+        this.CalendarActivityCourse = new CalendarActivityCourse();
+        this.CalendarActivityCourse.fetch({
+            beforeSend: setHeader,
+            success: function (response, jsonData) {
+                //console.log(jsonData);
+                app.showView('.content > .row', new CalendarView({ model: jsonData }));
+
+                app.addRepresentationObject("asdasd", jsonData);
             }
         });
-
-
     },
     adminView: function (id) {
-        console.log("listing student view for " + id);
-        this.showView('.content', new DashBoardAdminView());
-        //$('.content').append(new DashBoardAdminView().render().el);
-        var oldthis = this;
-        google.load('visualization', '1', {
-            packages: ['calendar', 'bar', 'corechart'], callback: function () {
+        this.DropOutMonitor = new DropOutMonitor();
+        this.DropOutMonitor.fetch({
+            beforeSend: setHeader,
+            success: function (response, jsonData) {
+                //console.log(jsonData);
+                app.showView('.content > .row', new BubbleView({ model: jsonData }));
 
-                oldthis.loadDropOutMonitor();
+                app.addRepresentationObject("dsfsd", jsonData);
             }
         });
-
 
     },
     common: function (callback) {
@@ -104,106 +127,18 @@ var AppRouter = Backbone.Router.extend({
             });
         }
     },
-    loadCalendarActivities: function () {
-        //var jsonData = $.ajax({
-        //    url: "/data-proxy/query/result-fake/calendar/user",
-        //    dataType: "json",
-        //    async: false
-        //}).responseText;
-        //
-        //var data = new google.visualization.DataTable(jsonData);
-        //
-        //var chart = new Backbone.GoogleChart({
-        //    chartType: 'Calendar',
-        //    dataTable: data,
-        //    backgroundColor: { fill:'transparent' },
-        //    options: {'title': 'agenda'}
-        //});
-        //
-        //$('.learner-vis1').append(chart.render().el);
+    addRepresentationObject: function (id, data){
+        var representationObject = new RepresentationObject();
+        representationObject.set("content", data);
+        representationObject.set("id", id);
+        app.Graphs.add(representationObject);
 
-        this.CalendarUser = new CalendarUser();
-        this.CalendarUser.fetch({
-            beforeSend: setHeader,
-            success: function (response, jsonData) {
-                console.log(jsonData);
-                var data = new google.visualization.DataTable(jsonData);
-                this.showView('.learner-vis1', new CalendarUserView({ model: data }));
-            }
-        });
-    },
-    loadCalendarActivitiesCourse: function () {
-        var jsonData = $.ajax({
-            url: "/data-proxy/query/result-fake/calendar/course/humance",
-            dataType: "json",
-            async: false
-        }).responseText;
-
-        var data = new google.visualization.DataTable(jsonData);
-
-        var chart = new Backbone.GoogleChart({
-            chartType: 'Calendar',
-            dataTable: data,
-            backgroundColor: { fill:'transparent' },
-            options: {'title': 'agenda'}
-        });
-
-        $('.teacher-vis1').append(chart.render().el);
-
-    },
-    loadPerformance: function () {
-        var jsonData = $.ajax({
-            url: "/data-proxy/query/result-fake/averageLearnerActivities/humance",
-            dataType: "json",
-            async: false
-        }).responseText;
-
-        var data = new google.visualization.DataTable(jsonData);
-
-        var chart = new Backbone.GoogleChart({
-            chartType: 'BarChart',
-            dataTable: data,
-            options: {
-                chart: {
-                    title: 'Group vs. individual performance',
-                },
-                backgroundColor: { fill:'transparent' },
-                bars: 'horizontal' // Required for Material Bar Charts.
-            }
-        });
-
-        $('.learner-vis2').append(chart.render().el);
-
-    },
-    loadDropOutMonitor: function () {
-        var jsonData = $.ajax({
-            url: "/data-proxy/query/result-fake/dropoutMonitor",
-            dataType: "json",
-            async: false
-        }).responseText;
-
-        var data = new google.visualization.DataTable(jsonData);
-
-        var chart = new Backbone.GoogleChart({
-            chartType: 'BubbleChart',
-            dataTable: data,
-            options: {
-                title: 'DropOutMonitor: Correlation between number of course launches, number of activities and number of users for all Moocs',
-                hAxis: {title: 'number of activities', logScale:true},
-                vAxis: {title: 'number of launches', logScale:true},
-                backgroundColor: { fill:'transparent' },
-                height:400,
-                bubble: {textStyle: {fontSize: 11}}
-            }
-        });
-
-        $('.admin-vis1').append(chart.render().el);
-
+        console.log(app.Graphs);
     }
 });
 
 
-tpl.loadTemplates(['main', 'user', 'user_sidebar', 'dashboard-learner', 'dashboard-teacher', 'dashboard-admin'], function () {
+tpl.loadTemplates(['main', 'user', 'user_sidebar', 'dashboard-learner', 'dashboard-teacher', 'dashboard-admin',  'widget'], function () {
     app = new AppRouter();
     Backbone.history.start();
 });

@@ -6,15 +6,43 @@ window.User = Backbone.Model.extend({
         //console.log("User initialize");
     }
 });
+window.RepresentationObject = Backbone.Model.extend({
+    initialize: function(a){
+        console.log("RepresentationObject initialize");
+    },
+    defaults:{
+        "id": "",
+        "content": ""
+    }
+});
 
 ////////////
 // Calendar
 ///////////
-window.CalendarUser = Backbone.Model.extend({
+window.CalendarActivity = Backbone.Model.extend({
     url: function(){
         return "/data-proxy/query/result-fake/calendar/user";
     }
 });
+
+window.CalendarActivityCourse = Backbone.Model.extend({
+    url: function(){
+        return "/data-proxy/query/result-fake/calendar/course/humance";
+    }
+});
+
+window.DropOutMonitor = Backbone.Model.extend({
+    url: function(){
+        return "/data-proxy/query/result-fake/dropoutMonitor";
+    }
+});
+
+window.Perfomance = Backbone.Model.extend({
+    url: function(){
+        return "/data-proxy/query/result-fake/averageLearnerActivities/humance";
+    }
+});
+
 
 window.CurrentUser = Backbone.Collection.extend({
     model: User,
@@ -29,6 +57,13 @@ window.UserRunCollection = Backbone.Collection.extend({
     parse: function(response){
         return response.users;
     }
+});
+
+/////////////
+// Collection
+/////////////
+window.GraphsCollection = Backbone.Collection.extend({
+    model: RepresentationObject
 });
 
 //////////////////////////////////////////
