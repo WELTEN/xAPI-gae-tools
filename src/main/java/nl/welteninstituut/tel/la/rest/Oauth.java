@@ -23,6 +23,8 @@ import javax.ws.rs.QueryParam;
 import nl.welteninstituut.tel.oauth.jdo.OauthKeyManager;
 
 /**
+ * Use this rest service to store the OAUTH connection information in the system.
+ * 
  * @author Stefaan Ternier
  *
  */

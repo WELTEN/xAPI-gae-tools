@@ -40,9 +40,6 @@ public class UsersLoggedIn {
     @Persistent
     private String authToken;
     
-    @Persistent
-    private String refreshToken;
-
 	public Key getKey() {
 		return key;
 	}
@@ -72,11 +69,4 @@ public class UsersLoggedIn {
         this.authToken = authToken;
     }
     
-    public String getRefreshToken() {
-    	return refreshToken;
-    }
-
-	public void setRefreshToken(String refreshToken) {
-		this.refreshToken = refreshToken;
-	}
 }
