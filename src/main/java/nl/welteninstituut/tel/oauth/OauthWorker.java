@@ -31,6 +31,8 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
+import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccountManager;
 import nl.welteninstituut.tel.oauth.jdo.UserLoggedInManager;
 
 import org.apache.commons.codec.binary.Base64;
@@ -39,11 +41,13 @@ import org.codehaus.jettison.json.JSONObject;
 
 public abstract class OauthWorker {
 
-    private static final Logger log = Logger.getLogger(OauthWorker.class.getName());
-	
+	private static final Logger log = Logger.getLogger(OauthWorker.class.getName());
+
 	protected String code;
 	private HttpServletResponse resp;
 	protected String baseUrl;
+
+	public abstract int getServiceId();
 
 	public void setCode(String code) {
 		this.code = code;
@@ -52,40 +56,45 @@ public abstract class OauthWorker {
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
-	
+
 	public abstract void exchangeCodeForAccessToken();
 
 	protected abstract String getAuthUrl(String authCode);
 
 	protected void sendRedirect(String accessToken, String expires, int type) {
-		long expiresLong = 3600*24*7l; 
+		long expiresLong = 3600 * 24 * 7l;
 		try {
-			resp.sendRedirect(baseUrl+"/oauth.html?accessToken=" + accessToken + "&type=" + type + "&exp=" + expiresLong);
+			resp.sendRedirect(baseUrl + "/index.html?accessToken=" + accessToken + "&type=" + type + "&exp="
+					+ expiresLong);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	protected void error(String error) {
 		try {
 			resp.setContentType("text/html;charset=utf-8");
-			resp.getWriter().write("<h2>Error</h2><br>\n"+error);
+			resp.getWriter().write("<h2>Error</h2><br>\n" + error);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected void saveAccessToken(String id, String authToken) {
 		if (authToken != null) {
 			UserLoggedInManager.submitOauthUser(id, authToken);
 		}
 	}
-	
-	protected void saveAccessToken(String id, String authToken, String refreshToken) {
+
+	protected void saveAccessToken(final AccountJDO account, String authToken, String refreshToken) {
 		if (authToken != null) {
-			UserLoggedInManager.submitOauthUser(id, authToken, refreshToken);
+			UserLoggedInManager.submitOauthUser(account.getUniqueId(), authToken);
+			System.out.println("persisting service account");
+			OauthServiceAccountManager.submitOauthServiceAccount(account.getAccountType(), account.getLocalId(),
+					authToken, refreshToken);
+			System.out.println("persisted service account");
 		}
 	}
 
@@ -131,7 +140,6 @@ public abstract class OauthWorker {
 		private String accessToken;
 		private String refreshToken;
 		private long expires_in;
-	    
 
 		public void getUrl() {
 
@@ -142,20 +150,23 @@ public abstract class OauthWorker {
 				parseResult(readURL(new URL(url)));
 			} catch (Exception e) {
 				e.printStackTrace();
-			} 
+			}
 		}
 
-		public void postUrl(String url, String data){
+		public void postUrl(String url, String data) {
 			postUrl(url, data, null);
 		}
+
 		public void postUrl(String url, String data, String authorization) {
 			try {
-				log.log(Level.INFO, "about to open url for code "+url + " *** "+data);
+				log.log(Level.INFO, "about to open url for code " + url + " *** " + data);
 				URLConnection conn = new URL(url).openConnection();
-//				conn.setConnectTimeout(30);
+				// conn.setConnectTimeout(30);
 				conn.setDoOutput(true);
 
-				if (authorization!=null) conn.setRequestProperty("Authorization", "Basic "+new String (new Base64().encode(authorization.getBytes())));
+				if (authorization != null)
+					conn.setRequestProperty("Authorization",
+							"Basic " + new String(new Base64().encode(authorization.getBytes())));
 				OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 				wr.write(data);
 				wr.flush();
@@ -166,7 +177,7 @@ public abstract class OauthWorker {
 				while ((line = rd.readLine()) != null) {
 					result += line;
 				}
-				log.log(Level.INFO, "oauth result"+result);
+				log.log(Level.INFO, "oauth result" + result);
 				wr.close();
 				rd.close();
 				parseResult(result);
@@ -190,7 +201,7 @@ public abstract class OauthWorker {
 		public long getExpires_in() {
 			return expires_in;
 		}
-		
+
 		public String getRefreshToken() {
 			return refreshToken;
 		}

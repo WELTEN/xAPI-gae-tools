@@ -26,14 +26,10 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import org.codehaus.jettison.json.JSONObject;
-
 import nl.welteninstituut.tel.la.importers.Importer;
 import nl.welteninstituut.tel.la.jdomanager.PMF;
 import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
-import nl.welteninstituut.tel.oauth.jdo.AccountManager;
-import nl.welteninstituut.tel.oauth.jdo.UsersLoggedIn;
-import nl.welteninstituut.tel.util.StringPool;
+import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccount;
 
 /**
  * @author Stefaan Ternier
@@ -47,16 +43,17 @@ public class FitbitImport  extends Importer {
 		System.out.println("FITBIT importer");
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Query q = pm.newQuery(UsersLoggedIn.class);
-		q.setFilter("username >= \"7:\"");
-		q.setFilter("username < \"7:\uFFFD\"");
+		Query q = pm.newQuery(OauthServiceAccount.class);
+		q.setFilter("serviceId == serviceIdParam");
+		q.declareParameters("Integer serviceIdParam");
 		
 		try {
-			List<UsersLoggedIn> result = (List<UsersLoggedIn>)q.execute();
+			@SuppressWarnings("unchecked")
+			List<OauthServiceAccount> result = (List<OauthServiceAccount>)q.execute(AccountJDO.FITBITCLIENT);
 			
-			for (UsersLoggedIn uli : result) {
-				System.out.println("---->>>> " + uli.getUsername());
-				fetchData(uli);
+			for (OauthServiceAccount account : result) {
+				System.out.println("---->>>> " + account.getAccountId());
+				fetchData(account);
 			}
 		} finally {
 			q.closeAll();
@@ -64,17 +61,14 @@ public class FitbitImport  extends Importer {
 		
 	}
 	
-	private void fetchData(final UsersLoggedIn uli) {
-		
-		String userid = uli.getUsername().substring(2);
+	private void fetchData(final OauthServiceAccount account) {
 		
 		String result;
 		try {
-			result = readURL(new URL("https://api.fitbit.com/1/user/" + userid + "/activities/heart/date/today/1d.json"),
-					uli.getAuthToken());
+			result = readURL(new URL("https://api.fitbit.com/1/user/" + account.getAccountId() + "/activities/heart/date/2015-10-21/1d/1sec/time/10:00/10:05.json"),
+					account.getAccessToken());
 			System.out.println("** -> " + result);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 		
