@@ -83,6 +83,23 @@ public class Submit {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON })
+    @Path("/statements_async")
+    public String postStatementSync(String postData) {
+        long proxyId = StatementManager.addStatement(postData, null, null);
+        return "{\"result\":\"ok\", \"proxyId\":"+proxyId+"}";
+    }
+
+
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON })
+    @Path("/statements_async")
+    public void postStatementAsync(String postData) {
+        long proxyId = StatementManager.addStatement(postData, null, null);
+
+    }
+
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON })
     @Path("/statements")
     public String postStatements(String postData, @HeaderParam("Authorization") String authorization) {
         try {

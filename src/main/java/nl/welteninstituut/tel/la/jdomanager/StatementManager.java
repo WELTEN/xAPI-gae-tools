@@ -1,5 +1,6 @@
 package nl.welteninstituut.tel.la.jdomanager;
 
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 import nl.welteninstituut.tel.la.jdo.Statement;
@@ -25,6 +26,14 @@ public class StatementManager {
         } finally {
             pm.close();
         }
+    }
+
+    public static void addStatementAsync(String statement) {
+        Entity entity = new Entity("Statement");
+        entity.setProperty("statementPayload", new Text(statement));
+        entity.setProperty("lastModificationDate", System.currentTimeMillis());
+        entity.setProperty("synchronized", false);
+        
     }
 
     public static long addStatementWithError(String statement, String authorizationData, String errorMessage) {
