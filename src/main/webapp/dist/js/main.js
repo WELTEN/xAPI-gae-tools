@@ -48,8 +48,8 @@ var AppRouter = Backbone.Router.extend({
         //}
     },
     studentView: function (id) {
-        //if(this.Graphs.get("aaa")) {
-        //    console.log("Not in the collection");
+        if(!this.Graphs.get("student_calendar_activities")) {
+            console.log("Not in the collection");
             this.CalendarActivity = new CalendarActivity();
             this.CalendarActivity.fetch({
                 beforeSend: setHeader,
@@ -57,16 +57,17 @@ var AppRouter = Backbone.Router.extend({
                     //console.log(jsonData);
                     app.showView('.content > .row', new CalendarView({ model: jsonData }));
 
-                    app.addRepresentationObject("aaa", jsonData);
+                    app.addRepresentationObject("student_calendar_activities", jsonData);
                 }
             });
-        //}else{
-        //    console.log("Already in the collection");
-        //}
+        }else{
+            console.log("Already in the collection");
+            app.showView('.content > .row', new CalendarView({ model: this.Graphs.get("student_calendar_activities") }));
+        }
 
         console.log(app.Graphs);
 
-        //if(this.Graphs.get("aada")) {
+        if(this.Graphs.get("aada")) {
         this.Perfomance = new Perfomance();
         this.Perfomance.fetch({
             beforeSend: setHeader,
@@ -79,9 +80,9 @@ var AppRouter = Backbone.Router.extend({
                 app.addRepresentationObject("addaa", jsonData);
             }
         });
-        //}else{
-        //    console.log("Already in the collection");
-        //}
+        }else{
+            console.log("Already in the collection");
+        }
     },
     showView: function(selector, view) {
         if (this.currentView)
