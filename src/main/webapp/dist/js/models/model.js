@@ -1,14 +1,15 @@
-//////////////////////////
-// Models relates to users
-/////////////////////////
+/////////
+// Models
+/////////
 window.User = Backbone.Model.extend({
     initialize: function(a){
         //console.log("User initialize");
     }
 });
+
 window.RepresentationObject = Backbone.Model.extend({
     initialize: function(a){
-        console.log("RepresentationObject initialize");
+        //console.log("RepresentationObject initialize");
     },
     defaults:{
         "id": "",
@@ -16,9 +17,6 @@ window.RepresentationObject = Backbone.Model.extend({
     }
 });
 
-////////////
-// Calendar
-///////////
 window.CalendarActivity = Backbone.Model.extend({
     url: function(){
         return "/data-proxy/query/result-fake/calendar/user";
@@ -31,19 +29,21 @@ window.CalendarActivityCourse = Backbone.Model.extend({
     }
 });
 
-window.DropOutMonitor = Backbone.Model.extend({
-    url: function(){
-        return "/data-proxy/query/result-fake/dropoutMonitor";
-    }
-});
-
 window.Perfomance = Backbone.Model.extend({
     url: function(){
         return "/data-proxy/query/result-fake/averageLearnerActivities/humance";
     }
 });
 
+window.DropOutMonitor = Backbone.Model.extend({
+    url: function(){
+        return "/data-proxy/query/result-fake/dropoutMonitor";
+    }
+});
 
+//////////////
+// Collections
+//////////////
 window.CurrentUser = Backbone.Collection.extend({
     model: User,
     url: "/rest/account/accountDetails"
@@ -59,9 +59,6 @@ window.UserRunCollection = Backbone.Collection.extend({
     }
 });
 
-/////////////
-// Collection
-/////////////
 window.GraphsCollection = Backbone.Collection.extend({
     model: RepresentationObject
 });

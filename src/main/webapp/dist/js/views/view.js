@@ -30,24 +30,61 @@ window.UserSidebarView = Backbone.View.extend({
 window.CalendarView = Backbone.View.extend({
     tagName: "section",
     className: "col-lg-10 connectedSortable ui-sortable",
-    initialize: function(){
+    initialize: function(options){
         this.template = _.template(tpl.get('widget'));
-        console.log(this.model);
+        this.title = options.title;
     },
     drawVisualization: function () {
         this.data = new google.visualization.DataTable(this.model);
-
-        $(this.el).html(this.template({ title: "Calendar" }));
-
+        $(this.el).html(this.template({ title: this.title }));
         var chart = new Backbone.GoogleChart({
             chartType: 'Calendar',
             dataTable: this.data,
-            backgroundColor: { fill:'red' },
-            options: {'title': 'agenda'}
+            backgroundColor: { fill:'#76a7fa' },
+            options: {
+                calendar: {
+                    monthLabel: {
+                        fontName: 'Times-Roman',
+                        fontSize: 12,
+                        color: '#fff',
+                        bold: true,
+                        italic: true
+                    },
+                    monthOutlineColor: {
+                        stroke: '#981b48',
+                        strokeOpacity: 0.8,
+                        strokeWidth: 2
+                    },
+                    unusedMonthOutlineColor: {
+                        stroke: '#bc5679',
+                        strokeOpacity: 0.8,
+                        strokeWidth: 1
+                    },
+                    dayOfWeekLabel: {
+                        fontName: 'Times-Roman',
+                        fontSize: 12,
+                        color: '#fff',
+                        bold: true,
+                        italic: true
+                    },
+                    yearLabel: {
+                        fontName: 'Source Sans Pro',
+                        fontSize: 32,
+                        color: '#fff',
+                        bold: true,
+                        italic: true
+                    },
+                    cellColor: {
+                        stroke: '#76a7fa',
+                        strokeOpacity: 0.5,
+                        strokeWidth: 1
+                    },
+                    underYearSpace: 10,
+                    underMonthSpace: 16
+                }
+            }
         });
-
         this.$('.box-body').append(chart.render().el);
-
     },
     render: function() {
         google.load('visualization', '1', {
@@ -61,15 +98,13 @@ window.CalendarView = Backbone.View.extend({
 window.BubbleView = Backbone.View.extend({
     tagName: "section",
     className: "col-lg-10 connectedSortable ui-sortable",
-    initialize: function(){
+    initialize: function(options){
         this.template = _.template(tpl.get('widget'));
-        console.log(this.model);
+        this.title = options.title;
     },
     drawVisualization: function () {
         this.data = new google.visualization.DataTable(this.model);
-
-        $(this.el).html(this.template({ title: "Bubble" }));
-
+        $(this.el).html(this.template({ title: this.title }));
         var chart = new Backbone.GoogleChart({
             chartType: 'BubbleChart',
             dataTable: this.model,
@@ -82,9 +117,7 @@ window.BubbleView = Backbone.View.extend({
                 bubble: {textStyle: {fontSize: 11}}
             }
         });
-
         this.$('.box-body').append(chart.render().el);
-
     },
     render: function() {
         google.load('visualization', '1', {
@@ -97,16 +130,14 @@ window.BubbleView = Backbone.View.extend({
 
 window.PerfomanceView = Backbone.View.extend({
     tagName: "section",
-    className: "col-lg-5 connectedSortable ui-sortable",
-    initialize: function(){
+    className: "col-lg-6 connectedSortable ui-sortable",
+    initialize: function(options){
         this.template = _.template(tpl.get('widget'));
-        console.log(this.model);
+        this.title = options.title;
     },
     drawVisualization: function () {
         this.data = new google.visualization.DataTable(this.model);
-
-        $(this.el).html(this.template({ title: "Perfomance" }));
-
+        $(this.el).html(this.template({ title: this.title }));
         var chart = new Backbone.GoogleChart({
             chartType: 'BarChart',
             dataTable: this.data,
@@ -118,9 +149,7 @@ window.PerfomanceView = Backbone.View.extend({
                 bars: 'horizontal' // Required for Material Bar Charts.
             }
         });
-
         this.$('.box-body').append(chart.render().el);
-
     },
     render: function() {
         google.load('visualization', '1', {

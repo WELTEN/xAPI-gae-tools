@@ -1,5 +1,5 @@
 Backbone.View.prototype.close = function () {
-    console.log('Closing view ', this);
+    //console.log('Closing view ', this);
     if (this.beforeClose) {
         this.beforeClose();
     }
@@ -48,41 +48,75 @@ var AppRouter = Backbone.Router.extend({
         //}
     },
     studentView: function (id) {
-        if(!this.Graphs.get("student_calendar_activities")) {
-            console.log("Not in the collection");
+        var _sca = this.Graphs.get("student_calendar_activities");
+        if(!_sca) {
             this.CalendarActivity = new CalendarActivity();
             this.CalendarActivity.fetch({
                 beforeSend: setHeader,
                 success: function (response, jsonData) {
-                    //console.log(jsonData);
-                    app.showView('.content > .row', new CalendarView({ model: jsonData }));
-
+                    app.showView('.content > .row', new CalendarView({ model: jsonData, title: "Student calendar activities" }));
                     app.addRepresentationObject("student_calendar_activities", jsonData);
                 }
             });
         }else{
-            console.log("Already in the collection");
-            app.showView('.content > .row', new CalendarView({ model: this.Graphs.get("student_calendar_activities") }));
+            app.showView('.content > .row', new CalendarView({ model: _sca.get("content"), title: "Student calendar activities" }));
         }
 
-        console.log(app.Graphs);
-
-        if(this.Graphs.get("aada")) {
-        this.Perfomance = new Perfomance();
-        this.Perfomance.fetch({
-            beforeSend: setHeader,
-            success: function (response, jsonData) {
-                var perf_view = new PerfomanceView({ model: jsonData })
-                if (perf_view)
-                    perf_view.close();
-                $('.content > .row').append(perf_view.render().el);
-
-                app.addRepresentationObject("addaa", jsonData);
-            }
-        });
+        var _p = this.Graphs.get("performance")
+        if(!_p) {
+            this.Perfomance = new Perfomance();
+            this.Perfomance.fetch({
+                beforeSend: setHeader,
+                success: function (response, jsonData) {
+                    var perf_view = new PerfomanceView({ model: jsonData, title: "Performance graph" })
+                    if (perf_view)
+                        perf_view.close();
+                    $('.content > .row').append(perf_view.render().el);
+                    app.addRepresentationObject("performance", jsonData);
+                }
+            });
         }else{
-            console.log("Already in the collection");
+            var perf_view = new PerfomanceView({ model: _p.get("content"), title: "Performance graph" })
+            if (perf_view)
+                perf_view.close();
+            $('.content > .row').append(perf_view.render().el);
+
         }
+        console.log(this.Graphs);
+    },
+    teacherView: function (id) {
+        var _cca = this.Graphs.get("course_calendar_activities")
+        if(!_cca) {
+            this.CalendarActivityCourse = new CalendarActivityCourse();
+            this.CalendarActivityCourse.fetch({
+                beforeSend: setHeader,
+                success: function (response, jsonData) {
+                    app.showView('.content > .row', new CalendarView({ model: jsonData, title: "Course calendar activities" }));
+                    app.addRepresentationObject("course_calendar_activities", jsonData);
+                }
+            });
+        }else{
+            app.showView('.content > .row', new CalendarView({model: _cca.get("content"), title: "Course calendar activities" }));
+        }
+        console.log(this.Graphs);
+
+    },
+    adminView: function (id) {
+        var _dom = this.Graphs.get("drop_out_monitor")
+        if(!_dom) {
+            this.DropOutMonitor = new DropOutMonitor();
+            this.DropOutMonitor.fetch({
+                beforeSend: setHeader,
+                success: function (response, jsonData) {
+                    app.showView('.content > .row', new BubbleView({ model: jsonData, title: "DropOut monitor" }));
+                    app.addRepresentationObject("drop_out_monitor", jsonData);
+                }
+            });
+        }else{
+            app.showView('.content > .row', new BubbleView({model: _dom.get("content"), title: "DropOut monitor" }));
+        }
+        console.log(this.Graphs);
+
     },
     showView: function(selector, view) {
         if (this.currentView)
@@ -90,31 +124,6 @@ var AppRouter = Backbone.Router.extend({
         $(selector).html(view.render().el);
         this.currentView = view;
         return view;
-    },
-    teacherView: function (id) {
-        this.CalendarActivityCourse = new CalendarActivityCourse();
-        this.CalendarActivityCourse.fetch({
-            beforeSend: setHeader,
-            success: function (response, jsonData) {
-                //console.log(jsonData);
-                app.showView('.content > .row', new CalendarView({ model: jsonData }));
-
-                app.addRepresentationObject("asdasd", jsonData);
-            }
-        });
-    },
-    adminView: function (id) {
-        this.DropOutMonitor = new DropOutMonitor();
-        this.DropOutMonitor.fetch({
-            beforeSend: setHeader,
-            success: function (response, jsonData) {
-                //console.log(jsonData);
-                app.showView('.content > .row', new BubbleView({ model: jsonData }));
-
-                app.addRepresentationObject("dsfsd", jsonData);
-            }
-        });
-
     },
     common: function (callback) {
         if (!this.CurrentUser) {
@@ -133,8 +142,6 @@ var AppRouter = Backbone.Router.extend({
         representationObject.set("content", data);
         representationObject.set("id", id);
         app.Graphs.add(representationObject);
-
-        console.log(app.Graphs);
     }
 });
 
