@@ -16,16 +16,21 @@
  */
 package nl.welteninstituut.tel.oauth.jdo;
 
+import java.util.Date;
+
 import javax.jdo.PersistenceManager;
 
 import nl.welteninstituut.tel.la.jdomanager.PMF;
 
-import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
+/**
+ * @author Harrie Martens
+ *
+ */
 public class OauthServiceAccountManager {
 
-	public static void submitOauthServiceAccount(final int serviceId, final String accountId, final String accessToken, final String refreshToken) {
+	public static void addOauthServiceAccount(final int serviceId, final String accountId, final String accessToken, final String refreshToken, final Date lastSynced) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			OauthServiceAccount account = new OauthServiceAccount();
@@ -33,27 +38,27 @@ public class OauthServiceAccountManager {
 			account.setAccountId(accountId);
 			account.setAccessToken(accessToken);
 			account.setRefreshToken(refreshToken);
+			account.setLastSynced(lastSynced);
 			account.setKey();
 			pm.makePersistent(account);
 		} finally {
 			pm.close();
 		}
 	}
-
-	public static String getUser(String authToken) {
-		if (authToken == null || authToken.equals(""))
-			return null;
+	
+	public static void updateOauthServiceAccount(final OauthServiceAccount account) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		if (authToken.startsWith("GoogleLogin"))
-			authToken = authToken.substring(authToken.indexOf("auth=") + 5);
-		Key key = KeyFactory.createKey(UsersLoggedIn.class.getSimpleName(), authToken.hashCode());
 		try {
-			return ((UsersLoggedIn) pm.getObjectById(UsersLoggedIn.class, key)).getUsername();
-		} catch (Exception e) {
-			return null;
+			OauthServiceAccount dbAccount = pm.getObjectById(OauthServiceAccount.class,
+					KeyFactory.createKey(OauthServiceAccount.class.getSimpleName(),
+							account.getKey()));
+			dbAccount.setAccessToken(account.getAccessToken());
+			dbAccount.setRefreshToken(account.getRefreshToken());
+			dbAccount.setLastSynced(account.getLastSynced());
+			pm.makePersistent(dbAccount);
+		} finally {
+			pm.close();
 		}
-
 	}
-
 
 }

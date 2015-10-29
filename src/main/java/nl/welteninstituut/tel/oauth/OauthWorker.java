@@ -92,8 +92,8 @@ public abstract class OauthWorker {
 		if (authToken != null) {
 			UserLoggedInManager.submitOauthUser(account.getUniqueId(), authToken);
 			System.out.println("persisting service account");
-			OauthServiceAccountManager.submitOauthServiceAccount(account.getAccountType(), account.getLocalId(),
-					authToken, refreshToken);
+			OauthServiceAccountManager.addOauthServiceAccount(account.getAccountType(), account.getLocalId(),
+					authToken, refreshToken, null);
 			System.out.println("persisted service account");
 		}
 	}

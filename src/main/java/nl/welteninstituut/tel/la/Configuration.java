@@ -24,7 +24,8 @@ import java.util.Properties;
 
 /**
  * @author Stefaan Ternier
-*
+ * @author Harrie Martens
+ *
  */
 public class Configuration {
 
@@ -35,6 +36,9 @@ public class Configuration {
 
     public static final String EXPORTERS = "exporters";
     public static final String IMPORTERS = "importers";
+    
+    public static final String FITBIT_STARTDATE = "import.fitbit.startdate";
+    
     private static Properties props = new Properties();
     private static String serviceAccountName = AppIdentityServiceFactory.getAppIdentityService().getServiceAccountName();
 

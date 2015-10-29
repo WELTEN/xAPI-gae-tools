@@ -16,11 +16,6 @@
  */
 package nl.welteninstituut.tel.la.importers.fitbit;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -30,70 +25,43 @@ import nl.welteninstituut.tel.la.importers.Importer;
 import nl.welteninstituut.tel.la.jdomanager.PMF;
 import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
 import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccount;
+import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccountManager;
 
 /**
  * @author Stefaan Ternier
  * @author Harrie Martens
  *
  */
-public class FitbitImport  extends Importer {
+public class FitbitImport extends Importer {
 
 	@Override
 	public void startImport() {
 		System.out.println("FITBIT importer");
-		
+
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query q = pm.newQuery(OauthServiceAccount.class);
 		q.setFilter("serviceId == serviceIdParam");
 		q.declareParameters("Integer serviceIdParam");
-		
+
 		try {
 			@SuppressWarnings("unchecked")
-			List<OauthServiceAccount> result = (List<OauthServiceAccount>)q.execute(AccountJDO.FITBITCLIENT);
-			
+			List<OauthServiceAccount> result = (List<OauthServiceAccount>) q.execute(AccountJDO.FITBITCLIENT);
+
 			for (OauthServiceAccount account : result) {
-				System.out.println("---->>>> " + account.getAccountId());
-				fetchData(account);
+				
+				// TODO remove reset of lastSynced
+				// reset lastSynced so fitbit connection can be tested.
+				account.setLastSynced(null);
+				OauthServiceAccountManager.updateOauthServiceAccount(account);
+				// TODO remove till here
+				
+				// create a fitbit task per user
+				FitbitTask task = new FitbitTask(account.getAccountId());
+				task.scheduleTask();
 			}
 		} finally {
-			q.closeAll();
+			pm.close();
 		}
-		
-	}
-	
-	private void fetchData(final OauthServiceAccount account) {
-		
-		String result;
-		try {
-			result = readURL(new URL("https://api.fitbit.com/1/user/" + account.getAccountId() + "/activities/heart/date/2015-10-21/1d/1sec/time/10:00/10:05.json"),
-					account.getAccessToken());
-			System.out.println("** -> " + result);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
-		
-		
-	}
-	
-	protected String readURL(URL url, String token) throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		// InputStream is = url.openStream();
 
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestProperty("Authorization", "Bearer " + token);
-
-		InputStream is = connection.getInputStream();
-		int r;
-		while ((r = is.read()) != -1) {
-			baos.write(r);
-		}
-		return new String(baos.toByteArray());
 	}
-
-	
-	
-	
-	
-	
-	
 }
