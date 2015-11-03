@@ -43,7 +43,7 @@
 	Welcome [<%=user.getNickname() %>]
 
 	<ul>
-		<li><a href="https://www.fitbit.com/oauth2/authorize?response_type=code&scope=activity+heartrate+profile&client_id=229NGX&redirect_uri=http://localhost:8080/oauth/fitbit">Fitbit</a></li>
+		<li><a href="https://www.fitbit.com/oauth2/authorize?response_type=code&scope=activity+heartrate+profile+settings&client_id=229NGX&redirect_uri=http://localhost:8080/oauth/fitbit">Fitbit</a></li>
 		<li>RescueTime</li>
 	</ul>
 

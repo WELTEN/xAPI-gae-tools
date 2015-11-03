@@ -27,6 +27,8 @@ import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
 import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccount;
 import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccountManager;
 
+import org.joda.time.DateTime;
+
 /**
  * @author Stefaan Ternier
  * @author Harrie Martens
@@ -51,13 +53,12 @@ public class FitbitImport extends Importer {
 				
 				// TODO remove reset of lastSynced
 				// reset lastSynced so fitbit connection can be tested.
-				account.setLastSynced(null);
+				account.setLastSynced(new DateTime("2015-10-30T08:08").toDate());
 				OauthServiceAccountManager.updateOauthServiceAccount(account);
 				// TODO remove till here
 				
 				// create a fitbit task per user
-				FitbitTask task = new FitbitTask(account.getAccountId());
-				task.scheduleTask();
+				FitbitTask.scheduleTask(new FitbitTask(account.getAccountId()));
 			}
 		} finally {
 			pm.close();
