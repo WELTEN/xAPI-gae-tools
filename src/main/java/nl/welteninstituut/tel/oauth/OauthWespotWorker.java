@@ -61,6 +61,21 @@ public class OauthWespotWorker extends OauthWorker {
     }
 
     @Override
+    protected int getClientType() {
+        return AccountJDO.WESPOTCLIENT;
+    }
+
+    @Override
+    protected void processLoginAsMetaAccount(RequestAccessToken accessToken) {
+
+    }
+
+    @Override
+    protected void processLoginAsSecondaryAccount(RequestAccessToken accessToken) {
+
+    }
+
+    @Override
     protected String getAuthUrl(String authCode) {
         return "https://wespot-arlearn.appspot.com/oauth/token?client_id=" + client_id + "&redirect_uri=" + redirect_uri + "&client_secret=" + client_secret + "&code=" + authCode;
     }

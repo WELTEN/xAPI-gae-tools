@@ -84,6 +84,21 @@ public class OauthFbWorker extends OauthWorker {
 		}
 	}
 
+	@Override
+	protected int getClientType() {
+		return AccountJDO.FBCLIENT;
+	}
+
+	@Override
+	protected void processLoginAsMetaAccount(RequestAccessToken accessToken) {
+
+	}
+
+	@Override
+	protected void processLoginAsSecondaryAccount(RequestAccessToken accessToken) {
+
+	}
+
 	 public void saveAccount(String accessToken) {
 		 JSONObject profileJson;
 			try {

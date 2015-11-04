@@ -54,9 +54,16 @@ public abstract class GenericBean  implements Runnable{
     public void setToken(String token) {
         this.token = token;
     }
+    private final static String DEFAULT ="default";
 
     public void scheduleTask() {
-        Queue queue = QueueFactory.getDefaultQueue();
+        Queue queue = null;
+        if (DEFAULT.equals(getQueueName())) {
+            queue= QueueFactory.getDefaultQueue();
+        } else {
+            queue= QueueFactory.getQueue(getQueueName());
+        }
+
         TaskOptions to  = TaskOptions.Builder.withUrl("/asyncTask")
                 .param("type", this.getClass().getName());
         queue.add(setParameters(to));
@@ -117,5 +124,9 @@ public abstract class GenericBean  implements Runnable{
 
 
     public void run() {
+    }
+
+    public String getQueueName(){
+        return DEFAULT;
     }
 }

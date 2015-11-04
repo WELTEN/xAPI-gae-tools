@@ -35,6 +35,12 @@ public class Configuration {
 
     public static final String EXPORTERS = "exporters";
     public static final String IMPORTERS = "importers";
+
+    public static final String METAACCOUNT = "metaAccount";
+    public static final String SECONDARY_ACCOUNT = "secondaryAccounts";
+
+    public static final String AUTHORIZATION = "authorization";
+
     private static Properties props = new Properties();
     private static String serviceAccountName = AppIdentityServiceFactory.getAppIdentityService().getServiceAccountName();
 
@@ -56,7 +62,19 @@ public class Configuration {
     }
 
     public static String get(String property) {
-        return props.getProperty(serviceAccountName+"."+property);
+        return props.getProperty(serviceAccountName + "." + property);
+    }
+
+    public static int getInt(String property) {
+        return Integer.parseInt(get(property));
+    }
+
+    public static boolean listContains(String property, int value) {
+        if (get(property) == null) return false;
+        for (String intString :get(property).split(";")){
+            if (Integer.parseInt(intString)==value) return true;
+        }
+        return false;
     }
 
     public static String getAppId() {

@@ -1,3 +1,8 @@
+<%@ page import="nl.welteninstituut.tel.la.Configuration" %>
+<%@ page import="nl.welteninstituut.tel.oauth.jdo.AccountJDO" %>
+<%@ page import="nl.welteninstituut.tel.oauth.OauthGoogleWorker" %>
+<%@ page import="nl.welteninstituut.tel.oauth.jdo.OauthConfigurationJDO" %>
+<%@ page import="nl.welteninstituut.tel.oauth.jdo.OauthKeyManager" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -27,16 +32,45 @@
   <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="index2.html"><b>Pulse</b> Learning project</a>
+        <a href="index2.html"> Learning<b>Pulse</b> project</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
-
         <div class="social-auth-links text-center">
-          <a class="btn btn-block btn-social btn-ecolearning btn-flat" href="http://idp.ecolearning.eu/authorize?response_type=code&scope=openid+profile+email&client_id=xapi-proxy-dev&redirect_uri=http://xapi-proxy-dev.appspot.com/oauth/eco"><i class="fa fa-ecolearning"></i>[Dev] Login with ECO</a>
-          <a class="btn btn-block btn-social btn-ecolearning btn-flat" href="http://idp.ecolearning.eu/authorize?response_type=code&scope=openid+profile+email&client_id=xapi-proxy-local&redirect_uri=http://localhost:8080/oauth/eco"><i class="fa fa-ecolearning"></i>[Local] Login with ECO</a>
-          <p>- OR -</p>
-          <a class="btn btn-block btn-social btn-fitbit btn-flat" href="https://www.fitbit.com/oauth2/authorize?response_type=code&scope=activity+heartrate+profile&client_id=229NGX&redirect_uri=http://localhost:8080/oauth/fitbit" ><i class="fa fa-fitbit"></i>[Local] Login with FitBit</a>
+        <%
+          boolean showOr= false;
+          if (Configuration.listContains(Configuration.METAACCOUNT, AccountJDO.GOOGLECLIENT)){
+            showOr= true;
+              OauthConfigurationJDO jdo = OauthKeyManager.getConfigurationObject(AccountJDO.GOOGLECLIENT);
+              String client_id = jdo.getClient_id();
+              String redirect_uri = jdo.getRedirect_uri();
+
+              String url = "https://accounts.google.com/o/oauth2/auth?redirect_uri=" + redirect_uri +
+                    "&response_type=code&client_id=" + client_id + "&approval_prompt=force" +
+                    "&scope=https://www.googleapis.com/auth/userinfo.profile  https://www.googleapis.com/auth/userinfo.email";
+        %>
+          <a class="btn btn-block btn-social btn-ecolearning btn-flat" href="<%=url%>"><i class="fa fa-ecolearning"></i>Login with Google</a>
+        <%
+          }
+          if (Configuration.listContains(Configuration.METAACCOUNT, AccountJDO.ECOCLIENT)){
+              if (showOr) { %><p>- OR -</p><%  }
+            showOr = true;
+            OauthConfigurationJDO jdo = OauthKeyManager.getConfigurationObject(AccountJDO.ECOCLIENT);
+            String client_id = jdo.getClient_id();
+            String redirect_uri = jdo.getRedirect_uri();
+            String url = "http://idp.ecolearning.eu/authorize?response_type=code&scope=openid+profile+email&client_id="+client_id+"&redirect_uri="+redirect_uri;
+
+        %>
+          <a class="btn btn-block btn-social btn-ecolearning btn-flat" href="<%=url%>"><i class="fa fa-ecolearning"></i>[Dev] Login with ECO</a>
+
+
+          <%
+
+          }
+        %>
+
+
+
           <!--<a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using Facebook</a>-->
           <!--<a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using Google+</a>-->
         </div><!-- /.social-auth-links -->

@@ -83,19 +83,24 @@ public class Submit {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON })
-    @Path("/statements_async")
-    public String postStatementSync(String postData) {
-        long proxyId = StatementManager.addStatement(postData, null, null);
+    @Path("/statement/origin/{origin}")
+    public String postStatement(String postData,
+                                @PathParam("origin") String origin,
+                                @HeaderParam("Authorization") String authorization) {
+        if (!authorization.equals(Configuration.get(Configuration.AUTHORIZATION)))
+            return "{\"result\":\"not ok\", \"error\":\"Authorization error\"}";
+        long proxyId = StatementManager.addStatement(postData, origin);
         return "{\"result\":\"ok\", \"proxyId\":"+proxyId+"}";
     }
 
-
     @POST
     @Consumes({MediaType.APPLICATION_JSON })
-    @Path("/statements_async")
-    public void postStatementAsync(String postData) {
-        long proxyId = StatementManager.addStatement(postData, null, null);
-
+    @Path("/statement_async/origin/{origin}")
+    public String postStatementAsync(String postData,
+                                     @PathParam("origin") String origin,
+                                     @HeaderParam("Authorization") String authorization) {
+        StatementManager.addStatementAsync(postData, origin);
+        return "{\"result\":\"ok\"}";
     }
 
     @POST

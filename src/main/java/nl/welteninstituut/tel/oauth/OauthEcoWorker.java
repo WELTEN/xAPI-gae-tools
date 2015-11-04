@@ -55,17 +55,33 @@ public class OauthEcoWorker extends OauthWorker {
     public void exchangeCodeForAccessToken() {
         RequestAccessToken request = new RequestAccessToken();
         request.postUrl(getAuthUrl(code), "code=" + code + "&" + "client_id=" + client_id + "&" + "client_secret=" + client_secret + "&" + "redirect_uri=" + redirect_uri + "&" + "grant_type=authorization_code");
-        System.out.println("accessToken= "+request.getAccessToken());
         if (request.getAccessToken() !=  null) {
-            saveAccount(request.getAccessToken());
+            processRequest(request);
 
-//
-            sendRedirect(request.getAccessToken(), ""+request.getExpires_in(), AccountJDO.ECOCLIENT);
+
         } else {
             error("The google authentication servers are currently not functional. Please retry later. <br> The service usually works again after 15:00 CEST. Find more (technical) information about this problem on. <ul> " +
                     "<li ><a href=\"https://code.google.com/p/google-glass-api/issues/detail?id=99\">oauth2 java.net.SocketTimeoutException on AppEngine</a>" +
                     "<li ><a href=\"https://groups.google.com/forum/?fromgroups#!topic/google-appengine-downtime-notify/TqKVL9TNq2A\">Google groups downtime</a></ul> ");
         }
+    }
+
+    @Override
+    protected int getClientType() {
+        return AccountJDO.ECOCLIENT;
+    }
+
+    @Override
+    protected void processLoginAsMetaAccount(RequestAccessToken request) {
+        saveAccount(request.getAccessToken());
+
+//
+        sendRedirect(request.getAccessToken(), ""+request.getExpires_in(), AccountJDO.ECOCLIENT);
+    }
+
+    @Override
+    protected void processLoginAsSecondaryAccount(RequestAccessToken accessToken) {
+
     }
 
     public void saveAccount(String accessToken) {

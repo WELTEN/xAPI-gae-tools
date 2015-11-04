@@ -72,6 +72,21 @@ public class OauthLinkedInWorker extends OauthWorker {
 	}
 
 	@Override
+	protected int getClientType() {
+		return AccountJDO.LINKEDINCLIENT;
+	}
+
+	@Override
+	protected void processLoginAsMetaAccount(RequestAccessToken accessToken) {
+
+	}
+
+	@Override
+	protected void processLoginAsSecondaryAccount(RequestAccessToken accessToken) {
+
+	}
+
+	@Override
 	public int getServiceId() {
 		return AccountJDO.LINKEDINCLIENT;
 	}

@@ -1,16 +1,18 @@
 package nl.welteninstituut.tel.la.jdomanager;
 
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.datastore.*;
 import nl.welteninstituut.tel.la.jdo.Statement;
 
 import javax.jdo.PersistenceManager;
+import java.util.UUID;
 
 /**
  * Created by str on 18/02/15.
  */
 public class StatementManager {
+
+    static DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
 
     public static long addStatement(String statement, String authorizationData, String laId) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -28,12 +30,22 @@ public class StatementManager {
         }
     }
 
-    public static void addStatementAsync(String statement) {
+    public static long addStatement(String statement, String origin) {
+        Entity entity = new Entity(KeyFactory.createKey("Statement", UUID.randomUUID().toString()));
+        entity.setProperty("statementPayload", new Text(statement));
+        entity.setProperty("lastModificationDate", System.currentTimeMillis());
+        entity.setProperty("syncronisationState", Statement.UNSYNCED);
+        entity.setProperty("origin", origin);
+        return datastore.put(entity).getId();
+    }
+
+    public static void addStatementAsync(String statement, String origin) {
         Entity entity = new Entity("Statement");
         entity.setProperty("statementPayload", new Text(statement));
         entity.setProperty("lastModificationDate", System.currentTimeMillis());
-        entity.setProperty("synchronized", false);
-        
+        entity.setProperty("syncronisationState", Statement.UNSYNCED);
+        entity.setProperty("origin", origin);
+        datastore.put(entity);
     }
 
     public static long addStatementWithError(String statement, String authorizationData, String errorMessage) {

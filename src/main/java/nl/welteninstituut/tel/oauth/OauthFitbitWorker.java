@@ -59,12 +59,27 @@ public class OauthFitbitWorker extends OauthWorker {
 				+ client_secret + "&" + "redirect_uri=" + redirect_uri + "&" + "grant_type=authorization_code",
 				client_id + ":" + client_secret);
 		if (request.getAccessToken() != null) {
-			saveAccount(request.getAccessToken(), request.getRefreshToken());
+			processRequest(request);
 
-			sendRedirect(request.getAccessToken(), String.valueOf(request.getExpires_in()), AccountJDO.FITBITCLIENT);
 		} else {
 			error("The Fitbit authentication servers are currently not functional. Please retry later.");
 		}
+	}
+
+	@Override
+	protected int getClientType() {
+		return AccountJDO.FITBITCLIENT;
+	}
+
+	@Override
+	protected void processLoginAsMetaAccount(RequestAccessToken request) {
+		saveAccount(request.getAccessToken(), request.getRefreshToken());
+		sendRedirect(request.getAccessToken(), String.valueOf(request.getExpires_in()), AccountJDO.FITBITCLIENT);
+	}
+
+	@Override
+	protected void processLoginAsSecondaryAccount(RequestAccessToken accessToken) {
+
 	}
 
 	public void saveAccount(String accessToken, String refreshToken) {

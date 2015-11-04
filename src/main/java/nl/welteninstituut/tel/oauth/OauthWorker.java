@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.welteninstituut.tel.la.Configuration;
 import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
 import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccountManager;
 import nl.welteninstituut.tel.oauth.jdo.UserLoggedInManager;
@@ -208,4 +209,16 @@ public abstract class OauthWorker {
 
 	}
 
+	protected abstract int getClientType();
+	protected abstract void processLoginAsMetaAccount(RequestAccessToken accessToken);
+	protected abstract void processLoginAsSecondaryAccount(RequestAccessToken accessToken);
+
+	protected void processRequest(RequestAccessToken accessToken){
+		if (Configuration.listContains(Configuration.METAACCOUNT, getClientType())){
+			processLoginAsMetaAccount(accessToken);
+		}
+		if (Configuration.listContains(Configuration.SECONDARY_ACCOUNT, getClientType())){
+			processLoginAsSecondaryAccount(accessToken);
+		}
+	}
 }

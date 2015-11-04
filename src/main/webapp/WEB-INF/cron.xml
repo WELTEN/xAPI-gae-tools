@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE cronentries>
 <cronentries>
+    <!--<cron>-->
+        <!--<url>/importers</url>-->
+        <!--<description>Repopulate the cache every 2 minutes</description>-->
+        <!--<schedule>every 2 minutes</schedule>-->
+    <!--</cron>-->
+
     <cron>
-        <url>/importers</url>
+        <url>/syncBigQuery</url>
         <description>Repopulate the cache every 2 minutes</description>
-        <schedule>every 2 minutes</schedule>
+        <schedule>every 60 minutes</schedule>
     </cron>
 </cronentries>

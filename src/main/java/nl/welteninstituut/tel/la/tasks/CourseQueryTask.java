@@ -5,6 +5,8 @@ import com.google.api.services.bigquery.model.Job;
 import com.google.api.services.bigquery.model.TableCell;
 import com.google.api.services.bigquery.model.TableRow;
 import nl.welteninstituut.tel.la.Configuration;
+import nl.welteninstituut.tel.la.bigquery.Common;
+import nl.welteninstituut.tel.la.bigquery.QueryAPI;
 import nl.welteninstituut.tel.la.chartobjects.CalendarObject;
 import nl.welteninstituut.tel.la.jdomanager.QueryCacheManager;
 import nl.welteninstituut.tel.la.rest.BigQuery;
@@ -67,10 +69,9 @@ public class CourseQueryTask extends GenericBean {
     public void run() {
         Job pollJob = null;
         try {
-            pollJob = BigQuery.getBigQuery().jobs().get(Configuration.get(Configuration.BQProject), jobId).execute();
-            if (pollJob.getStatus().getState().equals("DONE")) {
-                GetQueryResultsResponse queryResult = BigQuery.getBigQuery().jobs().getQueryResults(Configuration.get(Configuration.BQProject),
-                        jobId).execute();
+            pollJob = QueryAPI.getInstance().getJob(jobId);
+            if (pollJob.getStatus().getState().equals(Common.DONE)) {
+                GetQueryResultsResponse queryResult = QueryAPI.getInstance().getQueryResultsResponse(jobId);
                 List<TableRow> rows = queryResult.getRows();
                 CalendarObject calendarObject = new CalendarObject();
                 if (rows !=null)

@@ -31,6 +31,15 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable
 public class Statement {
 
+    public static int UNSYNCED = 0;
+    public static int ERROR = 1;
+    public static int SYNCED = 2;
+
+    public static String STATEMENT = "Statement";
+    public static String SYNCHRONISATIONSTATE = "syncronisationState";
+
+
+
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     protected Long id;
@@ -49,6 +58,9 @@ public class Statement {
 
     @Persistent
     private boolean isSynchronized;
+
+    @Persistent
+    private int syncronisationState;
 
     @Persistent
     private Text errorMessage;
@@ -108,5 +120,13 @@ public class Statement {
 
     public void setLearningLockerId(String learningLockerId) {
         this.learningLockerId = learningLockerId;
+    }
+
+    public int getSyncronisationState() {
+        return syncronisationState;
+    }
+
+    public void setSyncronisationState(int syncronisationState) {
+        this.syncronisationState = syncronisationState;
     }
 }
