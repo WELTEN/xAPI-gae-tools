@@ -38,6 +38,10 @@ public class Configuration {
     private static Properties props = new Properties();
     private static String serviceAccountName = AppIdentityServiceFactory.getAppIdentityService().getServiceAccountName();
 
+    public static final String METAACCOUNT = "metaAccount";
+    public static final String SECONDARY_ACCOUNT = "secondaryAccounts";
+    public static final String AUTHORIZATION = "authorization";
+    public static final String FITBIT_STARTDATE = "import.fitbit.startdate";
 
     static {
         InputStream is = Configuration.class.getClassLoader().getResourceAsStream("./META-INF/configuration.properties");
@@ -56,7 +60,19 @@ public class Configuration {
     }
 
     public static String get(String property) {
-        return props.getProperty(serviceAccountName+"."+property);
+        return props.getProperty(serviceAccountName + "." + property);
+    }
+
+    public static int getInt(String property) {
+        return Integer.parseInt(get(property));
+    }
+
+    public static boolean listContains(String property, int value) {
+        if (get(property) == null) return false;
+        for (String intString :get(property).split(";")){
+            if (Integer.parseInt(intString)==value) return true;
+        }
+        return false;
     }
 
     public static String getAppId() {

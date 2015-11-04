@@ -37,7 +37,6 @@ public class AsyncTaskServlet extends HttpServlet {
 	private static final Logger log = Logger.getLogger(AsyncTaskServlet.class.getName());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
-        log.log(Level.INFO, "running task");
         try {
             BeanDeserialiser bd = new BeanDeserialiser(request);
             GenericBean gb = bd.deserialize();
