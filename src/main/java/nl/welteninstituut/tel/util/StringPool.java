@@ -25,6 +25,7 @@ public class StringPool {
 	public final static String BLANK = "";
 	public final static String COLON = ":";
 	public final static String SEMI_COLON = ";";
+	public static final Object SLASH = "/";
 	
 	
 

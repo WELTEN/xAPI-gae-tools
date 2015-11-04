@@ -98,9 +98,6 @@ public class OauthFitbitWorker extends OauthWorker {
 					name, picture, false);
 			
 			saveAccessToken(account, accessToken, refreshToken);
-			
-			System.out.println("heartrate2 -> " + readURL(new URL("https://api.fitbit.com/1/user/-/activities/heart/date/2015-10-21/1d/1sec/time/10:00/10:05.json"),
-					accessToken));
 		} catch (Throwable ex) {
 			throw new RuntimeException("failed login", ex);
 		}
@@ -111,7 +108,6 @@ public class OauthFitbitWorker extends OauthWorker {
 		// InputStream is = url.openStream();
 
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		System.out.println(connection.getClass().getName());
 		connection.setRequestProperty("Authorization", "Bearer " + token);
 
 		InputStream is = connection.getInputStream();

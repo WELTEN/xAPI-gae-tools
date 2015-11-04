@@ -16,6 +16,8 @@
  */
 package nl.welteninstituut.tel.oauth.jdo;
 
+import java.util.Date;
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -49,6 +51,9 @@ public class OauthServiceAccount {
 
 	@Persistent
 	private String refreshToken;
+	
+	@Persistent
+	private Date lastSynced;
 
 	public String getKey() {
 		return key.getName();
@@ -89,6 +94,14 @@ public class OauthServiceAccount {
 
 	public void setRefreshToken(String refreshToken) {
 		this.refreshToken = refreshToken;
+	}
+	
+	public Date getLastSynced() {
+		return lastSynced;
+	}
+	
+	public void setLastSynced(final Date lastSynced) {
+		this.lastSynced = lastSynced;
 	}
 
 }
