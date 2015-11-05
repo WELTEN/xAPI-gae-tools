@@ -4,6 +4,10 @@
 <%@ page import="nl.welteninstituut.tel.oauth.jdo.AccountManager"%>
 <%@ page import="nl.welteninstituut.tel.oauth.jdo.OauthConfigurationJDO"%>
 <%@ page import="nl.welteninstituut.tel.oauth.jdo.OauthKeyManager"%>
+<%@ page import="nl.welteninstituut.tel.oauth.jdo.OauthServiceAccount"%>
+<%@ page import="nl.welteninstituut.tel.oauth.jdo.OauthServiceAccountManager"%>
+<%@ page import="nl.welteninstituut.tel.util.StringPool"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,6 +43,7 @@
 	String accessToken = request.getParameter("accessToken");
 	String type = request.getParameter("type");
 	String exp = request.getParameter("exp");
+	
 %>
 <body class="hold-transition login-page">
 	<div class="login-box">
@@ -65,6 +70,8 @@
 					} else {
 				%>
 				<%=account.getName()%>
+				
+				<p />
 
 
 				<%
@@ -87,6 +94,33 @@
 					href="<%=url%>"><i class="fa fa-fitbit"></i>Connect to
 					Fitbit</a>
 				<%
+					}
+				
+					if (Configuration.listContains(Configuration.SECONDARY_ACCOUNT,
+						AccountJDO.RESCUETIMECLIENT)) {
+						
+						OauthServiceAccount rescueTimeAccount = OauthServiceAccountManager.getAccount(AccountJDO.RESCUETIMECLIENT, account.getLocalId());
+						String apiKey = rescueTimeAccount != null ? rescueTimeAccount.getAccessToken() : StringPool.BLANK;
+						
+				%>
+				
+				            <!-- search form -->
+            <form action="/handler" method="POST" class="sidebar-form">
+               	RescueTime - enter here the <a href="https://www.rescuetime.com/anapi/manage">Full API key</a>
+            
+                <div class="input-group">
+                    <input type="text" name="rt-key" class="form-control" placeholder="API key..." value="">
+                    <input type="hidden" name="accessToken" value="<%=accessToken%>" />
+                    <input type="hidden" name="type" value="<%=type%>" />
+                    <input type="hidden" name="exp" value="<%=exp%>" />
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-plus"></i></button>
+              </span>
+                </div>
+            </form>
+				
+				<%
+					
 					}
 					}
 				%>

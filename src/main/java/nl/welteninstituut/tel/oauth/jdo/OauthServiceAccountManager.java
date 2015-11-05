@@ -17,10 +17,17 @@
 package nl.welteninstituut.tel.oauth.jdo;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
+import org.joda.time.DateTime;
+
+import nl.welteninstituut.tel.la.importers.fitbit.FitbitTask;
 import nl.welteninstituut.tel.la.jdomanager.PMF;
+import nl.welteninstituut.tel.util.StringPool;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -60,6 +67,36 @@ public class OauthServiceAccountManager {
 		} finally {
 			pm.close();
 		}
+	}
+
+	public static OauthServiceAccount getAccount(final int serviceId, final String accountId) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			return pm.getObjectById(
+					OauthServiceAccount.class,
+					KeyFactory.createKey(OauthServiceAccount.class.getSimpleName(), Integer.toString(serviceId)
+							+ StringPool.COLON + accountId));
+		} catch (JDOObjectNotFoundException ex) {
+			return null;
+		} finally {
+			pm.close();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<OauthServiceAccount> getAccountsForService(final int serviceId) {
+
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query q = pm.newQuery(OauthServiceAccount.class);
+		q.setFilter("serviceId == serviceIdParam");
+		q.declareParameters("Integer serviceIdParam");
+
+		try {
+			return (List<OauthServiceAccount>) q.execute(serviceId);
+		} finally {
+			pm.close();
+		}
+
 	}
 
 }

@@ -19,8 +19,11 @@ package nl.welteninstituut.tel.oauth.jdo;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 
+import org.apache.commons.lang.StringUtils;
+
 import nl.welteninstituut.tel.la.jdomanager.PMF;
 //import org.celstec.arlearn2.beans.account.Account;
+
 
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -67,6 +70,10 @@ public class AccountManager {
 	}
 
 	public static AccountJDO getAccount(final String userName) {
+		if (StringUtils.isEmpty(userName)) {
+			return null;
+		}
+		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			return pm.getObjectById(AccountJDO.class,

@@ -25,13 +25,14 @@
             nl.welteninstituut.tel.la.servlets.BigQuerySyncServlet
         </servlet-class>
     </servlet>
-
+    
     <servlet>
         <servlet-name>pipeline</servlet-name>
         <servlet-class>
             com.google.appengine.tools.pipeline.impl.servlets.PipelineServlet
         </servlet-class>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>pipeline</servlet-name>
         <url-pattern>/_ah/pipeline/*</url-pattern>
@@ -75,12 +76,24 @@
         <servlet-name>OauthServlet</servlet-name>
         <servlet-class>nl.welteninstituut.tel.oauth.OauthServlet</servlet-class>
     </servlet>
-
+    
     <servlet-mapping>
         <servlet-name>xAPI Proxy Service</servlet-name>
         <url-pattern>/data-proxy/*</url-pattern>
     </servlet-mapping>
 
+	<servlet>
+        <servlet-name>Service Handler</servlet-name>
+        <servlet-class>nl.welteninstituut.tel.la.servlets.ServicesServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Service Handler</servlet-name>
+        <url-pattern>/handler</url-pattern>
+    </servlet-mapping>
+
+    
+    
     <servlet-mapping>
         <servlet-name>OauthServlet</servlet-name>
         <url-pattern>/oauth/*</url-pattern>
