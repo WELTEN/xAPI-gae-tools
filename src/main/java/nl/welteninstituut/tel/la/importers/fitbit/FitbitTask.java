@@ -36,6 +36,7 @@ import javax.jdo.Query;
 import nl.welteninstituut.tel.la.Configuration;
 import nl.welteninstituut.tel.la.jdomanager.PMF;
 import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
+import nl.welteninstituut.tel.oauth.jdo.AccountManager;
 import nl.welteninstituut.tel.oauth.jdo.OauthConfigurationJDO;
 import nl.welteninstituut.tel.oauth.jdo.OauthKeyManager;
 import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccount;
@@ -135,9 +136,10 @@ public class FitbitTask implements DeferredTask {
 					JSONObject heartRateData = new JSONObject(readURL(getHeartrateURL(start, end), account));
 
 					if (!stepCountData.has("errors") && !heartRateData.has("errors")) {
-						// TODO retrieve email address from master
-						// account
-						String mbox = "hardcoded@somehost.local";
+						AccountJDO pa = AccountManager.getAccount(account.getPrimaryAccount());
+						String mbox = pa != null ? pa.getEmail() : null;
+						
+						System.out.println("mbox: " + mbox);
 						
 						String xapiTemplate = "{\"timestamp\":\"%s\","
 								+ "\"actor\": {\"objectType\": \"Agent\",\"mbox\":\"mailto:"
@@ -186,7 +188,7 @@ public class FitbitTask implements DeferredTask {
 		}
 
 	}
-
+	
 	private void processData(final JSONObject json, final String name, final String xapiTemplate) throws JSONException {
 
 		if (json.has(name + "-intraday")) {
@@ -251,12 +253,10 @@ public class FitbitTask implements DeferredTask {
 		return result;
 	}
 
-	private DateTime createStatement(final String xapiTemplate, final String date, final String time,
+	private String createStatement(final String xapiTemplate, final String date, final String time,
 			final int heartRate) {
 		DateTime logDate = new DateTime(date + "T" + time);
-		String xapi = String.format(xapiTemplate, logDate.toString(), heartRate);
-		return logDate;
-
+		return String.format(xapiTemplate, logDate.toString(), heartRate);
 	}
 
 	private OauthServiceAccount getAccount(final String accountId) {
@@ -409,12 +409,5 @@ public class FitbitTask implements DeferredTask {
 		queue.add(TaskOptions.Builder.withPayload(task));
 	}
 
-	public static void main(String[] args) {
-		DateTime now = new DateTime("2015-10-31T23:59:08.123");
-		DateTime stripped = now.withSecondOfMinute(0).withMillisOfSecond(0);
-		System.out.println(now);
-		System.out.println(stripped);
-
-	}
 
 }

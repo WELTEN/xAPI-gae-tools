@@ -1,3 +1,6 @@
+<%@ page import="nl.welteninstituut.tel.oauth.jdo.UserLoggedInManager"%>
+<%@ page import="nl.welteninstituut.tel.oauth.jdo.AccountJDO"%>
+<%@ page import="nl.welteninstituut.tel.oauth.jdo.AccountManager"%>
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -9,47 +12,33 @@
 </head>
 <body>
 
-	<%@ page import="com.google.appengine.api.users.UserService"%>
-	<%@ page import="com.google.appengine.api.users.UserServiceFactory"%>
-	<%@ page import="com.google.appengine.api.users.User"%>
 
-
-
-	<h4>Grant access to the following services:</h4>
-
+	<h1>Services4</h1>
 
 	<%
-		UserService userService = UserServiceFactory.getUserService();
-		User user = userService.getCurrentUser();
-		if (user == null) {
+		String userName = UserLoggedInManager.getUser(request.getParameter("accessToken"));
+		AccountJDO account = AccountManager.getAccount(userName);
+		
+		if (account == null) {
 	%>
 
-	<a href="<%=userService.createLoginURL(request.getRequestURL()
-						.toString())%>">Login</a>
-
-
-	<%
-		} else {
-			
-			if (session.getAttribute("isAuthenticated") == null) {
-				session.setAttribute("isAuthenticated", true);
-				
-				System.out.println("store or update user");
-			}
-
-			
+		<h4>Niet ingelogd</h4>
+		<a href="/login.jsp">login</a>
+	<% 
+		} else { 
+	
 	%>
+		[<%= account.getName()%>]
 
-	Welcome [<%=user.getNickname() %>]
+		<h4>Grant access to the following services:</h4>
 
-	<ul>
-		<li><a href="https://www.fitbit.com/oauth2/authorize?response_type=code&scope=activity+heartrate+profile+settings&client_id=229NGX&redirect_uri=http://localhost:8080/oauth/fitbit">Fitbit</a></li>
-		<li>RescueTime</li>
-	</ul>
 
-	<%
-		}
-	%>
 
+		<ul>
+			<li><a
+				href="https://www.fitbit.com/oauth2/authorize?response_type=code&scope=activity+heartrate+profile+settings&client_id=229NGX&redirect_uri=http://localhost:8080/oauth/fitbit&state=<%=request.getParameter("accessToken")%>">Fitbit</a></li>
+			<li>RescueTime</li>
+		</ul>
+	<% } %>
 </body>
 </html>

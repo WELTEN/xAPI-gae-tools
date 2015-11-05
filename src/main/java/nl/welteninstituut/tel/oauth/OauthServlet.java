@@ -96,6 +96,7 @@ public class OauthServlet extends HttpServlet {
 			worker.setBaseUrl(baseUrl);
 			worker.setCode(req.getParameter("code"));
 			worker.setResponse(resp);
+			worker.setRequest(req);
 			worker.exchangeCodeForAccessToken();
 		}
 	}

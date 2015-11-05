@@ -30,7 +30,8 @@ import com.google.appengine.api.datastore.KeyFactory;
  */
 public class OauthServiceAccountManager {
 
-	public static void addOauthServiceAccount(final int serviceId, final String accountId, final String accessToken, final String refreshToken, final Date lastSynced) {
+	public static void addOauthServiceAccount(final int serviceId, final String accountId, final String accessToken,
+			final String refreshToken, final Date lastSynced, final String primaryAccount) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			OauthServiceAccount account = new OauthServiceAccount();
@@ -39,19 +40,19 @@ public class OauthServiceAccountManager {
 			account.setAccessToken(accessToken);
 			account.setRefreshToken(refreshToken);
 			account.setLastSynced(lastSynced);
+			account.setPrimaryAccount(primaryAccount);
 			account.setKey();
 			pm.makePersistent(account);
 		} finally {
 			pm.close();
 		}
 	}
-	
+
 	public static void updateOauthServiceAccount(final OauthServiceAccount account) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			OauthServiceAccount dbAccount = pm.getObjectById(OauthServiceAccount.class,
-					KeyFactory.createKey(OauthServiceAccount.class.getSimpleName(),
-							account.getKey()));
+					KeyFactory.createKey(OauthServiceAccount.class.getSimpleName(), account.getKey()));
 			dbAccount.setAccessToken(account.getAccessToken());
 			dbAccount.setRefreshToken(account.getRefreshToken());
 			dbAccount.setLastSynced(account.getLastSynced());

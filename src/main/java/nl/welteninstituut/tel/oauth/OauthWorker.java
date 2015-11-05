@@ -29,6 +29,7 @@ import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import nl.welteninstituut.tel.la.Configuration;
@@ -43,9 +44,10 @@ import org.codehaus.jettison.json.JSONObject;
 public abstract class OauthWorker {
 
 	private static final Logger log = Logger.getLogger(OauthWorker.class.getName());
+	private HttpServletResponse resp;
+	private HttpServletRequest request;
 
 	protected String code;
-	private HttpServletResponse resp;
 	protected String baseUrl;
 
 	public abstract int getServiceId();
@@ -58,6 +60,18 @@ public abstract class OauthWorker {
 		this.baseUrl = baseUrl;
 	}
 
+	public void setResponse(HttpServletResponse resp) {
+		this.resp = resp;
+	}
+	
+	protected void setRequest(final HttpServletRequest request) {
+		this.request = request;
+	}
+	
+	protected HttpServletRequest getRequest() {
+		return this.request;
+	}
+
 	public abstract void exchangeCodeForAccessToken();
 
 	protected abstract String getAuthUrl(String authCode);
@@ -65,7 +79,7 @@ public abstract class OauthWorker {
 	protected void sendRedirect(String accessToken, String expires, int type) {
 		long expiresLong = 3600 * 24 * 7l;
 		try {
-			resp.sendRedirect(baseUrl + "/index.html?accessToken=" + accessToken + "&type=" + type + "&exp="
+			resp.sendRedirect(baseUrl + "/services/index.jsp?accessToken=" + accessToken + "&type=" + type + "&exp="
 					+ expiresLong);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -94,7 +108,7 @@ public abstract class OauthWorker {
 			UserLoggedInManager.submitOauthUser(account.getUniqueId(), authToken);
 			System.out.println("persisting service account");
 			OauthServiceAccountManager.addOauthServiceAccount(account.getAccountType(), account.getLocalId(),
-					authToken, refreshToken, null);
+					authToken, refreshToken, null, null);
 			System.out.println("persisted service account");
 		}
 	}
@@ -131,21 +145,29 @@ public abstract class OauthWorker {
 		return "{}";
 	}
 
-	public void setResponse(HttpServletResponse resp) {
-		this.resp = resp;
-
+	protected abstract int getClientType();
+	protected abstract void processLoginAsMetaAccount(RequestAccessToken accessToken);
+	protected abstract void processLoginAsSecondaryAccount(RequestAccessToken accessToken);
+	
+	protected void processRequest(RequestAccessToken accessToken){
+		if (Configuration.listContains(Configuration.METAACCOUNT, getClientType())){
+			processLoginAsMetaAccount(accessToken);
+		}
+		if (Configuration.listContains(Configuration.SECONDARY_ACCOUNT, getClientType())){
+			processLoginAsSecondaryAccount(accessToken);
+		}
 	}
 
 	public class RequestAccessToken {
-
+	
 		private String accessToken;
 		private String refreshToken;
 		private long expires_in;
-
+	
 		public void getUrl() {
-
+	
 		}
-
+	
 		public void getUrl(String url) {
 			try {
 				parseResult(readURL(new URL(url)));
@@ -153,25 +175,25 @@ public abstract class OauthWorker {
 				e.printStackTrace();
 			}
 		}
-
+	
 		public void postUrl(String url, String data) {
 			postUrl(url, data, null);
 		}
-
+	
 		public void postUrl(String url, String data, String authorization) {
 			try {
 				log.log(Level.INFO, "about to open url for code " + url + " *** " + data);
 				URLConnection conn = new URL(url).openConnection();
 				// conn.setConnectTimeout(30);
 				conn.setDoOutput(true);
-
+	
 				if (authorization != null)
 					conn.setRequestProperty("Authorization",
 							"Basic " + new String(new Base64().encode(authorization.getBytes())));
 				OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 				wr.write(data);
 				wr.flush();
-
+	
 				BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 				String result = "";
 				String line;
@@ -186,39 +208,26 @@ public abstract class OauthWorker {
 				log.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
-
+	
 		private void parseResult(String result) throws JSONException {
 			log.log(Level.INFO, "parseResult " + result);
 			JSONObject resultJson = new JSONObject(result);
 			accessToken = resultJson.getString("access_token");
 			expires_in = resultJson.getLong("expires_in");
-			refreshToken = resultJson.getString("refresh_token");
+			refreshToken = resultJson.has("refresh_token") ? resultJson.getString("refresh_token") : null;
 		}
-
+	
 		public String getAccessToken() {
 			return accessToken;
 		}
-
+	
 		public long getExpires_in() {
 			return expires_in;
 		}
-
+	
 		public String getRefreshToken() {
 			return refreshToken;
 		}
-
-	}
-
-	protected abstract int getClientType();
-	protected abstract void processLoginAsMetaAccount(RequestAccessToken accessToken);
-	protected abstract void processLoginAsSecondaryAccount(RequestAccessToken accessToken);
-
-	protected void processRequest(RequestAccessToken accessToken){
-		if (Configuration.listContains(Configuration.METAACCOUNT, getClientType())){
-			processLoginAsMetaAccount(accessToken);
-		}
-		if (Configuration.listContains(Configuration.SECONDARY_ACCOUNT, getClientType())){
-			processLoginAsSecondaryAccount(accessToken);
-		}
+	
 	}
 }

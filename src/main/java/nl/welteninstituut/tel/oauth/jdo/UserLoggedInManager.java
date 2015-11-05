@@ -55,6 +55,7 @@ public class UserLoggedInManager {
 	public static String getUser(String authToken) {
 		if (authToken == null || authToken.equals(""))
 			return null;
+		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		if (authToken.startsWith("GoogleLogin"))
 			authToken = authToken.substring(authToken.indexOf("auth=") + 5);

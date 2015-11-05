@@ -16,19 +16,21 @@
  */
 package nl.welteninstituut.tel.oauth;
 
-import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
-import nl.welteninstituut.tel.oauth.jdo.AccountManager;
-import nl.welteninstituut.tel.oauth.jdo.OauthConfigurationJDO;
-import nl.welteninstituut.tel.oauth.jdo.OauthKeyManager;
-import nl.welteninstituut.tel.util.StringPool;
-
-import org.codehaus.jettison.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
+import nl.welteninstituut.tel.oauth.jdo.AccountManager;
+import nl.welteninstituut.tel.oauth.jdo.OauthConfigurationJDO;
+import nl.welteninstituut.tel.oauth.jdo.OauthKeyManager;
+import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccountManager;
+import nl.welteninstituut.tel.oauth.jdo.UserLoggedInManager;
+import nl.welteninstituut.tel.util.StringPool;
+
+import org.codehaus.jettison.json.JSONObject;
 
 /**
  * @author Stefaan Ternier
@@ -73,16 +75,25 @@ public class OauthFitbitWorker extends OauthWorker {
 
 	@Override
 	protected void processLoginAsMetaAccount(RequestAccessToken request) {
-		saveAccount(request.getAccessToken(), request.getRefreshToken());
+		AccountJDO account = saveAccount(request.getAccessToken(), request.getRefreshToken());
+		saveAccessToken(account, request.getAccessToken(), request.getRefreshToken());
 		sendRedirect(request.getAccessToken(), String.valueOf(request.getExpires_in()), AccountJDO.FITBITCLIENT);
 	}
 
 	@Override
-	protected void processLoginAsSecondaryAccount(RequestAccessToken accessToken) {
-
+	protected void processLoginAsSecondaryAccount(RequestAccessToken rat) {
+		String accessToken = rat.getAccessToken();
+		String refreshToken = rat.getRefreshToken();
+		AccountJDO account = saveAccount(accessToken, refreshToken);
+		if (accessToken != null) {
+			UserLoggedInManager.submitOauthUser(account.getUniqueId(), accessToken);
+			OauthServiceAccountManager.addOauthServiceAccount(account.getAccountType(), account.getLocalId(),
+					accessToken, refreshToken, null, getPrimaryAccount());
+		}
+		sendRedirect(accessToken, String.valueOf(rat.getExpires_in()), AccountJDO.FITBITCLIENT);
 	}
 
-	public void saveAccount(String accessToken, String refreshToken) {
+	public AccountJDO saveAccount(String accessToken, String refreshToken) {
 		try {
 			JSONObject profileJson = new JSONObject(readURL(new URL("https://api.fitbit.com/1/user/-/profile.json"),
 					accessToken)).getJSONObject("user");
@@ -90,14 +101,14 @@ public class OauthFitbitWorker extends OauthWorker {
 			String id = profileJson.has("encodedId") ? profileJson.getString("encodedId") : StringPool.BLANK;
 			String picture = profileJson.has("avatar150") ? profileJson.getString("avatar150") : StringPool.BLANK;
 			String email = StringPool.BLANK;
-			String given_name =  profileJson.has("displayName") ? profileJson.getString("displayName") : StringPool.BLANK;
+			String given_name = profileJson.has("displayName") ? profileJson.getString("displayName")
+					: StringPool.BLANK;
 			String family_name = StringPool.BLANK;
 			String name = profileJson.has("fullName") ? profileJson.getString("fullName") : StringPool.BLANK;
 
-			AccountJDO account = AccountManager.addAccount(id, AccountJDO.FITBITCLIENT, email, given_name, family_name,
-					name, picture, false);
-			
-			saveAccessToken(account, accessToken, refreshToken);
+			return AccountManager.addAccount(id, AccountJDO.FITBITCLIENT, email, given_name, family_name, name,
+					picture, false);
+
 		} catch (Throwable ex) {
 			throw new RuntimeException("failed login", ex);
 		}
@@ -121,5 +132,15 @@ public class OauthFitbitWorker extends OauthWorker {
 	@Override
 	public int getServiceId() {
 		return AccountJDO.FITBITCLIENT;
+	}
+
+	private String getPrimaryAccount() {
+		String userName = UserLoggedInManager.getUser(getRequest().getParameter("state"));
+		// check if account exists
+		if (AccountManager.getAccount(userName) != null) {
+			return userName;
+		} else {
+			return null;
+		}
 	}
 }

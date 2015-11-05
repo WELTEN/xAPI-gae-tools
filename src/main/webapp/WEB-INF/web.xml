@@ -17,7 +17,7 @@
         <servlet-class>
             nl.welteninstituut.tel.la.importers.CronStarter
         </servlet-class>
-    </servlet>BigQuerySync
+    </servlet>
 
     <servlet>
         <servlet-name>BigQuerySync</servlet-name>
