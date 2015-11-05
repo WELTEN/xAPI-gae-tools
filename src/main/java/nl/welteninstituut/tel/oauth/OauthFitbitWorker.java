@@ -90,7 +90,7 @@ public class OauthFitbitWorker extends OauthWorker {
 			OauthServiceAccountManager.addOauthServiceAccount(account.getAccountType(), account.getLocalId(),
 					accessToken, refreshToken, null, getPrimaryAccount());
 		}
-		sendRedirect(accessToken, String.valueOf(rat.getExpires_in()), AccountJDO.FITBITCLIENT);
+		sendRedirect(getRequest().getParameter("state"), String.valueOf(rat.getExpires_in()), AccountJDO.FITBITCLIENT);
 	}
 
 	public AccountJDO saveAccount(String accessToken, String refreshToken) {
