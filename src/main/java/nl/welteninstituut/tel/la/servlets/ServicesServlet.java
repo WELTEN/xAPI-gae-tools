@@ -21,16 +21,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
 import nl.welteninstituut.tel.oauth.jdo.AccountManager;
 import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccount;
 import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccountManager;
-import nl.welteninstituut.tel.oauth.jdo.UserLoggedInManager;
+
+;
 
 /**
  * This servlet handles the grant services form. For now only the RescueTime
@@ -45,34 +48,36 @@ public class ServicesServlet extends HttpServlet {
 
 	@Override
 	public void doPost(final HttpServletRequest request, final HttpServletResponse response) throws java.io.IOException {
-		String accessToken = request.getParameter("accessToken");
-		String type = request.getParameter("type");
-		String exp = request.getParameter("exp");
+		
 		String apiKey = request.getParameter("rt-key");
+		String csrfToken = request.getParameter("CSRF-token");
 
-		String userName = UserLoggedInManager.getUser(accessToken);
-		AccountJDO pa = AccountManager.getAccount(userName);
+		HttpSession session = request.getSession(false);
+		if (session != null) {
 
-		if (pa != null && apiKey != null) {
-
-			if (isValidAPIKey(apiKey)) {
-
-				// Valid api key, now get rescuetime account
-				OauthServiceAccount account = OauthServiceAccountManager.getAccount(AccountJDO.RESCUETIMECLIENT,
-						pa.getLocalId());
-				if (account == null) {
-					OauthServiceAccountManager.addOauthServiceAccount(AccountJDO.RESCUETIMECLIENT, pa.getLocalId(),
-							apiKey, null, null, userName);
-				} else {
-					if (!apiKey.equals(account.getAccessToken())) {
-						account.setAccessToken(apiKey);
-						OauthServiceAccountManager.updateOauthServiceAccount(account);
+			String accountId = (String) session.getAttribute("accountid");
+			AccountJDO pa = AccountManager.getAccount(accountId);
+			
+			if (pa != null && apiKey != null && Objects.equals(csrfToken, session.getAttribute("CSRF-token"))) {
+				if (isValidAPIKey(apiKey)) {
+					
+					// Valid api key, now get rescuetime account
+					OauthServiceAccount account = OauthServiceAccountManager.getAccount(AccountJDO.RESCUETIMECLIENT,
+							pa.getLocalId());
+					if (account == null) {
+						OauthServiceAccountManager.addOauthServiceAccount(AccountJDO.RESCUETIMECLIENT, pa.getLocalId(),
+								apiKey, null, null, accountId);
+					} else {
+						if (!apiKey.equals(account.getAccessToken())) {
+							account.setAccessToken(apiKey);
+							OauthServiceAccountManager.updateOauthServiceAccount(account);
+						}
 					}
 				}
 			}
 		}
 
-		response.sendRedirect("/services.jsp?accessToken=" + accessToken + "&type=" + type + "&exp=" + exp);
+		response.sendRedirect("/services.jsp");
 	}
 
 	private boolean isValidAPIKey(final String key) {

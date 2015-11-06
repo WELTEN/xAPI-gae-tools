@@ -79,7 +79,7 @@ public abstract class OauthWorker {
 	protected void sendRedirect(String accessToken, String expires, int type) {
 		long expiresLong = 3600 * 24 * 7l;
 		try {
-			resp.sendRedirect(baseUrl + "/services.jsp?accessToken=" + accessToken + "&type=" + type + "&exp="
+			resp.sendRedirect(baseUrl + "/index.html?accessToken=" + accessToken + "&type=" + type + "&exp="
 					+ expiresLong);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -92,7 +92,6 @@ public abstract class OauthWorker {
 			resp.setContentType("text/html;charset=utf-8");
 			resp.getWriter().write("<h2>Error</h2><br>\n" + error);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -106,10 +105,8 @@ public abstract class OauthWorker {
 	protected void saveAccessToken(final AccountJDO account, String authToken, String refreshToken) {
 		if (authToken != null) {
 			UserLoggedInManager.submitOauthUser(account.getUniqueId(), authToken);
-			System.out.println("persisting service account");
 			OauthServiceAccountManager.addOauthServiceAccount(account.getAccountType(), account.getLocalId(),
 					authToken, refreshToken, null, null);
-			System.out.println("persisted service account");
 		}
 	}
 

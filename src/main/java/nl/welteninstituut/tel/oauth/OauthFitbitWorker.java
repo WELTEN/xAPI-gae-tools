@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.servlet.http.HttpSession;
+
 import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
 import nl.welteninstituut.tel.oauth.jdo.AccountManager;
 import nl.welteninstituut.tel.oauth.jdo.OauthConfigurationJDO;
@@ -82,15 +84,39 @@ public class OauthFitbitWorker extends OauthWorker {
 
 	@Override
 	protected void processLoginAsSecondaryAccount(RequestAccessToken rat) {
-		String accessToken = rat.getAccessToken();
-		String refreshToken = rat.getRefreshToken();
-		AccountJDO account = saveAccount(accessToken, refreshToken);
-		if (accessToken != null) {
-			UserLoggedInManager.submitOauthUser(account.getUniqueId(), accessToken);
-			OauthServiceAccountManager.addOauthServiceAccount(account.getAccountType(), account.getLocalId(),
-					accessToken, refreshToken, null, getPrimaryAccount());
+
+		boolean userLoggedIn = false;
+		String accountId = null;
+
+		HttpSession session = getRequest().getSession(false);
+		if (session != null) {
+			
+
+			accountId = (String) session.getAttribute("accountid");
+			userLoggedIn = AccountManager.getAccount(accountId) != null;
+
+			if (userLoggedIn) {
+
+				// check for cross site request forgery
+				if (!((String) session.getAttribute("CSRF-token")).equals(getRequest().getParameter("state"))) {
+					throw new RuntimeException("Possible CSRF detected");
+				}
+				
+				String accessToken = rat.getAccessToken();
+				String refreshToken = rat.getRefreshToken();
+				AccountJDO account = saveAccount(accessToken, refreshToken);
+				if (accessToken != null) {
+					UserLoggedInManager.submitOauthUser(account.getUniqueId(), accessToken);
+					OauthServiceAccountManager.addOauthServiceAccount(account.getAccountType(), account.getLocalId(),
+							accessToken, refreshToken, null, accountId);
+				}
+			}
+
+			sendRedirect((String) session.getAttribute("accesstoken"), String.valueOf(rat.getExpires_in()),
+					AccountJDO.FITBITCLIENT);
+		} else {
+			sendRedirect(StringPool.BLANK, String.valueOf(rat.getExpires_in()), AccountJDO.FITBITCLIENT);
 		}
-		sendRedirect(getRequest().getParameter("state"), String.valueOf(rat.getExpires_in()), AccountJDO.FITBITCLIENT);
 	}
 
 	public AccountJDO saveAccount(String accessToken, String refreshToken) {
@@ -134,13 +160,4 @@ public class OauthFitbitWorker extends OauthWorker {
 		return AccountJDO.FITBITCLIENT;
 	}
 
-	private String getPrimaryAccount() {
-		String userName = UserLoggedInManager.getUser(getRequest().getParameter("state"));
-		// check if account exists
-		if (AccountManager.getAccount(userName) != null) {
-			return userName;
-		} else {
-			return null;
-		}
-	}
 }

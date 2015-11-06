@@ -17,6 +17,9 @@
 package nl.welteninstituut.tel.oauth;
 
 import java.net.URL;
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
 
 import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
 import nl.welteninstituut.tel.oauth.jdo.AccountManager;
@@ -24,6 +27,7 @@ import nl.welteninstituut.tel.oauth.jdo.OauthConfigurationJDO;
 import nl.welteninstituut.tel.oauth.jdo.OauthKeyManager;
 import nl.welteninstituut.tel.util.StringPool;
 
+import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 /**
@@ -57,8 +61,23 @@ public class OauthGoogleWorker extends OauthWorker {
 
 	@Override
 	protected void processLoginAsMetaAccount(RequestAccessToken accessToken) {
-		saveAccount(accessToken.getAccessToken());
-		sendRedirect(accessToken.getAccessToken(), "" + accessToken.getExpires_in(), AccountJDO.GOOGLECLIENT);
+		AccountJDO account = saveAccount(accessToken.getAccessToken());
+
+		// reset session after login to prevent session hijacking
+		HttpSession session = getRequest().getSession(false);
+		if (session != null) {
+			session.invalidate();
+		}
+		
+		// fill a user session object
+		session = getRequest().getSession(true);
+		session.setAttribute("accesstoken", accessToken.getAccessToken());
+		session.setAttribute("type", (Integer) AccountJDO.GOOGLECLIENT);
+		session.setAttribute("expires-in", (Long) accessToken.getExpires_in());
+		session.setAttribute("accountid", account.getUniqueId());
+		session.setAttribute("CSRF-token", UUID.randomUUID().toString());
+
+		sendRedirect(accessToken.getAccessToken(), Long.toString(accessToken.getExpires_in()), AccountJDO.GOOGLECLIENT);
 	}
 
 	@Override
@@ -81,40 +100,36 @@ public class OauthGoogleWorker extends OauthWorker {
 		}
 	}
 
-	public void saveAccount(String accessToken) {
+	public AccountJDO saveAccount(String accessToken) {
+		AccountJDO account = null;
 		try {
 			JSONObject profileJson = new JSONObject(readURL(new URL(
 					"https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + accessToken)));
-			String id = "";
-			String picture = "";
-			String email = "";
-			String given_name = "";
-			String family_name = "";
-			String name = "";
-			if (profileJson.has("picture"))
-				picture = profileJson.getString("picture");
-			if (profileJson.has("id"))
-				id = profileJson.getString("id");
-			if (profileJson.has("email"))
-				email = profileJson.getString("email");
-			if (profileJson.has("given_name"))
-				given_name = profileJson.getString("given_name");
-			if (profileJson.has("family_name"))
-				family_name = profileJson.getString("family_name");
-			if (profileJson.has("name"))
-				name = profileJson.getString("name");
-			AccountJDO account = AccountManager.addAccount(id, AccountJDO.GOOGLECLIENT, email, given_name, family_name,
-					name, picture, false);
+			String picture = getJSONString(profileJson, "picture");
+			String id = getJSONString(profileJson, "id");
+			String email = getJSONString(profileJson, "email");
+			String given_name = getJSONString(profileJson, "given_name");
+			String family_name = getJSONString(profileJson, "family_name");
+			String name = getJSONString(profileJson, "name");
+			account = AccountManager.addAccount(id, AccountJDO.GOOGLECLIENT, email, given_name, family_name, name,
+					picture, false);
 			saveAccessToken(account.getUniqueId(), accessToken);
 
 		} catch (Throwable ex) {
 			throw new RuntimeException("failed login", ex);
 		}
+
+		return account;
 	}
 
 	@Override
 	public int getServiceId() {
 		return AccountJDO.GOOGLECLIENT;
+	}
+
+	protected String getJSONString(final JSONObject json, final String key) throws JSONException {
+		return json.has(key) ? json.getString(key) : StringPool.BLANK;
+
 	}
 
 }

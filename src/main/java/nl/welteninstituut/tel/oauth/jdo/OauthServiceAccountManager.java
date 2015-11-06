@@ -23,9 +23,6 @@ import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import org.joda.time.DateTime;
-
-import nl.welteninstituut.tel.la.importers.fitbit.FitbitTask;
 import nl.welteninstituut.tel.la.jdomanager.PMF;
 import nl.welteninstituut.tel.util.StringPool;
 

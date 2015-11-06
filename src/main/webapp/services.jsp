@@ -39,16 +39,32 @@
     <![endif]-->
 </head>
 
-<%
-	String accessToken = request.getParameter("accessToken");
-	String type = request.getParameter("type");
-	String exp = request.getParameter("exp");
-	
-%>
+
 <body class="hold-transition login-page">
+
+<% 
+	String accountId = null;
+	String siteURL= "/index.html";
+	String csrfToken = null;
+
+	if (request.isRequestedSessionIdValid()) {
+		
+		accountId = (String) session.getAttribute("accountid");
+		
+		siteURL += "?accessToken=" + (String) session.getAttribute("accesstoken");
+		siteURL += "&type=" + ((Integer) session.getAttribute("type")).toString();
+		siteURL += "&exp=" + ((Long) session.getAttribute("expires-in")).toString();
+		
+		csrfToken = (String) session.getAttribute("CSRF-token");
+	} 
+	
+	AccountJDO account = AccountManager.getAccount(accountId);
+		
+%>
+
 	<div class="login-box">
 		<div class="login-logo">
-			<a href="<%=String.format("index.html?accessToken=%s&type=%s&exp=%s", accessToken, type, exp)%>"> Learning<b>Pulse</b> project</a>
+			<a href="<%=siteURL%>"> Learning<b>Pulse</b> project</a>
 		</div>
 
 		<!-- /.login-logo -->
@@ -58,9 +74,6 @@
 
 
 				<%
-					String userName = UserLoggedInManager.getUser(accessToken);
-					AccountJDO account = AccountManager.getAccount(userName);
-
 					if (account == null) {
 				%>
 
@@ -88,7 +101,7 @@
 									+ "&redirect_uri="
 									+ redirectUrl
 									+ "&state="
-									+ request.getParameter("accessToken");
+									+ csrfToken;
 				%>
 				<a class="btn btn-block btn-social btn-ecolearning btn-flat"
 					href="<%=url%>"><i class="fa fa-fitbit"></i>Connect to
@@ -109,11 +122,9 @@
                	RescueTime - enter here the <a href="https://www.rescuetime.com/anapi/manage">Full API key</a>
             
                 <div class="input-group">
-                    <input type="text" name="rt-key" class="form-control" placeholder="API key..." value="">
-                    <input type="hidden" name="accessToken" value="<%=accessToken%>" />
-                    <input type="hidden" name="type" value="<%=type%>" />
-                    <input type="hidden" name="exp" value="<%=exp%>" />
-              <span class="input-group-btn">
+                    <input type="text" name="rt-key" class="form-control" placeholder="API key..." value="<%=apiKey%>">
+                    <input type="hidden" name="CSRF-token" value="<%=csrfToken %>" />
+              	<span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-plus"></i></button>
               </span>
                 </div>
