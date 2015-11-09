@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 import nl.welteninstituut.tel.la.Configuration;
 import nl.welteninstituut.tel.la.importers.ImportTask;
+import nl.welteninstituut.tel.la.jdomanager.StatementManager;
 import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
 import nl.welteninstituut.tel.oauth.jdo.AccountManager;
 import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccount;
@@ -114,7 +115,7 @@ public class RescueTimeTask extends ImportTask {
 
 							String xapi = String.format(XAPI_RESCUETIME_FORMAT, row.getDate(), mbox, row.getActivity(),
 									row.getTimeSpent());
-							System.out.println(xapi);	
+							StatementManager.addStatementAsync(xapi, "rescuetime");
 						}
 					}
 

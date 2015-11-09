@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 
 import nl.welteninstituut.tel.la.Configuration;
 import nl.welteninstituut.tel.la.importers.ImportTask;
+import nl.welteninstituut.tel.la.jdomanager.StatementManager;
 import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
 import nl.welteninstituut.tel.oauth.jdo.AccountManager;
 import nl.welteninstituut.tel.oauth.jdo.OauthConfigurationJDO;
@@ -131,8 +132,6 @@ public class FitbitTask extends ImportTask {
 						AccountJDO pa = AccountManager.getAccount(account.getPrimaryAccount());
 						String mbox = pa != null ? pa.getEmail() : null;
 						
-						System.out.println("mbox: " + mbox);
-						
 						String xapiTemplate = "{\"timestamp\":\"%s\","
 								+ "\"actor\": {\"objectType\": \"Agent\",\"mbox\":\"mailto:"
 								+ mbox
@@ -160,7 +159,6 @@ public class FitbitTask extends ImportTask {
 
 					// store time of last block data that was
 					// synchronized
-					System.out.println("setting last synced to " + end);
 					account.setLastSynced(end.toDate());
 					OauthServiceAccountManager.updateOauthServiceAccount(account);
 
@@ -184,10 +182,7 @@ public class FitbitTask extends ImportTask {
 	private void processData(final JSONObject json, final String name, final String xapiTemplate) throws JSONException {
 
 		if (json.has(name + "-intraday")) {
-			System.out.println(name + "-intraday found");
 			JSONArray dataset = json.getJSONObject(name + "-intraday").getJSONArray("dataset");
-
-			System.out.println("# datapoints: " + dataset.length());
 
 			if (dataset.length() > 0) {
 
@@ -195,10 +190,9 @@ public class FitbitTask extends ImportTask {
 
 				for (int i = 0; i < dataset.length(); i++) {
 					JSONObject datapoint = dataset.getJSONObject(i);
-					createStatement(xapiTemplate, fitbitDate, datapoint.getString("time"),
-							datapoint.getInt("value"));
+					StatementManager.addStatementAsync(createStatement(xapiTemplate, fitbitDate, datapoint.getString("time"),
+							datapoint.getInt("value")), "fitbit");
 				}
-
 			}
 		}
 	}

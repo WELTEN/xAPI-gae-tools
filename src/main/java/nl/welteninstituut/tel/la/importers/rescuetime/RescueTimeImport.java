@@ -16,34 +16,33 @@
  */
 package nl.welteninstituut.tel.la.importers.rescuetime;
 
+import java.util.logging.Logger;
+
 import nl.welteninstituut.tel.la.importers.ImportTask;
 import nl.welteninstituut.tel.la.importers.Importer;
 import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
 import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccount;
 import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccountManager;
 
-import org.joda.time.DateTime;
-
 /**
+ * The RescueTimeImport imports RescueTime data for all registered RescueTime
+ * users. The actual import is done per user in a scheduled task.
+ * 
  * @author Stefaan Ternier
  * @author Harrie Martens
  *
  */
 public class RescueTimeImport extends Importer {
+	
+    private static final Logger LOG = Logger.getLogger(RescueTimeImport.class.getName());
 
-    public void startImport(){
-        System.out.println("start heavy lifting");
-        
+    public void startImport() {
+    	LOG.info("Importing RescueTime data");
+    	
 		for (OauthServiceAccount account : OauthServiceAccountManager.getAccountsForService(AccountJDO.RESCUETIMECLIENT)) {
 
-			// TODO remove reset of lastSynced
-			// reset lastSynced so RescueTime connection can be tested.
-			account.setLastSynced(new DateTime("2015-11-05T11:35").toDate());
-			OauthServiceAccountManager.updateOauthServiceAccount(account);
-			// TODO remove till here
-			
-			System.out.println("RescueTime user: " + account.getAccountId());
-
+	    	LOG.info("Importing RescueTime data for " + account.getAccountId());
+	    	
 			// create a RescueTime task per user
 			ImportTask.scheduleTask(new RescueTimeTask(account.getAccountId()));
 		}
