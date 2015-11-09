@@ -17,6 +17,8 @@
 package nl.welteninstituut.tel.la.servlets;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import nl.welteninstituut.tel.la.tasks.BigQuerySyncTask;
 
@@ -28,7 +30,8 @@ public class BigQuerySyncServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-public void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws java.io.IOException {
-    new BigQuerySyncTask().scheduleTask();
-    }
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws java.io.IOException {
+		new BigQuerySyncTask().scheduleTask();
+	}
 }
