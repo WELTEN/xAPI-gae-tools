@@ -41,7 +41,7 @@ public class Configuration {
     public static final String METAACCOUNT = "metaAccount";
     public static final String SECONDARY_ACCOUNT = "secondaryAccounts";
     public static final String AUTHORIZATION = "authorization";
-    public static final String FITBIT_STARTDATE = "import.fitbit.startdate";
+    public static final String STARTDATE = "import.startdate";
 
     static {
         InputStream is = Configuration.class.getClassLoader().getResourceAsStream("./META-INF/configuration.properties");

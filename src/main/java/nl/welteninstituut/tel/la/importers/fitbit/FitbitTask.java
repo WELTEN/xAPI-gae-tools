@@ -26,15 +26,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-
 import nl.welteninstituut.tel.la.Configuration;
-import nl.welteninstituut.tel.la.jdomanager.PMF;
+import nl.welteninstituut.tel.la.importers.ImportTask;
 import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
 import nl.welteninstituut.tel.oauth.jdo.AccountManager;
 import nl.welteninstituut.tel.oauth.jdo.OauthConfigurationJDO;
@@ -52,10 +48,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.appengine.api.taskqueue.DeferredTask;
-import com.google.appengine.api.taskqueue.Queue;
-import com.google.appengine.api.taskqueue.QueueFactory;
-import com.google.appengine.api.taskqueue.TaskOptions;
 import com.google.apphosting.api.ApiProxy;
 
 /**
@@ -68,7 +60,7 @@ import com.google.apphosting.api.ApiProxy;
  * @author Harrie Martens
  *
  */
-public class FitbitTask implements DeferredTask {
+public class FitbitTask extends ImportTask {
 
 	private static final long serialVersionUID = 2L;
 	private static final Logger log = Logger.getLogger(FitbitTask.class.getName());
@@ -92,17 +84,17 @@ public class FitbitTask implements DeferredTask {
 
 	@Override
 	public void run() {
-		OauthServiceAccount account = getAccount(accountId);
+		OauthServiceAccount account = getAccount(AccountJDO.FITBITCLIENT, accountId);
 		if (account != null) {
 
 			if (start == null) {
 
 				if (account.getLastSynced() == null) {
-					String startDate = Configuration.get(Configuration.FITBIT_STARTDATE);
+					String startDate = Configuration.get(Configuration.STARTDATE);
 					if (startDate != null) {
 						start = new DateTime(startDate + "T00:00");
 					} else {
-						log.severe(Configuration.FITBIT_STARTDATE + " is missing from configuration");
+						log.severe(Configuration.STARTDATE + " is missing from configuration");
 					}
 				} else {
 					start = new DateTime(account.getLastSynced()).withSecondOfMinute(0).withMillisOfSecond(0)
@@ -176,7 +168,7 @@ public class FitbitTask implements DeferredTask {
 
 					// Daisy chain task for next period
 					if (end.isBefore(deviceLastSynced)) {
-						FitbitTask.scheduleTask(new FitbitTask(account.getAccountId(), end, deviceLastSynced));
+						ImportTask.scheduleTask(new FitbitTask(accountId, end, deviceLastSynced));
 					}
 				} catch (JSONException | IOException ex) {
 					log.log(Level.SEVERE, "task aborted", ex);
@@ -257,28 +249,6 @@ public class FitbitTask implements DeferredTask {
 			final int heartRate) {
 		DateTime logDate = new DateTime(date + "T" + time);
 		return String.format(xapiTemplate, logDate.toString(), heartRate);
-	}
-
-	private OauthServiceAccount getAccount(final String accountId) {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		try {
-			Query q = pm.newQuery(OauthServiceAccount.class);
-			try {
-				q.setFilter("serviceId == serviceIdParam");
-				q.setFilter("accountId == accountIdParam");
-				q.declareParameters("Integer serviceIdParam, String accountIdParam");
-
-				@SuppressWarnings("unchecked")
-				List<OauthServiceAccount> result = (List<OauthServiceAccount>) q.execute(AccountJDO.FITBITCLIENT,
-						accountId);
-				return result.isEmpty() ? null : result.get(0);
-			} finally {
-				q.closeAll();
-			}
-
-		} finally {
-			pm.close();
-		}
 	}
 
 	private URL getHeartrateURL(DateTime start, DateTime end) throws MalformedURLException {
@@ -400,13 +370,6 @@ public class FitbitTask implements DeferredTask {
 		}
 
 		return result.toString();
-	}
-
-	public static void scheduleTask(final DeferredTask task) {
-		// Add the task to the default queue.
-		Queue queue = QueueFactory.getDefaultQueue();
-
-		queue.add(TaskOptions.Builder.withPayload(task));
 	}
 
 

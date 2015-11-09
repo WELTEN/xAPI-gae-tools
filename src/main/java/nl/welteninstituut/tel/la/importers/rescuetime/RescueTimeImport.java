@@ -16,6 +16,7 @@
  */
 package nl.welteninstituut.tel.la.importers.rescuetime;
 
+import nl.welteninstituut.tel.la.importers.ImportTask;
 import nl.welteninstituut.tel.la.importers.Importer;
 import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
 import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccount;
@@ -36,15 +37,15 @@ public class RescueTimeImport extends Importer {
 		for (OauthServiceAccount account : OauthServiceAccountManager.getAccountsForService(AccountJDO.RESCUETIMECLIENT)) {
 
 			// TODO remove reset of lastSynced
-			// reset lastSynced so fitbit connection can be tested.
-			account.setLastSynced(new DateTime("2015-11-05T08:08").toDate());
+			// reset lastSynced so RescueTime connection can be tested.
+			account.setLastSynced(new DateTime("2015-11-05T11:35").toDate());
 			OauthServiceAccountManager.updateOauthServiceAccount(account);
 			// TODO remove till here
 			
-			System.out.println("rescue time user: " + account.getAccountId());
+			System.out.println("RescueTime user: " + account.getAccountId());
 
-			// create a fitbit task per user
-			// FitbitTask.scheduleTask(new FitbitTask(account.getAccountId()));
+			// create a RescueTime task per user
+			ImportTask.scheduleTask(new RescueTimeTask(account.getAccountId()));
 		}
 
 	}
