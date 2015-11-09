@@ -76,15 +76,18 @@ public abstract class OauthWorker {
 
 	protected abstract String getAuthUrl(String authCode);
 
-	protected void sendRedirect(String accessToken, String expires, int type) {
+	protected void sendRedirect(String location, String accessToken, String expires, int type) {
 		long expiresLong = 3600 * 24 * 7l;
 		try {
-			resp.sendRedirect(baseUrl + "/index.html?accessToken=" + accessToken + "&type=" + type + "&exp="
+			resp.sendRedirect(baseUrl + "/" + location + "?accessToken=" + accessToken + "&type=" + type + "&exp="
 					+ expiresLong);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+	}
+	
+	protected void sendRedirect(String accessToken, String expires, int type) {
+		sendRedirect("index.html", accessToken, expires, type);
 	}
 
 	protected void error(String error) {

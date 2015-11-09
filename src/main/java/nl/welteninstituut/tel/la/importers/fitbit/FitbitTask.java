@@ -131,7 +131,7 @@ public class FitbitTask extends ImportTask {
 					if (!stepCountData.has("errors") && !heartRateData.has("errors")) {
 						AccountJDO pa = AccountManager.getAccount(account.getPrimaryAccount());
 						String mbox = pa != null ? pa.getEmail() : null;
-						
+
 						String xapiTemplate = "{\"timestamp\":\"%s\","
 								+ "\"actor\": {\"objectType\": \"Agent\",\"mbox\":\"mailto:"
 								+ mbox
@@ -141,9 +141,9 @@ public class FitbitTask extends ImportTask {
 								+ "\"object\":{\"objectType\":\"Activity\",\"id\":\"StepCount\",\"definition\":{\"name\":{\"en-US\":\"step count\"},"
 								+ "\"description\":{\"en-US\":\"step count\"},\"type\":\"http://activitystrea.ms/schema/1.0/event\"}},"
 								+ "\"result\":{\"response\":\"%d\"}}";
-						
+
 						processData(stepCountData, "activities-steps", xapiTemplate);
-						
+
 						xapiTemplate = "{\"timestamp\":\"%s\","
 								+ "\"actor\": {\"objectType\": \"Agent\",\"mbox\":\"mailto:"
 								+ mbox
@@ -153,7 +153,7 @@ public class FitbitTask extends ImportTask {
 								+ "\"object\":{\"objectType\":\"Activity\",\"id\":\"HeartRate\",\"definition\":{\"name\":{\"en-US\":\"heart rate\"},"
 								+ "\"description\":{\"en-US\":\"heart rate\"},\"type\":\"http://activitystrea.ms/schema/1.0/event\"}},"
 								+ "\"result\":{\"response\":\"%d\"}}";
-						
+
 						processData(heartRateData, "activities-heart", xapiTemplate);
 					}
 
@@ -178,7 +178,7 @@ public class FitbitTask extends ImportTask {
 		}
 
 	}
-	
+
 	private void processData(final JSONObject json, final String name, final String xapiTemplate) throws JSONException {
 
 		if (json.has(name + "-intraday")) {
@@ -190,8 +190,13 @@ public class FitbitTask extends ImportTask {
 
 				for (int i = 0; i < dataset.length(); i++) {
 					JSONObject datapoint = dataset.getJSONObject(i);
-					StatementManager.addStatementAsync(createStatement(xapiTemplate, fitbitDate, datapoint.getString("time"),
-							datapoint.getInt("value")), "fitbit");
+
+					DateTime logDate = new DateTime(fitbitDate + "T" + datapoint.getString("time"));
+					
+					if (isTimeAllowed(logDate)) {
+						StatementManager.addStatementAsync(
+								String.format(xapiTemplate, logDate.toString(), datapoint.getInt("value")), "fitbit");
+					}
 				}
 			}
 		}
@@ -237,12 +242,6 @@ public class FitbitTask extends ImportTask {
 		}
 
 		return result;
-	}
-
-	private String createStatement(final String xapiTemplate, final String date, final String time,
-			final int heartRate) {
-		DateTime logDate = new DateTime(date + "T" + time);
-		return String.format(xapiTemplate, logDate.toString(), heartRate);
 	}
 
 	private URL getHeartrateURL(DateTime start, DateTime end) throws MalformedURLException {
@@ -358,6 +357,5 @@ public class FitbitTask extends ImportTask {
 
 		return result.toString();
 	}
-
 
 }

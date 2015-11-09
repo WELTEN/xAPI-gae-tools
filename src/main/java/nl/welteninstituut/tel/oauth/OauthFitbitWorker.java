@@ -112,7 +112,7 @@ public class OauthFitbitWorker extends OauthWorker {
 				}
 			}
 
-			sendRedirect((String) session.getAttribute("accesstoken"), String.valueOf(rat.getExpires_in()),
+			sendRedirect("services.jsp", (String) session.getAttribute("accesstoken"), String.valueOf(rat.getExpires_in()),
 					AccountJDO.FITBITCLIENT);
 		} else {
 			sendRedirect(StringPool.BLANK, String.valueOf(rat.getExpires_in()), AccountJDO.FITBITCLIENT);

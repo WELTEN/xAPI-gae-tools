@@ -68,7 +68,7 @@ public class RescueTimeTask extends ImportTask {
 		this.accountId = accountId;
 	}
 
-	private RescueTimeTask(final String accountId, final DateTime start) {
+	public RescueTimeTask(final String accountId, final DateTime start) {
 		this(accountId);
 		this.start = start;
 	}
@@ -97,6 +97,8 @@ public class RescueTimeTask extends ImportTask {
 
 				try {
 					JSONObject data = getData(account.getAccessToken(), localDate);
+					
+					System.out.println(data);
 
 					JSONArray rows = data.getJSONArray("rows");
 					String mbox = null;
@@ -111,9 +113,11 @@ public class RescueTimeTask extends ImportTask {
 						row = new Row(rows.getJSONArray(i));
 						if (row.getDate().isEqual(start) || row.getDate().isAfter(start)) {
 
-							String xapi = String.format(XAPI_RESCUETIME_FORMAT, row.getDate(), mbox, row.getActivity(),
-									row.getTimeSpent());
-							StatementManager.addStatementAsync(xapi, "rescuetime");
+							if (isTimeAllowed(row.getDate())) {
+								String xapi = String.format(XAPI_RESCUETIME_FORMAT, row.getDate(), mbox,
+										row.getActivity(), row.getTimeSpent());
+								StatementManager.addStatementAsync(xapi, "rescuetime");
+							}
 						}
 					}
 
@@ -174,13 +178,14 @@ public class RescueTimeTask extends ImportTask {
 		private final DateTime date;
 		private final long timeSpent;
 		private final String activity;
-		//private final String category;
+
+		// private final String category;
 
 		private Row(final JSONArray data) throws JSONException {
 			date = new DateTime(data.getString(0));
 			timeSpent = data.getLong(1);
 			activity = data.getString(3);
-			//category = data.getString(4);
+			// category = data.getString(4);
 		}
 
 		protected DateTime getDate() {
@@ -195,9 +200,9 @@ public class RescueTimeTask extends ImportTask {
 			return activity;
 		}
 
-		/*protected String getcategory() {
-			return category;
-		}*/
+		/*
+		 * protected String getcategory() { return category; }
+		 */
 	}
 
 }
