@@ -303,7 +303,7 @@ public class FitbitTask extends ImportTask {
 			}
 
 		}
-		System.out.println(new String(baos.toByteArray()));
+
 		return new String(baos.toByteArray());
 	}
 
@@ -312,21 +312,14 @@ public class FitbitTask extends ImportTask {
 		String client_id = jdo.getClient_id();
 		String client_secret = jdo.getClient_secret();
 
-		System.out.println("refresh token: " + account.getRefreshToken());
-
 		String result = postUrl("https://api.fitbit.com/oauth2/token", "grant_type=refresh_token&refresh_token="
 				+ account.getRefreshToken(), client_id + ":" + client_secret);
 
 		try {
 			JSONObject resultJson = new JSONObject(result);
 
-			System.out.println("refreshing gives " + result);
-
 			String accessToken = resultJson.getString("access_token");
 			String refreshToken = resultJson.getString("refresh_token");
-
-			System.out.println("new access token acquired " + accessToken);
-			System.out.println("new refresh token acquired " + refreshToken);
 
 			account.setAccessToken(accessToken);
 			account.setRefreshToken(refreshToken);

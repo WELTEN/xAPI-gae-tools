@@ -92,8 +92,6 @@ public class RescueTimeTask extends ImportTask {
 				}
 			}
 
-			System.out.println("Starting @ " + start);
-
 			if (start != null) {
 				LocalDate localDate = start.toLocalDate();
 
@@ -176,13 +174,13 @@ public class RescueTimeTask extends ImportTask {
 		private final DateTime date;
 		private final long timeSpent;
 		private final String activity;
-		private final String category;
+		//private final String category;
 
 		private Row(final JSONArray data) throws JSONException {
 			date = new DateTime(data.getString(0));
 			timeSpent = data.getLong(1);
 			activity = data.getString(3);
-			category = data.getString(4);
+			//category = data.getString(4);
 		}
 
 		protected DateTime getDate() {
@@ -197,9 +195,9 @@ public class RescueTimeTask extends ImportTask {
 			return activity;
 		}
 
-		protected String getcategory() {
+		/*protected String getcategory() {
 			return category;
-		}
+		}*/
 	}
 
 }
