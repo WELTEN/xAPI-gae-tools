@@ -17,10 +17,14 @@
 package nl.welteninstituut.tel.oauth.jdo;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 import nl.welteninstituut.tel.la.jdomanager.PMF;
+import nl.welteninstituut.tel.util.StringPool;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -30,7 +34,8 @@ import com.google.appengine.api.datastore.KeyFactory;
  */
 public class OauthServiceAccountManager {
 
-	public static void addOauthServiceAccount(final int serviceId, final String accountId, final String accessToken, final String refreshToken, final Date lastSynced) {
+	public static void addOauthServiceAccount(final int serviceId, final String accountId, final String accessToken,
+			final String refreshToken, final Date lastSynced, final String primaryAccount) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			OauthServiceAccount account = new OauthServiceAccount();
@@ -39,19 +44,19 @@ public class OauthServiceAccountManager {
 			account.setAccessToken(accessToken);
 			account.setRefreshToken(refreshToken);
 			account.setLastSynced(lastSynced);
+			account.setPrimaryAccount(primaryAccount);
 			account.setKey();
 			pm.makePersistent(account);
 		} finally {
 			pm.close();
 		}
 	}
-	
+
 	public static void updateOauthServiceAccount(final OauthServiceAccount account) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			OauthServiceAccount dbAccount = pm.getObjectById(OauthServiceAccount.class,
-					KeyFactory.createKey(OauthServiceAccount.class.getSimpleName(),
-							account.getKey()));
+					KeyFactory.createKey(OauthServiceAccount.class.getSimpleName(), account.getKey()));
 			dbAccount.setAccessToken(account.getAccessToken());
 			dbAccount.setRefreshToken(account.getRefreshToken());
 			dbAccount.setLastSynced(account.getLastSynced());
@@ -59,6 +64,36 @@ public class OauthServiceAccountManager {
 		} finally {
 			pm.close();
 		}
+	}
+
+	public static OauthServiceAccount getAccount(final int serviceId, final String accountId) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			return pm.getObjectById(
+					OauthServiceAccount.class,
+					KeyFactory.createKey(OauthServiceAccount.class.getSimpleName(), Integer.toString(serviceId)
+							+ StringPool.COLON + accountId));
+		} catch (JDOObjectNotFoundException ex) {
+			return null;
+		} finally {
+			pm.close();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<OauthServiceAccount> getAccountsForService(final int serviceId) {
+
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query q = pm.newQuery(OauthServiceAccount.class);
+		q.setFilter("serviceId == serviceIdParam");
+		q.declareParameters("Integer serviceIdParam");
+
+		try {
+			return (List<OauthServiceAccount>) q.execute(serviceId);
+		} finally {
+			pm.close();
+		}
+
 	}
 
 }

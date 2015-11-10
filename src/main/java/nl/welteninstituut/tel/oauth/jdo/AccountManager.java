@@ -19,8 +19,11 @@ package nl.welteninstituut.tel.oauth.jdo;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 
+import org.apache.commons.lang.StringUtils;
+
 import nl.welteninstituut.tel.la.jdomanager.PMF;
 //import org.celstec.arlearn2.beans.account.Account;
+
 
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -31,18 +34,16 @@ import com.google.appengine.api.datastore.KeyFactory;
  */
 public class AccountManager {
 
-	public static AccountJDO addAccount(String localID, int accountType,
-			String email, String given_name, String family_name, String name,
-			String picture, boolean allowTrackLocation) {
+	public static AccountJDO addAccount(String localID, int accountType, String email, String given_name,
+			String family_name, String name, String picture, boolean allowTrackLocation) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			boolean isNew = false;
 			AccountJDO account = null;
-			
+
 			try {
 				account = pm.getObjectById(AccountJDO.class,
-						KeyFactory.createKey(AccountJDO.class.getSimpleName(),
-								accountType + ":" + localID));
+						KeyFactory.createKey(AccountJDO.class.getSimpleName(), accountType + ":" + localID));
 			} catch (JDOObjectNotFoundException ex) {
 				account = new AccountJDO();
 				isNew = true;
@@ -57,10 +58,10 @@ public class AccountManager {
 			account.setName(name);
 			account.setPicture(picture);
 			account.setLastModificationDate(System.currentTimeMillis());
-            account.setAllowTrackLocation(allowTrackLocation);
-            if (isNew) {
-            	account.setAccountLevel(AccountJDO.USER);
-            }
+			account.setAllowTrackLocation(allowTrackLocation);
+			if (isNew) {
+				account.setAccountLevel(AccountJDO.USER);
+			}
 			pm.makePersistent(account);
 			return account;
 		} finally {
@@ -68,6 +69,21 @@ public class AccountManager {
 		}
 	}
 
+	public static AccountJDO getAccount(final String userName) {
+		if (StringUtils.isEmpty(userName)) {
+			return null;
+		}
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			return pm.getObjectById(AccountJDO.class,
+					KeyFactory.createKey(AccountJDO.class.getSimpleName(), userName));
+		} catch (JDOObjectNotFoundException ex) {
+			return null;
+		} finally {
+			pm.close();
+		}
 
+	}
 
 }

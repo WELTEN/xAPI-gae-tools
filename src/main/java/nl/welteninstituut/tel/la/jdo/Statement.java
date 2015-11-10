@@ -1,16 +1,5 @@
-package nl.welteninstituut.tel.la.jdo;
-
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
-
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
-/*******************************************************************************
- * Copyright (C) 2013 Open Universiteit Nederland
+/*
+ * Copyright (C) 2015 Open Universiteit Nederland
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -24,10 +13,20 @@ import javax.jdo.annotations.PrimaryKey;
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Contributors: Stefaan Ternier
- ******************************************************************************/
+ */
+package nl.welteninstituut.tel.la.jdo;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+import com.google.appengine.api.datastore.Text;
+
+/**
+ * @author Stefaan Ternier
+ * 
+ */
 @PersistenceCapable
 public class Statement {
 

@@ -1,42 +1,29 @@
-package nl.welteninstituut.tel.la.export;
-
-import nl.welteninstituut.tel.la.Configuration;
-import nl.welteninstituut.tel.la.export.tasks.BigQueryExportTask;
-import nl.welteninstituut.tel.la.rest.BigQuery;
-import nl.welteninstituut.tel.la.tasks.GenericBean;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
-
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-/**
- * ****************************************************************************
- * Copyright (C) 2013 Open Universiteit Nederland
- * <p/>
+/*
+ * Copyright (C) 2015 Open Universiteit Nederland
+ *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p/>
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * <p/>
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
- * <p/>
- * Contributors: Stefaan Ternier
- * ****************************************************************************
+ */
+package nl.welteninstituut.tel.la.export;
+
+import nl.welteninstituut.tel.la.export.tasks.BigQueryExportTask;
+
+/**
+ * @author Stefaan Ternier
+ * 
  */
 public class BigQueryExport extends Export {
-    private static final Logger log = Logger.getLogger(BigQueryExport.class.getName());
+    //private static final Logger log = Logger.getLogger(BigQueryExport.class.getName());
 
 
     @Override

@@ -16,20 +16,15 @@
  */
 package nl.welteninstituut.tel.la.importers.fitbit;
 
-import java.util.List;
-
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-
 import nl.welteninstituut.tel.la.importers.Importer;
-import nl.welteninstituut.tel.la.jdomanager.PMF;
 import nl.welteninstituut.tel.oauth.jdo.AccountJDO;
 import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccount;
 import nl.welteninstituut.tel.oauth.jdo.OauthServiceAccountManager;
 
-import org.joda.time.DateTime;
-
 /**
+ * The FitbitImport imports heartrate and stepcount data for all registered Fitbit
+ * users. The actual import is done per user in a scheduled task.
+ * 
  * @author Stefaan Ternier
  * @author Harrie Martens
  *
@@ -38,30 +33,10 @@ public class FitbitImport extends Importer {
 
 	@Override
 	public void startImport() {
-		System.out.println("FITBIT importer");
+		for (OauthServiceAccount account : OauthServiceAccountManager.getAccountsForService(AccountJDO.FITBITCLIENT)) {
 
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Query q = pm.newQuery(OauthServiceAccount.class);
-		q.setFilter("serviceId == serviceIdParam");
-		q.declareParameters("Integer serviceIdParam");
-
-		try {
-			@SuppressWarnings("unchecked")
-			List<OauthServiceAccount> result = (List<OauthServiceAccount>) q.execute(AccountJDO.FITBITCLIENT);
-
-			for (OauthServiceAccount account : result) {
-				
-				// TODO remove reset of lastSynced
-				// reset lastSynced so fitbit connection can be tested.
-				account.setLastSynced(new DateTime("2015-10-30T08:08").toDate());
-				OauthServiceAccountManager.updateOauthServiceAccount(account);
-				// TODO remove till here
-				
-				// create a fitbit task per user
-				FitbitTask.scheduleTask(new FitbitTask(account.getAccountId()));
-			}
-		} finally {
-			pm.close();
+			// create a fitbit task per user
+			FitbitTask.scheduleTask(new FitbitTask(account.getAccountId()));
 		}
 
 	}

@@ -17,7 +17,6 @@
 package nl.welteninstituut.tel.oauth;
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -47,13 +46,6 @@ public class OauthServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("doPost for user " + req.getUserPrincipal());
-		@SuppressWarnings("unchecked")
-		Enumeration<String> names = req.getSession().getAttributeNames();
-		while (names.hasMoreElements()) {
-			System.out.println("name " + names.nextElement());
-		}
-		
 		String baseUrl = "http://" + req.getServerName();
 		if (req.getServerPort() != 80)
 			baseUrl += ":" + req.getServerPort();
@@ -96,6 +88,7 @@ public class OauthServlet extends HttpServlet {
 			worker.setBaseUrl(baseUrl);
 			worker.setCode(req.getParameter("code"));
 			worker.setResponse(resp);
+			worker.setRequest(req);
 			worker.exchangeCodeForAccessToken();
 		}
 	}

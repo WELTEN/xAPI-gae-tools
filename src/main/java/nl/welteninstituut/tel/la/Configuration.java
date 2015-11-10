@@ -41,7 +41,10 @@ public class Configuration {
     public static final String METAACCOUNT = "metaAccount";
     public static final String SECONDARY_ACCOUNT = "secondaryAccounts";
     public static final String AUTHORIZATION = "authorization";
-    public static final String FITBIT_STARTDATE = "import.fitbit.startdate";
+    public static final String STARTDATE = "import.startdate";
+    public static final String START_TIME = "import.starttime";
+    public static final String END_TIME = "import.endtime";
+    public static final String WORKING_DAYS = "import.workingdays";
 
     static {
         InputStream is = Configuration.class.getClassLoader().getResourceAsStream("./META-INF/configuration.properties");
@@ -59,12 +62,21 @@ public class Configuration {
         }
     }
 
-    public static String get(String property) {
-        return props.getProperty(serviceAccountName + "." + property);
+    public static String get(String key) {
+        return props.getProperty(serviceAccountName + "." + key);
     }
 
-    public static int getInt(String property) {
-        return Integer.parseInt(get(property));
+    public static int getInt(String key) {
+        return Integer.parseInt(get(key));
+    }
+    
+    public static boolean getAsBoolean(final String key) {
+    	return Boolean.parseBoolean(get(key));
+    }
+    
+    public static boolean getAsBoolean(final String key, final boolean defaultValue) {
+    	String value = get(key);
+    	return value != null ?  Boolean.parseBoolean(value) : defaultValue;
     }
 
     public static boolean listContains(String property, int value) {

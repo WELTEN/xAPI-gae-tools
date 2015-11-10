@@ -54,6 +54,9 @@ public class OauthServiceAccount {
 	
 	@Persistent
 	private Date lastSynced;
+	
+	@Persistent
+	private String primaryAccount;
 
 	public String getKey() {
 		return key.getName();
@@ -102,6 +105,14 @@ public class OauthServiceAccount {
 	
 	public void setLastSynced(final Date lastSynced) {
 		this.lastSynced = lastSynced;
+	}
+
+	public String getPrimaryAccount() {
+		return primaryAccount;
+	}
+
+	public void setPrimaryAccount(String primaryAccount) {
+		this.primaryAccount = primaryAccount;
 	}
 
 }

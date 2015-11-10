@@ -13,3 +13,5 @@ module_xapi-gae-tools.xml
 xapi-gae-tools.properties
 xapi-gae-tools.xml
 /.settings/
+src/main/resources/META-INF/configuration.properties
+src/main/webapp/WEB-INF/appengine-web.xml
