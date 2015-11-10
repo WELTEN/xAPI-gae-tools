@@ -158,7 +158,7 @@ public class BigQuerySyncTask extends GenericBean {
             String courseId = "todo";
             Long result = 0l;
             if (jsonObject.has("result")) {
-                JSONObject resultObject = actorObject.getJSONObject("result");
+                JSONObject resultObject = jsonObject.getJSONObject("result");
                 if (resultObject.has("response")) {
                     result = Long.parseLong(resultObject.getString("response"));
                 }
