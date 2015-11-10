@@ -189,7 +189,7 @@ public class FitbitTask extends ImportTask {
 					DateTime logDate = new DateTime(fitbitDate + "T" + datapoint.getString("time"));
 
 					if (isTimeAllowed(logDate)) {
-						StatementManager.addStatementAsync(
+						StatementManager.addStatement(
 								String.format(xapiTemplate, logDate.toString(), datapoint.getInt("value")), "fitbit");
 					} 
 				}

@@ -8,6 +8,7 @@ import nl.welteninstituut.tel.la.Configuration;
 import nl.welteninstituut.tel.la.bigquery.InsertAPI;
 import nl.welteninstituut.tel.la.jdo.Statement;
 import nl.welteninstituut.tel.la.jdomanager.StatementManager;
+import nl.welteninstituut.tel.util.StringPool;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -143,7 +144,13 @@ public class BigQuerySyncTask extends GenericBean {
                 }
             }
             String actorType = actorObject.getString("objectType");
-            String actorId = actorObject.getJSONObject("account").getString("name");
+            String actorId = StringPool.BLANK;
+            if (actorObject.has("account")) {
+                 actorId = actorObject.getJSONObject("account").getString("name");
+            } else {
+                actorId = actorObject.getString("mbox");
+            }
+
             String verbId = jsonObject.getJSONObject("verb").getString("id");
             String objectType = jsonObject.getJSONObject("object").getString("objectType");
             String objectId = jsonObject.getJSONObject("object").getString("id");

@@ -116,7 +116,7 @@ public class RescueTimeTask extends ImportTask {
 							if (isTimeAllowed(row.getDate())) {
 								String xapi = String.format(XAPI_RESCUETIME_FORMAT, row.getDate(), mbox,
 										row.getActivity(), row.getTimeSpent());
-								StatementManager.addStatementAsync(xapi, "rescuetime");
+								StatementManager.addStatement(xapi, "rescuetime");
 							}
 						}
 					}
