@@ -1,24 +1,15 @@
 package nl.welteninstituut.tel.la.rest;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.tools.mapreduce.*;
-import com.google.appengine.tools.mapreduce.inputs.DatastoreInput;
-import com.google.appengine.tools.mapreduce.outputs.DatastoreOutput;
-import com.google.appengine.tools.mapreduce.outputs.InMemoryOutput;
+import java.io.IOException;
+import java.io.Serializable;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.List;
-import com.google.appengine.api.datastore.Text;
+
 import nl.welteninstituut.tel.la.Configuration;
-import nl.welteninstituut.tel.la.mapreduce.CalendarActivitiesJob;
 import nl.welteninstituut.tel.la.mapreduce.DeleteStatementsJob;
 import nl.welteninstituut.tel.la.mapreduce.ResetBigquerySyncJob;
 
@@ -28,8 +19,9 @@ import nl.welteninstituut.tel.la.mapreduce.ResetBigquerySyncJob;
 @Path("/mapreduce")
 public class MapReduce implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 
-    @GET
+	@GET
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/init")
     public String init() throws IOException {
@@ -53,7 +45,7 @@ public class MapReduce implements Serializable {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/computeCalendarActivities")
     public String calendarActivities(@PathParam("state") int state) throws IOException {
-        new CalendarActivitiesJob().start();
+        //new CalendarActivitiesJob().start();
         return "{'ok':'true'}";
     }
 
