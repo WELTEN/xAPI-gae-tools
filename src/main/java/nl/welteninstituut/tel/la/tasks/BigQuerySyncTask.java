@@ -100,7 +100,7 @@ public class BigQuerySyncTask extends GenericBean {
                 try {
                     TableDataInsertAllRequest.Rows rows = new TableDataInsertAllRequest.Rows();
                     rows.setInsertId(entity.getKey().getName());
-                    rows.setJson(xAPItoRow(((Text) entity.getProperty("statementPayload")).getValue(), entity.getKey().getName()));
+                    rows.setJson(xAPItoRow(((Text) entity.getProperty("statementPayload")).getValue(), entity.getKey().getName(), (String) entity.getProperty("origin")));
                     rowList.add(rows);
                     entity.setProperty(StatementManager.BIGQUERYSYNCSTATE, Statement.SYNCED);
                 } catch (Exception e) {
@@ -129,7 +129,7 @@ public class BigQuerySyncTask extends GenericBean {
 
 
 
-    public TableRow xAPItoRow(String postData, String id) {
+    public TableRow xAPItoRow(String postData, String id, String origin) {
         try {
             JSONObject jsonObject = new JSONObject(postData);
 
@@ -156,6 +156,13 @@ public class BigQuerySyncTask extends GenericBean {
             String objectId = jsonObject.getJSONObject("object").getString("id");
             String objectDefinition = "";
             String courseId = "todo";
+            Long result = 0l;
+            if (jsonObject.has("result")) {
+                JSONObject resultObject = actorObject.getJSONObject("result");
+                if (resultObject.has("response")) {
+                    result = Long.parseLong(resultObject.getString("response"));
+                }
+            }
             Double lat = -1d;
             Double lng = -1d;
             if (jsonObject.has("context")) {
@@ -204,7 +211,7 @@ public class BigQuerySyncTask extends GenericBean {
                 e.printStackTrace();
             }
 
-            return createTableRow(id, timestampLong, actorType, actorId, verbId, objectType, objectId, objectDefinition, lat, lng, courseId);
+            return createTableRow(id, timestampLong, actorType, actorId, verbId, objectType, objectId, objectDefinition, lat, lng, courseId, origin, result);
         } catch (JSONException e) {
             log.log(Level.SEVERE, e.getMessage(), e);
             e.printStackTrace();
@@ -219,7 +226,7 @@ public class BigQuerySyncTask extends GenericBean {
         return null;
     }
 
-    public TableRow createTableRow(String id, long timestamp, String actorType, String actorId, String verbId, String objectType, String objectId, String objectDefinition, Double lat, Double lng, String courseId) throws IOException {
+    public TableRow createTableRow(String id, long timestamp, String actorType, String actorId, String verbId, String objectType, String objectId, String objectDefinition, Double lat, Double lng, String courseId, String origin, Long result) throws IOException {
         TableRow row = new TableRow();
         row.set("activityId", id);
 
@@ -233,7 +240,8 @@ public class BigQuerySyncTask extends GenericBean {
         row.set("lat", lat);
         row.set("lng", lng);
         row.set("courseId", courseId);
-
+        row.set("origin", origin);
+        row.set("result", result);
         return row;
     }
 }
