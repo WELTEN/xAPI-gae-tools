@@ -53,6 +53,7 @@ public class MapReduce implements Serializable {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/delete/{origin}")
     public String syncState(@PathParam("origin") String origin) throws IOException {
+    	System.out.println("eraseAllowed " + Configuration.get("eraseAllowed"));
         if (Configuration.get("eraseAllowed").equals("true")){
             if ("all".equals(origin)) {
                 new DeleteStatementsJob(null).start();
