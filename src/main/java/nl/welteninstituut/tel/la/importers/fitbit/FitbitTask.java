@@ -26,7 +26,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import nl.welteninstituut.tel.la.Configuration;
@@ -49,8 +48,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.apphosting.api.ApiProxy;
-
 /**
  * The FitbitTask fetches the Fitbit heart rate and step count data for the
  * specified user. A single task retrieves and processes max two hours of data
@@ -64,7 +61,7 @@ import com.google.apphosting.api.ApiProxy;
 public class FitbitTask extends ImportTask {
 
 	private static final long serialVersionUID = 2L;
-	private static final Logger log = Logger.getLogger(FitbitTask.class.getName());
+	private static final Logger LOG = Logger.getLogger(FitbitTask.class.getName());
 
 	private String accountId;
 	private DateTime start;
@@ -85,43 +82,43 @@ public class FitbitTask extends ImportTask {
 
 	@Override
 	public void run() {
-		OauthServiceAccount account = getAccount(AccountJDO.FITBITCLIENT, accountId);
-		if (account != null) {
+		try {
+			OauthServiceAccount account = getAccount(AccountJDO.FITBITCLIENT, accountId);
+			if (account != null) {
 
-			if (start == null) {
+				if (start == null) {
 
-				if (account.getLastSynced() == null) {
-					String startDate = Configuration.get(Configuration.STARTDATE);
-					if (startDate != null) {
-						start = new DateTime(startDate + "T00:00");
+					if (account.getLastSynced() == null) {
+						String startDate = Configuration.get(Configuration.STARTDATE);
+						if (startDate != null) {
+							start = new DateTime(startDate + "T00:00");
+						} else {
+							LOG.severe(Configuration.STARTDATE + " is missing from configuration");
+						}
 					} else {
-						log.severe(Configuration.STARTDATE + " is missing from configuration");
+						start = new DateTime(account.getLastSynced()).withSecondOfMinute(0).withMillisOfSecond(0)
+								.plusMinutes(1);
 					}
-				} else {
-					start = new DateTime(account.getLastSynced()).withSecondOfMinute(0).withMillisOfSecond(0)
-							.plusMinutes(1);
-				}
-			}
-
-			if (deviceLastSynced == null) {
-				deviceLastSynced = getDeviceLastSynced(account);
-			}
-
-			if (start != null && deviceLastSynced != null && start.isBefore(deviceLastSynced)) {
-
-				DateTime end = start.plusHours(4);
-				if (end.isAfter(deviceLastSynced)) {
-					end = new DateTime(deviceLastSynced).withSecondOfMinute(0).withMillisOfSecond(0).plusMinutes(1);
 				}
 
-				// check if the period spans to next day
-				if (end.getDayOfMonth() != start.getDayOfMonth()) {
-					// if so reset to start of day because heart rate can only
-					// be retrieved for a single calendar day
-					end = end.withTimeAtStartOfDay();
+				if (deviceLastSynced == null) {
+					deviceLastSynced = getDeviceLastSynced(account);
 				}
 
-				try {
+				if (start != null && deviceLastSynced != null && start.isBefore(deviceLastSynced)) {
+
+					DateTime end = start.plusHours(4);
+					if (end.isAfter(deviceLastSynced)) {
+						end = new DateTime(deviceLastSynced).withSecondOfMinute(0).withMillisOfSecond(0).plusMinutes(1);
+					}
+
+					// check if the period spans to next day
+					if (end.getDayOfMonth() != start.getDayOfMonth()) {
+						// if so reset to start of day because heart rate can
+						// only
+						// be retrieved for a single calendar day
+						end = end.withTimeAtStartOfDay();
+					}
 
 					System.out.println("processing from " + start + " to " + end);
 
@@ -162,19 +159,17 @@ public class FitbitTask extends ImportTask {
 					account.setLastSynced(end.toDate());
 					OauthServiceAccountManager.updateOauthServiceAccount(account);
 
-					System.out.println("remaining: " + ApiProxy.getCurrentEnvironment().getRemainingMillis());
-
 					// Daisy chain task for next period
 					if (end.isBefore(deviceLastSynced)) {
 						ImportTask.scheduleTask(new FitbitTask(accountId, end, deviceLastSynced));
 					}
-				} catch (JSONException | IOException ex) {
-					log.log(Level.SEVERE, "task aborted", ex);
 				}
-			}
 
-		} else {
-			log.severe("no fitbit service account found for " + accountId);
+			} else {
+				LOG.severe("no fitbit service account found for " + accountId);
+			}
+		} catch (JSONException | IOException e) {
+			LOG.severe("aborting fitbit import for " + accountId + " reason: " + e.getMessage());
 		}
 
 	}
@@ -192,41 +187,38 @@ public class FitbitTask extends ImportTask {
 					JSONObject datapoint = dataset.getJSONObject(i);
 
 					DateTime logDate = new DateTime(fitbitDate + "T" + datapoint.getString("time"));
-					
+
 					if (isTimeAllowed(logDate)) {
 						StatementManager.addStatementAsync(
 								String.format(xapiTemplate, logDate.toString(), datapoint.getInt("value")), "fitbit");
-					}
+					} 
 				}
 			}
 		}
 	}
 
-	private DateTime getDeviceLastSynced(final OauthServiceAccount account) {
+	private DateTime getDeviceLastSynced(final OauthServiceAccount account) throws JSONException,
+			MalformedURLException, IOException {
 		DateTime result = null;
 
 		JSONArray devices;
-		try {
-			devices = new JSONArray(readURL(new URL("https://api.fitbit.com/1/user/-/devices.json"), account));
-			JSONObject device = null;
-			if (devices.length() == 1) {
-				device = devices.getJSONObject(0);
-			} else {
-				for (int i = 0; i < devices.length(); i++) {
-					if ("Charge HR".equals(devices.getJSONObject(i).getString("deviceVersion"))) {
-						device = devices.getJSONObject(i);
-						break;
-					}
+		devices = new JSONArray(readURL(new URL("https://api.fitbit.com/1/user/-/devices.json"), account));
+		JSONObject device = null;
+		if (devices.length() == 1) {
+			device = devices.getJSONObject(0);
+		} else {
+			for (int i = 0; i < devices.length(); i++) {
+				if ("Charge HR".equals(devices.getJSONObject(i).getString("deviceVersion"))) {
+					device = devices.getJSONObject(i);
+					break;
 				}
 			}
+		}
 
-			if (device == null) {
-				log.severe("No Fitbit device found for user");
-			} else {
-				result = new DateTime(device.getString("lastSyncTime"));
-			}
-		} catch (JSONException | IOException e) {
-			log.log(Level.SEVERE, "Error fetching sync date for fitbit device", e);
+		if (device == null) {
+			LOG.severe("No Fitbit device found for user");
+		} else {
+			result = new DateTime(device.getString("lastSyncTime"));
 		}
 
 		System.out.println("device last synced @ " + result);
@@ -272,7 +264,7 @@ public class FitbitTask extends ImportTask {
 		return new URL(sb.toString());
 	}
 
-	private String readURL(final URL url, final OauthServiceAccount account) throws IOException {
+	private String readURL(final URL url, final OauthServiceAccount account) throws IOException, JSONException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		// InputStream is = url.openStream();
 
@@ -306,7 +298,7 @@ public class FitbitTask extends ImportTask {
 		return new String(baos.toByteArray());
 	}
 
-	private void exchangeCodeForAccessToken(final OauthServiceAccount account) {
+	private void exchangeCodeForAccessToken(final OauthServiceAccount account) throws JSONException {
 		OauthConfigurationJDO jdo = OauthKeyManager.getConfigurationObject(account.getServiceId());
 		String client_id = jdo.getClient_id();
 		String client_secret = jdo.getClient_secret();
@@ -314,18 +306,18 @@ public class FitbitTask extends ImportTask {
 		String result = postUrl("https://api.fitbit.com/oauth2/token", "grant_type=refresh_token&refresh_token="
 				+ account.getRefreshToken(), client_id + ":" + client_secret);
 
-		try {
-			JSONObject resultJson = new JSONObject(result);
-
+		JSONObject resultJson = new JSONObject(result);
+		if (!resultJson.has("errors")) {
 			String accessToken = resultJson.getString("access_token");
 			String refreshToken = resultJson.getString("refresh_token");
 
 			account.setAccessToken(accessToken);
 			account.setRefreshToken(refreshToken);
 			OauthServiceAccountManager.updateOauthServiceAccount(account);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		} else {
+			JSONArray errors = resultJson.getJSONArray("errors");
+			throw new JSONException(errors.getJSONObject(0).getString("message"));
 		}
 	}
 
