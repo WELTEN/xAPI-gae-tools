@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import com.google.appengine.api.datastore.Text;
+import nl.welteninstituut.tel.la.Configuration;
+import nl.welteninstituut.tel.la.mapreduce.CalendarActivitiesJob;
 import nl.welteninstituut.tel.la.mapreduce.DeleteStatementsJob;
 import nl.welteninstituut.tel.la.mapreduce.ResetBigquerySyncJob;
 
@@ -47,14 +49,32 @@ public class MapReduce implements Serializable {
         return "{'ok':'true'}";
     }
 
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/computeCalendarActivities")
+    public String calendarActivities(@PathParam("state") int state) throws IOException {
+        new CalendarActivitiesJob().start();
+        return "{'ok':'true'}";
+    }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/delete/{origin}")
     public String syncState(@PathParam("origin") String origin) throws IOException {
-        new DeleteStatementsJob(origin).start();
-        return "{'ok':'true'}";
+        if (Configuration.get("eraseAllowed").equals("true")){
+            if ("all".equals(origin)) {
+                new DeleteStatementsJob(null).start();
+            } else{
+                new DeleteStatementsJob(origin).start();
+            }
+            return "{'ok':'true'}";
+        } else {
+            return "{'ok':'false','comment':'erase not allowed'}";
+        }
+
     }
+
+
 
 }
 

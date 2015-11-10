@@ -46,40 +46,9 @@ import java.util.logging.Logger;
 @Path("/xAPI")
 public class Submit {
 
-    static final Export[] exports = Export.getExports();
+//    static final Export[] exports = Export.getExports();
     private static final Logger log = Logger.getLogger(Submit.class.getName());
 
-
-    @POST
-    @Consumes({MediaType.APPLICATION_JSON })
-    @Path("/statement_test")
-    public String testAddStatement(String postData, @HeaderParam("Authorization") String authorization) {
-        String identifier = null;
-        boolean syncSucceed = false;
-        for (Export exporter: exports) {
-            if (exporter.synchronous()) {
-                try {
-                    identifier = exporter.exportMetadata(authorization,postData);
-                    syncSucceed = true;
-                } catch (ExportException e) {
-                    long proxyId = StatementManager.addStatementWithError(postData, authorization, e.getResult());
-                    return "{\"result\":\"not ok\", \"proxyId\":"+proxyId+"}";
-                }
-            }
-        }
-        if (syncSucceed)
-            for (Export exporter: exports) {
-                if (!exporter.synchronous()) {
-                    try {
-                        exporter.exportMetadata(authorization,postData,identifier);
-                    } catch (ExportException e) {
-                        log.log(Level.SEVERE, e.getMessage(), e);
-                    }
-                }
-            }
-        long proxyId = StatementManager.addStatement(postData, authorization, identifier);
-        return "{\"result\":\"ok\", \"proxyId\":"+proxyId+", \"learningLockerResult\":[\""+identifier+"\"]}";
-    }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON })
@@ -87,25 +56,26 @@ public class Submit {
     public String postStatement(String postData,
                                 @PathParam("origin") String origin,
                                 @HeaderParam("Authorization") String authorization) {
-        if (!authorization.equals(Configuration.get(Configuration.AUTHORIZATION)))
+        if (!authorization.equals(Configuration.get(Configuration.AUTHORIZATION+"."+origin))) {
             return "{\"result\":\"not ok\", \"error\":\"Authorization error\"}";
-        long proxyId = StatementManager.addStatement(postData, origin);
-        return "{\"result\":\"ok\", \"proxyId\":"+proxyId+"}";
-    }
-
-    @POST
-    @Consumes({MediaType.APPLICATION_JSON })
-    @Path("/statement_async/origin/{origin}")
-    public String postStatementAsync(String postData,
-                                     @PathParam("origin") String origin,
-                                     @HeaderParam("Authorization") String authorization) {
-        StatementManager.addStatementAsync(postData, origin);
-        return "{\"result\":\"ok\"}";
+        }
+        String proxyId = StatementManager.addStatement(postData, origin);
+        return "{\"result\":\"ok\", \"id\":\""+proxyId+"\"}";
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON })
     @Path("/statements")
+    public String postStatement(String postData
+                                ) {
+        String proxyId = StatementManager.addStatement(postData, "old");
+        return "{\"result\":\"ok\", \"id\":\""+proxyId+"\"}";
+    }
+
+    //    @POST
+//    @Consumes({MediaType.APPLICATION_JSON })
+//    @Path("/statements")
+    @Deprecated
     public String postStatements(String postData, @HeaderParam("Authorization") String authorization) {
         try {
 
@@ -134,7 +104,8 @@ public class Submit {
                     result += line;
                 }
                 String laId = getLearningLockerId(result);
-                long proxyId = StatementManager.addStatement(postData, authorization, laId);
+//                long proxyId = StatementManager.addStatement(postData, authorization, laId);
+                long proxyId =0l;
                 reader.close();
                 connection.disconnect();
 

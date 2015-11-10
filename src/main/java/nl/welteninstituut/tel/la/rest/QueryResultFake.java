@@ -1,8 +1,16 @@
 package nl.welteninstituut.tel.la.rest;
 
+import nl.welteninstituut.tel.la.Configuration;
+import nl.welteninstituut.tel.la.jdomanager.StatementManager;
+import org.codehaus.jettison.json.JSONObject;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * ****************************************************************************
@@ -26,6 +34,66 @@ import java.io.IOException;
  */
 @Path("/query/result-fake")
 public class QueryResultFake {
+
+//    @GET
+//    @Produces({MediaType.APPLICATION_JSON })
+//    @Path("/allStatements/{token}")
+//    public String getAllStatements(@PathParam("token") String token) throws IOException {
+//        if ("".equals(token) || "null".equals(token)) token = null;
+//        return StatementManager.getStatements(token);
+//    }
+//
+//    @GET
+//    @Produces({MediaType.APPLICATION_JSON })
+//    @Path("/replicateStatements")
+//    public void replicate(@HeaderParam("Authorization") String token) throws IOException {
+//        String newCursor = null;
+//        try {
+//            URL url = new URL("http://xapi-proxy-dev.appspot.com/data-proxy/query/result-fake/allStatements/"+token);
+//            System.out.println(url);
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            connection.setDoOutput(true);
+//            connection.setConnectTimeout(20000);
+//            connection.setReadTimeout(20000);
+//            connection.setRequestMethod("GET");
+//            connection.setRequestProperty("X-Experience-API-Version", "1.0.0");
+//            connection.setRequestProperty("Content-Type", "application/json");
+//
+//            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//                String result = "";
+//                String line = null;
+//
+//                while ((line = reader.readLine()) != null) {
+//                    result += line;
+//                }
+//
+//                JSONObject jsonall = new JSONObject(result);
+//                if (!jsonall.has("array")) return;
+//                for (int i = 0; i<jsonall.getJSONArray("array").length();i++){
+//                    JSONObject object = jsonall.getJSONArray("array").getJSONObject(i);
+//
+//                    String uuid = object.getString("uuid");
+//                    String payload = object.getString("payload");
+//                    String origin = object.getString("origin");
+//                    long lastmodificationDate = object.getLong("lastmodificationDate");
+//                    System.out.println(uuid );
+//                    StatementManager.addStatement(payload, origin, lastmodificationDate, uuid);
+//                }
+//                System.out.println();
+//                long proxyId = 0l;
+//                reader.close();
+//                connection.disconnect();
+//                if (jsonall.getJSONArray("array").length() != 0) {
+//                    replicate(jsonall.getString("cursor"));
+//                }
+//            } else {
+//                System.out.println(connection.getResponseCode()+" "+connection.getResponseMessage());
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON })

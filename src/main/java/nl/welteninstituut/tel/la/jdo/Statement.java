@@ -35,8 +35,6 @@ public class Statement {
     public static int ERROR = 1;
     public static int SYNCED = 2;
 
-    public static String STATEMENT = "Statement";
-    public static String SYNCHRONISATIONSTATE = "syncronisationState";
 
 
 

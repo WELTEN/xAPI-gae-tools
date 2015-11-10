@@ -34,7 +34,7 @@ public class DeleteStatementsJob extends Job {
     }
 
     public void start() {
-        String id = MapJob.start(getMapCreationJobSpec(5), new MapSettings.Builder(getSettings()).build());
+        String id = MapJob.start(getMapCreationJobSpec(50), new MapSettings.Builder(getSettings()).build());
     }
 
 
@@ -43,7 +43,10 @@ public class DeleteStatementsJob extends Job {
                 new Query.FilterPredicate("origin",
                         Query.FilterOperator.EQUAL,
                         origin);
-        Query q = new Query("Statement").setFilter(propertyFilter);
+        Query q = new Query("Statement");
+        if (origin != null){
+            q = q.setFilter(propertyFilter);
+        }
         DatastoreKeyInput input = new DatastoreKeyInput(q, mapShardCount);
         DeleteEntityMapper mapper = new DeleteEntityMapper();
         return new MapSpecification.Builder<Key, Void, Void>(input, mapper)

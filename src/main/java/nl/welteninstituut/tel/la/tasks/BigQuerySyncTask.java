@@ -1,11 +1,13 @@
 package nl.welteninstituut.tel.la.tasks;
 
 import com.google.api.services.bigquery.model.TableDataInsertAllRequest;
+import com.google.api.services.bigquery.model.TableDataInsertAllResponse;
 import com.google.api.services.bigquery.model.TableRow;
 import com.google.appengine.api.datastore.*;
 import nl.welteninstituut.tel.la.Configuration;
 import nl.welteninstituut.tel.la.bigquery.InsertAPI;
 import nl.welteninstituut.tel.la.jdo.Statement;
+import nl.welteninstituut.tel.la.jdomanager.StatementManager;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -72,22 +74,20 @@ public class BigQuerySyncTask extends GenericBean {
         ReadPolicy policy = new ReadPolicy(ReadPolicy.Consistency.STRONG);
         DatastoreServiceConfig datastoreConfig = DatastoreServiceConfig.Builder.withReadPolicy(policy);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService(datastoreConfig);
-        int pageSize = 3;
+        int pageSize = 20;
         FetchOptions fetchOptions = FetchOptions.Builder.withLimit(pageSize);
-        System.out.println("cursor " + startCursor);
         if (startCursor != null) {
             fetchOptions.startCursor(Cursor.fromWebSafeString(startCursor));
         }
 
-        Query q = new Query(Statement.STATEMENT)
-                .setFilter(new Query.FilterPredicate(Statement.SYNCHRONISATIONSTATE,
+        Query q = new Query(StatementManager.STATEMENT)
+                .setFilter(new Query.FilterPredicate(StatementManager.BIGQUERYSYNCSTATE,
                         Query.FilterOperator.EQUAL,
                         Statement.UNSYNCED));
 
         PreparedQuery pq = datastore.prepare(q);
 
         QueryResultList<Entity> results = pq.asQueryResultList(fetchOptions);
-        System.out.println("results " + results.size());
         if (results.isEmpty()) return;
 
         List rowList =
@@ -101,14 +101,14 @@ public class BigQuerySyncTask extends GenericBean {
                     rows.setInsertId(entity.getKey().getName());
                     rows.setJson(xAPItoRow(((Text) entity.getProperty("statementPayload")).getValue(), entity.getKey().getName()));
                     rowList.add(rows);
-                    entity.setProperty(Statement.SYNCHRONISATIONSTATE, Statement.SYNCED);
+                    entity.setProperty(StatementManager.BIGQUERYSYNCSTATE, Statement.SYNCED);
                 } catch (Exception e) {
-                    entity.setProperty(Statement.SYNCHRONISATIONSTATE, Statement.ERROR);
+                    entity.setProperty(StatementManager.BIGQUERYSYNCSTATE, Statement.ERROR);
                 }
 
                 datastore.put(entity);
             }
-            InsertAPI.getInstance().insertRowList(rowList, Configuration.get(Configuration.BQTableId));
+            TableDataInsertAllResponse response = InsertAPI.getInstance().insertRowList(rowList, Configuration.get(Configuration.BQTableId));
             txn.commit();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -148,6 +148,7 @@ public class BigQuerySyncTask extends GenericBean {
             String objectType = jsonObject.getJSONObject("object").getString("objectType");
             String objectId = jsonObject.getJSONObject("object").getString("id");
             String objectDefinition = "";
+            String courseId = "todo";
             Double lat = -1d;
             Double lng = -1d;
             if (jsonObject.has("context")) {
@@ -175,6 +176,20 @@ public class BigQuerySyncTask extends GenericBean {
                         }
                     }
                 }
+                if (context.has("contextActivities")) {
+                    JSONObject contextActivities = context.getJSONObject("contextActivities");
+                    if (contextActivities.has("parent")) {
+                        JSONObject parent = contextActivities.getJSONArray("parent").getJSONObject(0);
+                        if (
+                                parent.has("id") &&
+                                parent.has("definition") &&
+                                parent.getJSONObject("definition").has("type") &&
+                                parent.getJSONObject("definition").getString("type").equals("http://adlnet.gov/expapi/activities/course")) {
+                            courseId = parent.getString("id");
+                        }
+
+                    }
+                }
             }
             try {
                 objectDefinition = jsonObject.getJSONObject("object").getJSONObject("definition").getString("type");
@@ -182,7 +197,7 @@ public class BigQuerySyncTask extends GenericBean {
                 e.printStackTrace();
             }
 
-            return createTableRow(id, timestampLong, actorType, actorId, verbId, objectType, objectId, objectDefinition, lat, lng, "todo");
+            return createTableRow(id, timestampLong, actorType, actorId, verbId, objectType, objectId, objectDefinition, lat, lng, courseId);
         } catch (JSONException e) {
             log.log(Level.SEVERE, e.getMessage(), e);
             e.printStackTrace();
