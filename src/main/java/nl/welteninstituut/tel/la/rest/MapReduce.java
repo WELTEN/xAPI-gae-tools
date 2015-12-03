@@ -75,7 +75,7 @@ public class MapReduce implements Serializable {
 
             }
         }
-        return longDate
+        return longDate;
     }
 
 
