@@ -1,17 +1,18 @@
 package nl.welteninstituut.tel.la.rest;
 
-import java.io.IOException;
-import java.io.Serializable;
+import nl.welteninstituut.tel.la.Configuration;
+import nl.welteninstituut.tel.la.mapreduce.*;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import nl.welteninstituut.tel.la.Configuration;
-import nl.welteninstituut.tel.la.mapreduce.DeleteStatementsJob;
-import nl.welteninstituut.tel.la.mapreduce.ResetBigquerySyncJob;
+import java.io.IOException;
+import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by str on 18/05/15.
@@ -74,7 +75,7 @@ public class MapReduce implements Serializable {
 
             }
         }
-        return longDate;
+        return longDate
     }
 
 
