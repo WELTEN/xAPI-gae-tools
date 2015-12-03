@@ -30,6 +30,10 @@ public class DeleteStatementsJob extends Job {
     private String origin;
 
     public DeleteStatementsJob(String origin) {
+        this(origin, "Statement");
+    }
+
+    public DeleteStatementsJob(String origin, String tableName) {
         this.origin = origin;
     }
 

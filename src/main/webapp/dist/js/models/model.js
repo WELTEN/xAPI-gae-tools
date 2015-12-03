@@ -18,14 +18,27 @@ window.RepresentationObject = Backbone.Model.extend({
 });
 
 window.CalendarActivity = Backbone.Model.extend({
+    initialize: function(studentId){
+        this.studentId = studentId;
+    },
     url: function(){
-        return "/data-proxy/query/result-fake/calendar/user";
+        return "/data-proxy/query/result/calendar/user/"+this.studentId+"/gdata";
+    }
+    ,
+    defaults:{
+        "studentId": ""
     }
 });
 
 window.CalendarActivityCourse = Backbone.Model.extend({
+    initialize: function(courseId){
+        this.courseId = courseId;
+    },
     url: function(){
-        return "/data-proxy/query/result-fake/calendar/course/humance";
+        return "/data-proxy/query/result/calendar/course/"+this.courseId;
+    },
+    defaults:{
+        "courseId": ""
     }
 });
 

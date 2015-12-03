@@ -30,6 +30,9 @@ public abstract class Importer {
 
     public static Importer[] getImporters(){
         System.out.println(Configuration.get(Configuration.IMPORTERS));
+        if (Configuration.get(Configuration.IMPORTERS) == null) {
+            return new Importer[0];
+        }
         List<String> classAsStrings = new ArrayList<String>(Arrays.asList(Configuration.get(Configuration.IMPORTERS).split(";")));
         Importer[] result = new Importer[classAsStrings.size()];
         int i=0;

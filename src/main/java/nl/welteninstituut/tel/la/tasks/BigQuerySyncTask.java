@@ -22,6 +22,8 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.joda.time.Duration;
+
 
 /**
  * ****************************************************************************
@@ -49,7 +51,7 @@ public class BigQuerySyncTask extends GenericBean {
     private static final Logger log = Logger.getLogger(BigQuerySyncTask.class.getName());
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
     private static DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
-    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public BigQuerySyncTask() {
 
@@ -129,13 +131,14 @@ public class BigQuerySyncTask extends GenericBean {
 
 
 
-    public TableRow xAPItoRow(String postData, String id, String origin) {
+    public TableRow xAPItoRow(String postData, String uuid, String origin) {
         try {
             JSONObject jsonObject = new JSONObject(postData);
 
             JSONObject actorObject = jsonObject.getJSONObject("actor");
             long timestampLong = 0l;
             if (jsonObject.has("timestamp")) {
+//                System.out.println("date from gae: "+jsonObject.getString("timestamp"));
                 String timestamp = jsonObject.getString("timestamp");
                 try {
                     timestampLong = df.parse(timestamp).getTime();
@@ -156,11 +159,18 @@ public class BigQuerySyncTask extends GenericBean {
             String objectId = jsonObject.getJSONObject("object").getString("id");
             String objectDefinition = "";
             String courseId = "todo";
-            Long result = 0l;
+            String resultResponse = StringPool.BLANK;
+            double resultDuration = 0l;
             if (jsonObject.has("result")) {
                 JSONObject resultObject = jsonObject.getJSONObject("result");
                 if (resultObject.has("response")) {
-                    result = Long.parseLong(resultObject.getString("response"));
+
+                    resultResponse = resultObject.getString("response");
+
+                } else if (resultObject.has("duration")) {
+
+                    resultDuration = (double )new Duration(resultObject.getString("duration")).getStandardSeconds();
+
                 }
             }
             Double lat = -1d;
@@ -211,7 +221,7 @@ public class BigQuerySyncTask extends GenericBean {
                 e.printStackTrace();
             }
 
-            return createTableRow(id, timestampLong, actorType, actorId, verbId, objectType, objectId, objectDefinition, lat, lng, courseId, origin, result);
+            return createTableRow(uuid, timestampLong, actorType, actorId, verbId, objectType, objectId, objectDefinition, lat, lng, courseId, origin, resultResponse, resultDuration);
         } catch (JSONException e) {
             log.log(Level.SEVERE, e.getMessage(), e);
             e.printStackTrace();
@@ -226,10 +236,10 @@ public class BigQuerySyncTask extends GenericBean {
         return null;
     }
 
-    public TableRow createTableRow(String id, long timestamp, String actorType, String actorId, String verbId, String objectType, String objectId, String objectDefinition, Double lat, Double lng, String courseId, String origin, Long result) throws IOException {
+    public TableRow createTableRow(String id, long timestamp, String actorType, String actorId, String verbId, String objectType, String objectId, String objectDefinition, Double lat, Double lng, String courseId, String origin, String resultResponse, double resultDuration) throws IOException {
         TableRow row = new TableRow();
         row.set("activityId", id);
-
+//        System.out.println("date to bigquery: "+format.format(timestamp));
         row.set("timestamp", format.format(timestamp));
         row.set("actorType", actorType);
         row.set("actorId", actorId);
@@ -241,7 +251,8 @@ public class BigQuerySyncTask extends GenericBean {
         row.set("lng", lng);
         row.set("courseId", courseId);
         row.set("origin", origin);
-        row.set("result", result);
+        row.set("resultResponse", resultResponse);
+        row.set("resultDuration", resultDuration);
         return row;
     }
 }

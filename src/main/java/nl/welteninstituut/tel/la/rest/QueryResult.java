@@ -2,7 +2,9 @@ package nl.welteninstituut.tel.la.rest;
 
 import nl.welteninstituut.tel.la.chartobjects.DropOutObject;
 import nl.welteninstituut.tel.la.chartobjects.LearnerAverageActivities;
+import nl.welteninstituut.tel.la.jdomanager.CourseDateToVerbManager;
 import nl.welteninstituut.tel.la.jdomanager.QueryCacheManager;
+import nl.welteninstituut.tel.la.jdomanager.UserDateToVerbManager;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -35,11 +37,27 @@ public class QueryResult extends Service {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON })
-    @Path("/calendar/user/")
-    public String getResult(@HeaderParam("Authorization") String token) throws IOException {
-        if (!validCredentials(token))
-            return getInvalidCredentialsBean();
-        return QueryCacheManager.getQueryResult("calendar_"+userId);
+    @Path("/calendar/user/{userId}")
+    public String getResult(@HeaderParam("Authorization") String token,
+                            @PathParam("userId") String userId) throws IOException {
+//        if (!validCredentials(token))
+//            return getInvalidCredentialsBean();
+//        userId = "563a25f842e5f1740c5ff68d";
+        return UserDateToVerbManager.getUserActivities(userId).toString();
+//        return QueryCacheManager.getQueryResult("calendar_"+userId);
+
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/calendar/user/{userId}/gdata")
+    public String getResultGdata(@HeaderParam("Authorization") String token,
+                            @PathParam("userId") String userId) throws IOException {
+//        if (!validCredentials(token))
+//            return getInvalidCredentialsBean();
+//        userId = "563a25f842e5f1740c5ff68d";
+        return UserDateToVerbManager.getUserActivitiesGData(userId, "all").toString();
+//        return QueryCacheManager.getQueryResult("calendar_"+userId);
 
     }
 
@@ -47,8 +65,8 @@ public class QueryResult extends Service {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/calendar/course/{courseId}")
     public String getCalendarCourse(@PathParam("courseId") String courseId) throws IOException {
-        return QueryCacheManager.getQueryResult("calendar_course_" + courseId);
-
+//        return QueryCacheManager.getQueryResult("calendar_course_" + courseId);
+        return CourseDateToVerbManager.getCourseDateGData(courseId, "all");
     }
 
     @GET

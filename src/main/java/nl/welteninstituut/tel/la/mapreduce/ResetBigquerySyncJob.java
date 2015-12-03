@@ -58,7 +58,7 @@ public class ResetBigquerySyncJob extends Job {
     private MapSpecification<Entity, Entity, Void> getMapCreationJobSpec(int bytesPerEntity, int entities,
                                                                          int shardCount) {
         MapSpecification<Entity, Entity, Void> spec = new MapSpecification.Builder<Entity, Entity, Void>(
-                new DatastoreInput("Statement", 4 ),
+                new DatastoreInput("Statement", shardCount ),
                 new MapOnlyCountMapper(),
                 new DatastoreOutput())
                 .setJobName("Update synchronisation state of entities")
@@ -74,7 +74,7 @@ public class ResetBigquerySyncJob extends Job {
 
         @Override
         public void map(Entity entity) {
-            entity.setProperty("syncronisationState", state);
+            entity.setProperty("BigQuerySyncronisationState", state);
             emit(entity);
         }
     }
