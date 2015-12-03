@@ -89,6 +89,7 @@ var AppRouter = Backbone.Router.extend({
         var _cca = this.Graphs.get("course_calendar_activities")
         if(!_cca) {
             this.CalendarActivityCourse = new CalendarActivityCourse();
+            this.CalendarActivityCourse.courseId = id;
             this.CalendarActivityCourse.fetch({
                 beforeSend: setHeader,
                 success: function (response, jsonData) {
