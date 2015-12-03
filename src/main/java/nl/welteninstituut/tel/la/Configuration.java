@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * @author Stefaan Ternier
 *
@@ -63,7 +65,7 @@ public class Configuration {
     }
 
     public static String get(String key) {
-        return props.getProperty(serviceAccountName + "." + key);
+        return StringUtils.trim(props.getProperty(serviceAccountName + "." + key));
     }
 
     public static int getInt(String key) {

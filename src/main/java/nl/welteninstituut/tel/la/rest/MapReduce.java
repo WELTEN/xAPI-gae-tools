@@ -1,18 +1,17 @@
 package nl.welteninstituut.tel.la.rest;
 
-import nl.welteninstituut.tel.la.Configuration;
-import nl.welteninstituut.tel.la.mapreduce.*;
+import java.io.IOException;
+import java.io.Serializable;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import nl.welteninstituut.tel.la.Configuration;
+import nl.welteninstituut.tel.la.mapreduce.DeleteStatementsJob;
+import nl.welteninstituut.tel.la.mapreduce.ResetBigquerySyncJob;
 
 /**
  * Created by str on 18/05/15.
