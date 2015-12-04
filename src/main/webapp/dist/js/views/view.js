@@ -198,3 +198,14 @@ window.DashBoardAdminView = Backbone.View.extend({
         return this;
     }
 });
+
+window.CourseItemView = Backbone.View.extend({
+    tagName:  "li",
+    initialize:function () {
+        this.template = _.template(tpl.get('course-item'));
+    },
+    render:function () {
+        $(this.el).html(this.template(this.model));
+        return this;
+    }
+});

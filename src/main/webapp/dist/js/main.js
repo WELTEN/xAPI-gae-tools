@@ -10,6 +10,7 @@ Backbone.View.prototype.close = function () {
 var AppRouter = Backbone.Router.extend({
     initialize: function () {
         this.Graphs = new GraphsCollection();
+        this.loadCourses();
     },
     routes: {
         "": "login",
@@ -139,6 +140,19 @@ var AppRouter = Backbone.Router.extend({
             });
         }
     },
+    loadCourses: function(){
+        var courses = new CoursesCollection();
+        courses.fetch({
+            success: function(a, b) {
+                $("ul.list-courses").html("");
+                _.each(b.courses, function(course){
+                    console.log(course)
+                    $('ul.list-courses').append(new CourseItemView({ model: course }).render().el);
+                });
+
+            }
+        });
+    },
     addRepresentationObject: function (id, data){
         var representationObject = new RepresentationObject();
         representationObject.set("content", data);
@@ -148,7 +162,8 @@ var AppRouter = Backbone.Router.extend({
 });
 
 
-tpl.loadTemplates(['main', 'user', 'user_sidebar', 'dashboard-learner', 'dashboard-teacher', 'dashboard-admin',  'widget'], function () {
+tpl.loadTemplates(['main', 'user', 'user_sidebar', 'dashboard-learner', 'dashboard-teacher', 'dashboard-admin',
+    'widget', 'course-item'], function () {
     app = new AppRouter();
     Backbone.history.start();
 });

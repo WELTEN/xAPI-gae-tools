@@ -54,6 +54,8 @@ window.DropOutMonitor = Backbone.Model.extend({
     }
 });
 
+window.Course = Backbone.Model.extend({});
+
 //////////////
 // Collections
 //////////////
@@ -74,6 +76,15 @@ window.UserRunCollection = Backbone.Collection.extend({
 
 window.GraphsCollection = Backbone.Collection.extend({
     model: RepresentationObject
+});
+
+window.CoursesCollection = Backbone.Collection.extend({
+    model: Course,
+    url: 'dist/data/courses.json',
+    parse: function (response) {
+        // Return people object which is the array from response
+        return response.courses;
+    }
 });
 
 //////////////////////////////////////////
