@@ -22,7 +22,8 @@ window.CalendarActivity = Backbone.Model.extend({
         this.studentId = studentId;
     },
     url: function(){
-        return "/data-proxy/query/result/calendar/user/"+this.studentId+"/gdata";
+        return "/data-proxy/query/result/calendar/user/gdata";
+        //return "/data-proxy/query/result/calendar/user/"+this.studentId+"/gdata";
     }
     ,
     defaults:{

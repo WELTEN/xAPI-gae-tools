@@ -16,7 +16,7 @@ var AppRouter = Backbone.Router.extend({
         "": "login",
         "oauth": "oauth", // If we managed to redirect the login callback to the route "oauth" then we can generate everything there
         "logout": "logout",
-        "mooc/:id/student/:studentId": "studentView",
+        "mooc/:id/student": "studentView",
         "mooc/:id/teacher": "teacherView",
         "mooc/:id/admin": "adminView"
     },
@@ -48,11 +48,11 @@ var AppRouter = Backbone.Router.extend({
         //
         //}
     },
-    studentView: function (id, studentId) {
+    studentView: function (id) {
         var _sca = this.Graphs.get("student_calendar_activities");
         if(!_sca) {
             this.CalendarActivity = new CalendarActivity();
-            this.CalendarActivity.initialize(studentId);
+            //this.CalendarActivity.initialize(studentId);
             this.CalendarActivity.fetch({
                 beforeSend: setHeader,
                 success: function (response, jsonData) {

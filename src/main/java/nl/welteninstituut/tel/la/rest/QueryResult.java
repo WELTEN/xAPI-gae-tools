@@ -51,7 +51,7 @@ public class QueryResult extends Service {
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/calendar/user/{userId}/gdata")
-    public String getResultGdata(@HeaderParam("Authorization") String token,
+    public String getResultGdataUserParam(@HeaderParam("Authorization") String token,
                             @PathParam("userId") String userId) throws IOException {
 //        if (!validCredentials(token))
 //            return getInvalidCredentialsBean();
@@ -59,6 +59,15 @@ public class QueryResult extends Service {
         return UserDateToVerbManager.getUserActivitiesGData(userId, "all").toString();
 //        return QueryCacheManager.getQueryResult("calendar_"+userId);
 
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/calendar/user/gdata")
+    public String getResultGdata(@HeaderParam("Authorization") String token) throws IOException {
+        if (!validCredentials(token))
+            return getInvalidCredentialsBean();
+        return UserDateToVerbManager.getUserActivitiesGData(userId, "all").toString();
     }
 
     @GET
