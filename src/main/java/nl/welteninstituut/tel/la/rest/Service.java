@@ -29,13 +29,17 @@ public class Service {
     protected String userId;
     protected int accountType;
 
+    public String getBearer(String token){
+        if (token.contains("auth="))
+        return token.substring(token.indexOf("auth=") + 5);
+        else return  token;
+    }
+
     protected boolean validCredentials(String authToken) {
         String account = UserLoggedInManager.getUser(authToken);
-        System.out.println("fetched user "+account+ " for "+authToken);
         if (account != null) {
             setFullid(account);
         }
-        System.out.println("fetched user "+userId + " "+accountType );
         return account != null;
     }
 

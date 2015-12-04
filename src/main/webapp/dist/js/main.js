@@ -143,6 +143,7 @@ var AppRouter = Backbone.Router.extend({
     loadCourses: function(){
         var courses = new CoursesCollection();
         courses.fetch({
+            beforeSend: setHeader,
             success: function(a, b) {
                 $("ul.list-courses").html("");
                 _.each(b.courses, function(course){

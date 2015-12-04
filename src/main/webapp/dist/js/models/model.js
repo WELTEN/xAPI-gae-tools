@@ -80,7 +80,8 @@ window.GraphsCollection = Backbone.Collection.extend({
 
 window.CoursesCollection = Backbone.Collection.extend({
     model: Course,
-    url: 'dist/data/courses.json',
+    url: '/data-proxy/courses',
+    //url: 'dist/data/courses.json',
     parse: function (response) {
         // Return people object which is the array from response
         return response.courses;
@@ -98,6 +99,7 @@ var setHeader = function (xhr) {
     //var s = document.cookie;
 
     var accessToken = "";
+    var type = 2;
 
     // Problem:
     // 1) someone put an access token manually it will restore the current cookie
@@ -107,13 +109,15 @@ var setHeader = function (xhr) {
         var aux = location.href.split("accessToken=")[1];
         accessToken = aux.split("&")[0];
         //console.log(location.href, aux, accessToken);
+        aux = location.href.split("type=")[1];
+        type = aux.split("&")[0];
 
         var date = new Date();
         date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
         var expires = "; expires=" + date.toGMTString();
 
         $.cookie("arlearn.AccessToken", accessToken, {expires: date, path: "/"});
-        $.cookie("arlearn.OauthType", 2, {expires: date, path: "/"});
+        $.cookie("arlearn.OauthType", type, {expires: date, path: "/"});
 
         document.location = "/";
     }
