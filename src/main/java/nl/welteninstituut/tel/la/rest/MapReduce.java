@@ -45,7 +45,7 @@ public class MapReduce implements Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/computeCalendarActivities")
     public String calendarActivities(@PathParam("state") int state) throws IOException {
-        new CalendarActivitiesJob().start();
+        new CalendarActivitiesJob(0).start();
         return "{'ok':'true'}";
     }
 

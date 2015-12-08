@@ -18,7 +18,8 @@ var AppRouter = Backbone.Router.extend({
         "logout": "logout",
         "mooc/:id/student": "studentView",
         "mooc/:id/teacher": "teacherView",
-        "mooc/:id/admin": "adminView"
+        "mooc/:id/admin": "adminView",
+        "sandbox/:id": "sandbox"
     },
     logout: function () {
         $.cookie("arlearn.AccessToken", null, {path: '/'});
