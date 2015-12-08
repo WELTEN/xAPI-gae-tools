@@ -158,12 +158,12 @@ public class BigQuery {
     }
 
     public void queryCourse(String courseId) {
-        String query = "SELECT timestamp FROM [" + Configuration.get(Configuration.BQDataSet) + "." + Configuration.get(Configuration.BQTableId) + "] where objectId contains  '" + courseId + "'";
+        String query = "SELECT timestamp FROM [" + Configuration.get(Configuration.BQDataSet) + "." + Configuration.get(Configuration.BQTableId) + "] where courseId =  '" + courseId + "'";
         new CourseQueryTask(QueryAPI.getInstance().createQueryJob(query), courseId).scheduleTask();
     }
 
     public void averageActivityPerLearner(String courseId) {
-        String query = "SELECT actorId, count(*)  FROM [" + Configuration.get(Configuration.BQDataSet) + "." + Configuration.get(Configuration.BQTableId) + "] where objectId contains  '" + courseId + "' group by actorId";
+        String query = "SELECT actorId, count(*)  FROM [" + Configuration.get(Configuration.BQDataSet) + "." + Configuration.get(Configuration.BQTableId) + "] where courseId =  '" + courseId + "' group by actorId";
         new ActivityPerLearnerQueryTask(QueryAPI.getInstance().createQueryJob(query), courseId).scheduleTask();
     }
 
@@ -173,7 +173,7 @@ public class BigQuery {
     }
 
     public void courseActivitiesOverview(String courseId){
-        String query = "SELECT verbId, count(*) as count  FROM "+getTable()+"  where objectId contains \""+courseId+"\" group by verbId";
+        String query = "SELECT verbId, count(*) as count  FROM "+getTable()+"  where courseId = \""+courseId+"\" group by verbId";
         new CourseActivitiesOverviewQueryTask(QueryAPI.getInstance().createQueryJob(query), courseId).scheduleTask();
     }
 

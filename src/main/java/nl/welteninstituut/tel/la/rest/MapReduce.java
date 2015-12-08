@@ -124,6 +124,40 @@ public class MapReduce implements Serializable {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
+    @Path("/computeCourseUserDateToObject")
+    public String computeCourseUserDateToObject(@PathParam("state") int state) throws IOException {
+        new CourseUserDateToObjectJob(0).start();
+        return "{'ok':'true'}";
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/computeCourseUserDateToObject/{date}")
+    public String computeCourseUserDateToObjectSince(@PathParam("date") String date) throws IOException {
+        long longDate = parseDate(date);
+        if (longDate != 0) {
+            new CourseUserDateToObjectJob(longDate).start();
+            return "{'ok':'true'}";
+        } else {
+            return "{'ok':'false', 'error':'could not parse" + date + "'}";
+        }
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/computeCourseUserDateToObjectDefinition/{date}")
+    public String computeCourseUserDateToObjectDefinitionSince(@PathParam("date") String date) throws IOException {
+        long longDate = parseDate(date);
+        if (longDate != 0) {
+            new CourseUserDateToObjectDefinitionJob(longDate).start();
+            return "{'ok':'true'}";
+        } else {
+            return "{'ok':'false', 'error':'could not parse" + date + "'}";
+        }
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
     @Path("/delete/{origin}")
     public String syncState(@PathParam("origin") String origin) throws IOException {
         if (Configuration.get("eraseAllowed").equals("true")) {
