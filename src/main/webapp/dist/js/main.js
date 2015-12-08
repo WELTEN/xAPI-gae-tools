@@ -18,7 +18,8 @@ var AppRouter = Backbone.Router.extend({
         "logout": "logout",
         "mooc/:id/student": "studentView",
         "mooc/:id/teacher": "teacherView",
-        "mooc/:id/admin": "adminView"
+        "mooc/:id/admin": "adminView",
+        "sandbox/:id": "sandbox"
     },
     logout: function () {
         $.cookie("arlearn.AccessToken", null, {path: '/'});
@@ -47,6 +48,10 @@ var AppRouter = Backbone.Router.extend({
         //    document.location = "/";
         //
         //}
+    },
+    sandbox: function(){
+        jsonData = '[{"country":"Namibia","rate":37.6},{"country":"Macedonia, FYR","rate":32.0},{"country":"Armenia","rate":28.6},{"country":"Bosnia and Herzegovina","rate":27.2},{"country":"Lesotho","rate":25.3},{"country":"South Africa","rate":24.7},{"country":"Spain","rate":20.1},{"country":"Latvia","rate":18.7},{"country":"Lithuania","rate":17.8},{"country":"Estonia","rate":16.9},{"country":"Serbia","rate":16.6},{"country":"Georgia","rate":16.5},{"country":"Yemen, Rep.","rate":14.6},{"country":"Slovak Republic","rate":14.4},{"country":"Dominican Republic","rate":14.2},{"country":"Tunisia","rate":14.2},{"country":"Albania","rate":13.8},{"country":"Ireland","rate":13.6},{"country":"Jordan","rate":12.9},{"country":"Greece","rate":12.5}]';
+        app.showView('.content > .row', new SandboxView({ model: jsonData }));
     },
     studentView: function (id) {
         var _sca = this.Graphs.get("student_calendar_activities:"+id);

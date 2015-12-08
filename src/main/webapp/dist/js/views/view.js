@@ -243,3 +243,115 @@ window.CourseItemView = Backbone.View.extend({
         return this;
     }
 });
+
+window.SandboxView = Backbone.View.extend({
+    tagName:  "div",
+    className: "sandbox1",
+    initialize: function(){
+        var margin = {top: 50, bottom: 50, left:250, right: 40};
+        var width = 900 - margin.left - margin.right;
+        var height = 450 - margin.top - margin.bottom;
+
+        var xScale = d3.scale.linear().range([0, width]);
+        var yScale = d3.scale.ordinal().rangeRoundBands([0, height], 1.8,0);
+
+        var numTicks = 5;
+        var xAxis = d3.svg.axis().scale(xScale)
+            .orient("top")
+            .tickSize((-height))
+            .ticks(numTicks);
+
+        var svg = d3.select(this.el).append("svg")
+            .attr("width", width+margin.left+margin.right)
+            .attr("height", height+margin.top+margin.bottom)
+            .attr("class", "base-svg");
+
+        var barSvg = svg.append("g")
+            .attr("transform", "translate("+margin.left+","+margin.top+")")
+            .attr("class", "bar-svg");
+
+        var x = barSvg.append("g").attr("class", "x-axis");
+
+        var data = JSON.parse(this.model);
+
+        var xMax = d3.max(data, function(d) { return d.rate; } );
+        var xMin = 0;
+
+
+        xScale.domain([xMin, xMax]);
+        yScale.domain(data.map(function(d) { return d.country; }));
+
+        d3.select(".base-svg").append("text")
+            .attr("x", margin.left)
+            .attr("y", (margin.top)/2)
+            .attr("text-anchor", "start")
+            .text("Narrowly defined unemployment rates: top 20 countries (2010)")
+            .attr("class", "title");
+
+        console.log(d3.select(".base-svg"));
+
+        var groups = barSvg.append("g")
+            .attr("class", "labels")
+            .selectAll("text")
+            .data(data)
+            .enter()
+            .append("g");
+
+        groups.append("text")
+            .attr("x", "0")
+            .attr("y", function(d) { return yScale(d.country); })
+            .text(function(d) { return d.country; })
+            .attr("text-anchor", "end")
+            .attr("dy", ".9em")
+            .attr("dx", "-.32em")
+            .attr("id", function(d,i) { return "label"+i; });
+
+        var bars = groups
+            .attr("class", "bars")
+            .append("rect")
+            .attr("width", function(d) { return xScale(d.rate); })
+            .attr("height", height/20)
+            .attr("x", xScale(xMin))
+            .attr("y", function(d) { return yScale(d.country); })
+            .attr("id", function(d,i) { return "bar"+i; });
+
+        groups.append("text")
+            .attr("x", function(d) { return xScale(d.rate); })
+            .attr("y", function(d) { return yScale(d.country); })
+            .text(function(d) { return d.rate; })
+            .attr("text-anchor", "end")
+            .attr("dy", "1.2em")
+            .attr("dx", "-.32em")
+            .attr("id", "precise-value");
+
+        bars
+            .on("mouseover", function() {
+                var currentGroup = d3.select(this.parentNode);
+                currentGroup.select("rect").style("fill", "brown");
+                currentGroup.select("text").style("font-weight", "bold");
+            })
+            .on("mouseout", function() {
+                var currentGroup = d3.select(this.parentNode);
+                currentGroup.select("rect").style("fill", "steelblue");
+                currentGroup.select("text").style("font-weight", "normal");
+            });
+
+        x.call(xAxis);
+        var grid = xScale.ticks(numTicks);
+        barSvg.append("g").attr("class", "grid")
+            .selectAll("line")
+            .data(grid, function(d) { return d; })
+            .enter().append("line")
+            .attr("y1", 0)
+            .attr("y2", height+margin.bottom)
+            .attr("x1", function(d) { return xScale(d); })
+            .attr("x2", function(d) { return xScale(d); })
+            .attr("stroke", "white");
+
+
+    },
+    render: function(){
+        //$(this.el).html(this.template());
+        return this;
+    }
+});

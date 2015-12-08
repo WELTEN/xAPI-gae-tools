@@ -1,3 +1,25 @@
 .logo-footer{
     width: 80px;
 }
+
+.x-axis path {
+    stroke: #000000;
+    fill:none;
+}
+.x-axis line {
+    fill: none;
+    stroke: none;
+    stroke-opacity:.8;
+    shape-rendering: crispEdges;
+}
+.bars rect {
+    fill:steelblue;
+    fill-opacity:.9;
+}
+.title {
+    font-weight: bold;
+}
+#precise-value {
+    fill: #000000;
+    font-size: 12px;
+}
