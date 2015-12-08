@@ -128,6 +128,40 @@ window.BubbleView = Backbone.View.extend({
     }
 });
 
+window.ResourcesConsumedView = Backbone.View.extend({
+    tagName: "section",
+    className: "col-lg-10 connectedSortable ui-sortable",
+    initialize: function(options){
+        this.template = _.template(tpl.get('widget'));
+        this.title = options.title;
+    },
+    drawVisualization: function () {
+        this.data = new google.visualization.DataTable(this.model);
+        $(this.el).html(this.template({ title: this.title }));
+        var chart = new Backbone.GoogleChart({
+            chartType: 'BarChart',
+            dataTable: this.data,
+            options: {
+                chart: {
+                    title: 'Resources consumed'
+                },
+                bar: {groupWidth: "95%"},
+                legend: { position: 'top', maxLines: 3 },
+                backgroundColor: { fill:'transparent' },
+                bars: 'horizontal' // Required for Material Bar Charts.
+            }
+        });
+        this.$('.box-body').append(chart.render().el);
+    },
+    render: function() {
+        google.load('visualization', '1', {
+            'callback': _.bind(this.drawVisualization, this),
+            'packages': ['bar']
+        });
+        return this;
+    }
+});
+
 window.PerfomanceView = Backbone.View.extend({
     tagName: "section",
     className: "col-lg-6 connectedSortable ui-sortable",

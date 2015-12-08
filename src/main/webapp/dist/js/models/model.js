@@ -31,6 +31,28 @@ window.CalendarActivity = Backbone.Model.extend({
     }
 });
 
+window.ResourcesConsumed = Backbone.Model.extend({
+
+    url: function(){
+        return "/data-proxy/query/result/resources/course/"+this.courseId+"/gdata";
+    }
+    ,
+    defaults:{
+        "courseId": ""
+    }
+});
+
+window.CourseResourceTypesConsumed = Backbone.Model.extend({
+
+    url: function(){
+        return "/data-proxy/query/result/resourceTypes/course/"+this.courseId+"/gdata";
+    }
+    ,
+    defaults:{
+        "courseId": ""
+    }
+});
+
 window.CalendarActivityCourse = Backbone.Model.extend({
     initialize: function(courseId){
         this.courseId = courseId;
@@ -45,7 +67,10 @@ window.CalendarActivityCourse = Backbone.Model.extend({
 
 window.Perfomance = Backbone.Model.extend({
     url: function(){
-        return "/data-proxy/query/result-fake/averageLearnerActivities/humance";
+        return "/data-proxy/query/result/averageLearnerActivities/"+this.courseId;
+    },
+    defaults:{
+        "courseId": ""
     }
 });
 

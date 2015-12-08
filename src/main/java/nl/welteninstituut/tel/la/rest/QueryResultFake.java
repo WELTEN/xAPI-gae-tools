@@ -51,7 +51,7 @@ public class QueryResultFake {
         counter +=1;
         String newCursor = null;
         try {
-            URL url = new URL("http://learning-pulse.appspot.com/data-proxy/query/result-fake/allStatements/"+token);
+            URL url = new URL("http://xapi-proxy-dev.appspot.com/data-proxy/query/result-fake/allStatements/"+token);
             System.out.println(url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
@@ -117,6 +117,14 @@ public class QueryResultFake {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/averageLearnerActivities/{courseId}")
     public String averageActivityPerLearnerResult(@HeaderParam("Authorization") String token,
+                                                  @PathParam("courseId") String courseId) throws IOException {
+        return "{\"cols\":[{\"id\":\"Average all learners in the course\",\"label\":\"Average all learners in the course\",\"type\":\"string\"},{\"id\":\"Peers\",\"label\":\"Peers\",\"type\":\"number\"},{\"id\":\"You\",\"label\":\"You\",\"type\":\"number\"}],\"rows\":[{\"c\":[{\"v\":\"Peers vs you\"},{\"v\":\"12\"},{\"v\":\"2\"}]}]}";
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/resourcesConsumed/{courseId}/gdata")
+    public String resourcesConsumed(@HeaderParam("Authorization") String token,
                                                   @PathParam("courseId") String courseId) throws IOException {
         return "{\"cols\":[{\"id\":\"Average all learners in the course\",\"label\":\"Average all learners in the course\",\"type\":\"string\"},{\"id\":\"Peers\",\"label\":\"Peers\",\"type\":\"number\"},{\"id\":\"You\",\"label\":\"You\",\"type\":\"number\"}],\"rows\":[{\"c\":[{\"v\":\"Peers vs you\"},{\"v\":\"12\"},{\"v\":\"2\"}]}]}";
     }

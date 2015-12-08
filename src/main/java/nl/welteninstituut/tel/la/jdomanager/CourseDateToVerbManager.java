@@ -72,26 +72,34 @@ public class CourseDateToVerbManager {
                 try {
                     Date d =format.parse(date);
                     toDate = ""+(d.getYear()+1900)+","+d.getMonth()+","+d.getDate();
+                    if ((d.getYear()+1900)>2015) {
+                        toDate = null;
+                    } else {
+                        System.out.println("could not convert "+date);
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
 
-                System.out.println(entry.toString());
+                if (toDate!=null) {
                 if (first == false) {
                     resultString +=",";
 
                 } else {
                     first = false;
                 }
-                resultString += "{\n" +
-                        "\t\t\"c\": [{\n" +
-                        "\t\t\t\"v\": \"Date("+toDate+")\"\n" +
-                        "\t\t}, {\n" +
-                        "\t\t\t\"v\": \""+resultInt+"\"\n" +
-                        "\t\t}]\n" +
-                        "\t}";
+
+                    resultString += "{\n" +
+                            "\t\t\"c\": [{\n" +
+                            "\t\t\t\"v\": \"Date(" + toDate + ")\"\n" +
+                            "\t\t}, {\n" +
+                            "\t\t\t\"v\": \"" + resultInt + "\"\n" +
+                            "\t\t}]\n" +
+                            "\t}";
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
+
             }
         }
 

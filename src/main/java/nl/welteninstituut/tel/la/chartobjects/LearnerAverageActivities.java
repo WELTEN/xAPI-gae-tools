@@ -63,7 +63,12 @@ public class LearnerAverageActivities extends ChartObject {
         for (String learnerString : hm.keySet()) {
             total += hm.get(learnerString);
         }
-        barChartObject.addRow("Peers vs you", (total / amount), yourActivities);
+        if (amount != 0){
+            barChartObject.addRow("Peers vs you", (total / amount), yourActivities);
+        } else {
+            barChartObject.addRow("Peers vs you", total, yourActivities);
+        }
+
         return barChartObject;
     }
 

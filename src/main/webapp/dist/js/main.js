@@ -50,7 +50,7 @@ var AppRouter = Backbone.Router.extend({
         //}
     },
     studentView: function (id) {
-        var _sca = this.Graphs.get("student_calendar_activities");
+        var _sca = this.Graphs.get("student_calendar_activities:"+id);
         if(!_sca) {
             this.CalendarActivity = new CalendarActivity();
             //this.CalendarActivity.initialize(studentId);
@@ -58,26 +58,81 @@ var AppRouter = Backbone.Router.extend({
                 beforeSend: setHeader,
                 success: function (response, jsonData) {
                     app.showView('.content > .row', new CalendarView({ model: jsonData, title: "Student calendar activities" }));
-                    app.addRepresentationObject("student_calendar_activities", jsonData);
+                    app.addRepresentationObject("student_calendar_activities:"+id, jsonData);
                 }
             });
         }else{
             app.showView('.content > .row', new CalendarView({ model: _sca.get("content"), title: "Student calendar activities" }));
         }
 
-        var _p = this.Graphs.get("performance")
-        if(!_p) {
-            this.Perfomance = new Perfomance();
-            this.Perfomance.fetch({
+        var _rc = this.Graphs.get("resources_consumed:"+id);
+        if(!_rc) {
+            this.ResourcesConsumed = new ResourcesConsumed();
+            this.ResourcesConsumed.courseId = id;
+            this.ResourcesConsumed.fetch({
                 beforeSend: setHeader,
                 success: function (response, jsonData) {
-                    var perf_view = new PerfomanceView({ model: jsonData, title: "Performance graph" })
-                    if (perf_view)
-                        perf_view.close();
-                    $('.content > .row').append(perf_view.render().el);
-                    app.addRepresentationObject("performance", jsonData);
+
+                    var rc_view = new ResourcesConsumedView({ model: jsonData, title: "Resources Consumed"  })
+
+                    if (rc_view)
+                        rc_view.close();
+                    $('.content > .row').append(rc_view.render().el);
+                    app.addRepresentationObject("resources_consumed:"+id, jsonData);
                 }
             });
+        }else{
+
+            var perf_view = new ResourcesConsumedView({ model: _rc.get("content"), title: "Resources consumed graph" })
+            if (perf_view)
+                perf_view.close();
+            $('.content > .row').append(perf_view.render().el);
+        }
+
+
+        var _p = this.Graphs.get("performance:"+id)
+        if(!_p) {
+            var performanceObject= new Perfomance();
+            $.ajax({
+                url: '/data-proxy/query/averageLearnerActivities/'+id,
+                async: true,
+                success: function(data){}
+            });
+            function drawChart() {
+
+                var jsonData = ""
+                jsonData = $.ajax({
+                    url: "/data-proxy/query/result/averageLearnerActivities/" + id,
+                    dataType: "json",
+                    headers: {
+                        Authorization : getCookie('accessToken')
+                    },
+                    async: false
+                }).responseText;
+                if (jsonData == "{}") {
+                    setTimeout(function func() {
+                        timeout = timeout *2;
+                        drawChart()
+                    }, timeout * 1000);
+                } else {
+
+                    performanceObject.courseId = id;
+                    performanceObject.fetch({
+                        beforeSend: setHeader,
+                        success: function (response, jsonData) {
+                            var perf_view = new PerfomanceView({ model: jsonData, title: "Performance graph" })
+                            if (perf_view)
+                                perf_view.close();
+                            $('.content > .row').append(perf_view.render().el);
+                            app.addRepresentationObject("performance:"+id, jsonData);
+                        }
+                    });
+                }
+            }
+
+            drawChart();
+
+
         }else{
             var perf_view = new PerfomanceView({ model: _p.get("content"), title: "Performance graph" })
             if (perf_view)
@@ -88,20 +143,45 @@ var AppRouter = Backbone.Router.extend({
         console.log(this.Graphs);
     },
     teacherView: function (id) {
-        var _cca = this.Graphs.get("course_calendar_activities")
+        var _cca = this.Graphs.get("course_calendar_activities:"+id)
         if(!_cca) {
             this.CalendarActivityCourse = new CalendarActivityCourse();
             this.CalendarActivityCourse.courseId = id;
             this.CalendarActivityCourse.fetch({
                 beforeSend: setHeader,
                 success: function (response, jsonData) {
-                    app.showView('.content > .row', new CalendarView({ model: jsonData, title: "Course calendar activities" }));
-                    app.addRepresentationObject("course_calendar_activities", jsonData);
+                    app.showView('.content > .row', new CalendarView({ model: jsonData, title: "Course calendar activities "+id }));
+                    app.addRepresentationObject("course_calendar_activities:"+id, jsonData);
                 }
             });
         }else{
-            app.showView('.content > .row', new CalendarView({model: _cca.get("content"), title: "Course calendar activities" }));
+            app.showView('.content > .row', new CalendarView({model: _cca.get("content"), title: "Course calendar activities "+id }));
         }
+
+        var _rc = this.Graphs.get("resources_consumed:"+id);
+        if(!_rc) {
+            this.CourseResourceTypesConsumed = new CourseResourceTypesConsumed();
+            this.CourseResourceTypesConsumed.courseId = id;
+            this.CourseResourceTypesConsumed.fetch({
+                beforeSend: setHeader,
+                success: function (response, jsonData) {
+
+                    var rc_view = new ResourcesConsumedView({ model: jsonData, title: "Resources Consumed"  })
+
+                    if (rc_view)
+                        rc_view.close();
+                    $('.content > .row').append(rc_view.render().el);
+                    app.addRepresentationObject("resources_consumed:"+id, jsonData);
+                }
+            });
+        }else{
+
+            var perf_view = new ResourcesConsumedView({ model: _rc.get("content"), title: "Resources consumed graph" })
+            if (perf_view)
+                perf_view.close();
+            $('.content > .row').append(perf_view.render().el);
+        }
+
         console.log(this.Graphs);
 
     },
