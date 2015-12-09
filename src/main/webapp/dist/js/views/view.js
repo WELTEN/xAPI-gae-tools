@@ -244,12 +244,22 @@ window.CourseItemView = Backbone.View.extend({
     }
 });
 
-window.SandboxView = Backbone.View.extend({
-    tagName:  "div",
-    className: "sandbox1",
-    initialize: function(){
-        var margin = {top: 50, bottom: 50, left:250, right: 40};
-        var width = 900 - margin.left - margin.right;
+window.SandboxView1 = Backbone.View.extend({
+    tagName:  "section",
+    className: "col-lg-12 connectedSortable ui-sortable",
+    initialize: function(options){
+
+        this.template = _.template(tpl.get('widget'));
+        this.title = options.title;
+
+        $(this.el).html(this.template({ title: this.title }));
+
+        var margin = {top: 50, bottom: 50, left:150, right: 40};
+        if($( window ).width() < 760){
+            var width = $( window ).width()- 50 - margin.left - margin.right;
+        }else{
+            var width = $( window ).width() - 300 - margin.left - margin.right;
+        }
         var height = 450 - margin.top - margin.bottom;
 
         var xScale = d3.scale.linear().range([0, width]);
@@ -261,7 +271,9 @@ window.SandboxView = Backbone.View.extend({
             .tickSize((-height))
             .ticks(numTicks);
 
-        var svg = d3.select(this.el).append("svg")
+        this.container = this.$('.box-body')[0];
+
+        var svg = d3.select(this.container).append("svg")
             .attr("width", width+margin.left+margin.right)
             .attr("height", height+margin.top+margin.bottom)
             .attr("class", "base-svg");
@@ -287,8 +299,6 @@ window.SandboxView = Backbone.View.extend({
             .attr("text-anchor", "start")
             .text("Narrowly defined unemployment rates: top 20 countries (2010)")
             .attr("class", "title");
-
-        console.log(d3.select(".base-svg"));
 
         var groups = barSvg.append("g")
             .attr("class", "labels")
@@ -351,7 +361,88 @@ window.SandboxView = Backbone.View.extend({
 
     },
     render: function(){
-        //$(this.el).html(this.template());
+        console.log(this.template)
+        return this;
+    }
+});
+
+window.SandboxView2 = Backbone.View.extend({
+    tagName:  "section",
+    className: "col-lg-12 connectedSortable ui-sortable",
+    initialize: function(options){
+
+        this.template = _.template(tpl.get('widget'));
+        this.title = options.title;
+
+        $(this.el).html(this.template({ title: this.title }));
+
+        var margin = {top: 20, right: 20, bottom: 30, left: 50},
+            width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+        var parseDate = d3.time.format("%d-%b-%y").parse;
+
+        var x = d3.time.scale()
+            .range([0, width]);
+
+        var y = d3.scale.linear()
+            .range([height, 0]);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left");
+
+        var line = d3.svg.line()
+            .x(function(d) { return x(d.date); })
+            .y(function(d) { return y(d.close); });
+
+        this.container = this.$('.box-body')[0];
+
+        var svg = d3.select(this.container).append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        var data = JSON.parse(this.model);
+
+        data.forEach(function(d) {
+            d.date = d.date;
+            //d.date = parseDate(d.date);
+            d.close = +d.close;
+        });
+
+        x.domain(d3.extent(data, function(d) { return d.date; }));
+        y.domain(d3.extent(data, function(d) { return d.close; }));
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Dagen na startactiviteit");
+
+        svg.append("path")
+            .datum(data)
+            .attr("class", "line")
+            .attr("d", line);
+
+
+    },
+    render: function(){
+        console.log(this.template)
         return this;
     }
 });
