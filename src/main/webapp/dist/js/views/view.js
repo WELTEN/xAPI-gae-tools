@@ -253,7 +253,12 @@ window.SandboxView1 = Backbone.View.extend({
         this.title = options.title;
 
         $(this.el).html(this.template({ title: this.title }));
+        this.container = this.$('.box-body')[0];
 
+        $(this.container).html("hola");
+    },
+    render: function(){
+        $(this.container).html("");
         var margin = {top: 50, bottom: 50, left:150, right: 40};
         if($( window ).width() < 760){
             var width = $( window ).width()- 50 - margin.left - margin.right;
@@ -271,7 +276,7 @@ window.SandboxView1 = Backbone.View.extend({
             .tickSize((-height))
             .ticks(numTicks);
 
-        this.container = this.$('.box-body')[0];
+
 
         var svg = d3.select(this.container).append("svg")
             .attr("width", width+margin.left+margin.right)
@@ -316,6 +321,19 @@ window.SandboxView1 = Backbone.View.extend({
             .attr("dx", "-.32em")
             .attr("id", function(d,i) { return "label"+i; });
 
+        //x.call(xAxis);
+        //var grid = xScale.ticks(numTicks);
+        //barSvg.append("g").attr("class", "grid")
+        //    .selectAll("line")
+        //    .data(grid, function(d) { return d; })
+        //    .enter().append("line")
+        //    .attr("y1", 0)
+        //    .attr("y2", height+margin.bottom)
+        //    .attr("x1", function(d) { return xScale(d); })
+        //    .attr("x2", function(d) { return xScale(d); })
+        //    .attr("stroke", "white");
+
+
         var bars = groups
             .attr("class", "bars")
             .append("rect")
@@ -324,6 +342,7 @@ window.SandboxView1 = Backbone.View.extend({
             .attr("x", xScale(xMin))
             .attr("y", function(d) { return yScale(d.country); })
             .attr("id", function(d,i) { return "bar"+i; });
+
 
         groups.append("text")
             .attr("x", function(d) { return xScale(d.rate); })
@@ -345,23 +364,6 @@ window.SandboxView1 = Backbone.View.extend({
                 currentGroup.select("rect").style("fill", "steelblue");
                 currentGroup.select("text").style("font-weight", "normal");
             });
-
-        x.call(xAxis);
-        var grid = xScale.ticks(numTicks);
-        barSvg.append("g").attr("class", "grid")
-            .selectAll("line")
-            .data(grid, function(d) { return d; })
-            .enter().append("line")
-            .attr("y1", 0)
-            .attr("y2", height+margin.bottom)
-            .attr("x1", function(d) { return xScale(d); })
-            .attr("x2", function(d) { return xScale(d); })
-            .attr("stroke", "white");
-
-
-    },
-    render: function(){
-        console.log(this.template)
         return this;
     }
 });
@@ -376,16 +378,18 @@ window.SandboxView2 = Backbone.View.extend({
 
         $(this.el).html(this.template({ title: this.title }));
 
+        this.container = this.$('.box-body')[0];
+
         var margin = {top: 20, right: 20, bottom: 30, left: 50},
             width = 960 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
 
         var parseDate = d3.time.format("%d-%b-%y").parse;
 
-        var x = d3.time.scale()
+        var x = this.x = d3.time.scale()
             .range([0, width]);
 
-        var y = d3.scale.linear()
+        var y = this.y = d3.scale.linear()
             .range([height, 0]);
 
         var xAxis = d3.svg.axis()
@@ -396,28 +400,15 @@ window.SandboxView2 = Backbone.View.extend({
             .scale(y)
             .orient("left");
 
-        var line = d3.svg.line()
+        var line = this.line = d3.svg.line()
             .x(function(d) { return x(d.date); })
             .y(function(d) { return y(d.close); });
 
-        this.container = this.$('.box-body')[0];
-
-        var svg = d3.select(this.container).append("svg")
+        var svg = this.svg = d3.select(this.container).append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-        var data = JSON.parse(this.model);
-
-        data.forEach(function(d) {
-            d.date = d.date;
-            //d.date = parseDate(d.date);
-            d.close = +d.close;
-        });
-
-        x.domain(d3.extent(data, function(d) { return d.date; }));
-        y.domain(d3.extent(data, function(d) { return d.close; }));
 
         svg.append("g")
             .attr("class", "x axis")
@@ -434,15 +425,62 @@ window.SandboxView2 = Backbone.View.extend({
             .style("text-anchor", "end")
             .text("Dagen na startactiviteit");
 
-        svg.append("path")
-            .datum(data)
-            .attr("class", "line")
-            .attr("d", line);
-
-
     },
     render: function(){
-        console.log(this.template)
         return this;
+    },
+    update: function(options){
+
+        var data = JSON.parse(options);
+
+        data.forEach(function(d) {
+            d.date = d.date;
+            //d.date = parseDate(d.date);
+            d.close = +d.close;
+        });
+
+        this.x.domain(d3.extent(data, function(d) { return d.date; }));
+        this.y.domain(d3.extent(data, function(d) { return d.close; }));
+
+        this.svg.append("path")
+            .datum(data)
+            .attr("class", "line")
+            .attr("d", this.line);
+
     }
 });
+
+
+// loader settings
+var opts = {
+    lines: 9, // The number of lines to draw
+    length: 9, // The length of each line
+    width: 5, // The line thickness
+    radius: 14, // The radius of the inner circle
+    color: '#EE3124', // #rgb or #rrggbb or array of colors
+    speed: 1.9, // Rounds per second
+    trail: 40, // Afterglow percentage
+    className: 'spinner' // The CSS class to assign to the spinner
+};
+
+function init() {
+
+    // trigger loader
+    var spinner = new Spinner(opts).spin(target);
+
+    // slow the json load intentionally, so we can see it every load
+    setTimeout(function() {
+
+        // load json data and trigger callback
+        d3.json(chartConfig.data_url, function(data) {
+
+            // stop spin.js loader
+            spinner.stop();
+
+            // instantiate chart within callback
+            chart(data);
+
+        });
+
+    }, 1500);
+}
