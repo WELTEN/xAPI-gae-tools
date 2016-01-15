@@ -116,7 +116,7 @@ public class BigQuery {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/{tableId}/{id}")
     public String testInsert(@PathParam("tableId") String tableId, @PathParam("id") String id) throws IOException, InterruptedException {
-        insertStatement(tableId, id, System.currentTimeMillis(), "Agent" , "stefaan.ternier", "read", "object", "oId", "def", 52.23d,13.29d, "courseId");
+        insertStatement(tableId, id, System.currentTimeMillis(), "Agent", "stefaan.ternier", "read", "object", "oId", "def", 52.23d, 13.29d, "courseId");
         return "{'ok':'true'}";
 
     }
@@ -175,6 +175,48 @@ public class BigQuery {
     public void courseActivitiesOverview(String courseId){
         String query = "SELECT verbId, count(*) as count  FROM "+getTable()+"  where courseId = \""+courseId+"\" group by verbId";
         new CourseActivitiesOverviewQueryTask(QueryAPI.getInstance().createQueryJob(query), courseId).scheduleTask();
+    }
+
+    public void mesoResourceTypesCourse(String courseId, String cacheKey){
+        String query = "SELECT objectDefinition, count(*) as count  FROM "+getTable()+"  where courseId = \""+courseId+"\" group by objectDefinition";
+        new MesoResourceTypesCourseTask(QueryAPI.getInstance().createQueryJob(query), cacheKey).scheduleTask();
+    }
+
+    public void resourceTypesCourse(String courseId, String userId, String cacheKey){
+        String query = "SELECT objectDefinition, count(*) as count  FROM "+getTable()+"  where actorId = \""+userId+"\" and courseId = \""+courseId+"\" group by objectDefinition";
+        new MesoResourceTypesCourseTask(QueryAPI.getInstance().createQueryJob(query), cacheKey).scheduleTask();
+    }
+
+    public void queryLogins(String userId) {
+        String query = null;
+        if (userId == null){
+            query = "SELECT  STRFTIME_UTC_USEC(timestamp(timestamp) , '%Y,%m,%d') as day, count(*) as amount FROM [" + Configuration.get(Configuration.BQDataSet) + "." + Configuration.get(Configuration.BQTableId) + "] where verbId = 'https://brindlewaye.com/xAPITerms/verbs/loggedin' GROUP BY day ORDER BY day DESC";
+        } else {
+            query = "SELECT  STRFTIME_UTC_USEC(timestamp(timestamp) , '%Y,%m,%d') as day, count(*) as amount FROM [" + Configuration.get(Configuration.BQDataSet) + "." + Configuration.get(Configuration.BQTableId) + "] where verbId = 'https://brindlewaye.com/xAPITerms/verbs/loggedin' and actorId = '"+userId+"' GROUP BY day ORDER BY day DESC";
+        }
+        new CalendarLoginQT(QueryAPI.getInstance().createQueryJob(query),userId).scheduleTask();
+    }
+
+    public void queryCourseProgress(String courseId){
+        String query = "SELECT  objectId, count(*) as count, FORMAT_UTC_USEC((integer(avg(timestamp)))) as date " +
+                "FROM " +getTable()+"   where " +
+                "courseId = '"+courseId+"' and not  objectId  contains \"?\" and not objectDefinition  contains \"discussion\" and not objectDefinition  contains \"forummessage\" group by objectId order by date asc";
+        new ProgressQT(QueryAPI.getInstance().createQueryJob(query),null,courseId).scheduleTask();
+
+    }
+
+    public void queryCourseProgressUser(String courseId, String userId){
+
+        String query = "SELECT  objectId, count(*) as count, FORMAT_UTC_USEC((integer(avg(timestamp)))) as date " +
+                "FROM " +getTable()+"   where " +
+                "actorId = '"+userId+"' and courseId = '"+courseId+"' and not  objectId  contains \"?\" and not objectDefinition  contains \"discussion\" and not objectDefinition  contains \"forummessage\" group by objectId order by date asc";
+        new ProgressQT(QueryAPI.getInstance().createQueryJob(query),userId,courseId).scheduleTask();
+    }
+
+    public void interactivitySort(String courseId,String cacheKey){
+        String query = "SELECT count(*) as count  FROM "+getTable()+"  where courseId = \""+courseId+"\" group by actorId order by count asc";
+        System.out.println(query);
+        new InteractivitySortQT(QueryAPI.getInstance().createQueryJob(query), cacheKey).scheduleTask();
     }
 
     private String getTable() {

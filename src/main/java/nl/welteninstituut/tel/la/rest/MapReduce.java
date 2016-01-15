@@ -28,7 +28,7 @@ public class MapReduce implements Serializable {
     public String init() throws IOException {
 //        String id = MapReduceJob.start(getCreationJobSpec(50, 5, 5), new MapReduceSettings.Builder(getSettings()).setBucketName("xapi-proxy-dev").build());
 //        String id = MapJob.start(getMapCreationJobSpec(50, 5, 5), new MapSettings.Builder(getSettings()).build());
-        new ResetBigquerySyncJob(0).start();
+        new ResetBigquerySyncJob(0, null).start();
         return "{'ok':'true'}";
     }
 
@@ -37,7 +37,15 @@ public class MapReduce implements Serializable {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/setSyncState/{state}")
     public String syncState(@PathParam("state") int state) throws IOException {
-        new ResetBigquerySyncJob(state).start();
+        new ResetBigquerySyncJob(state, null).start();
+        return "{'ok':'true'}";
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/setSyncState/{state}/{origin}")
+    public String syncState(@PathParam("state") int state,@PathParam("origin") String origin) throws IOException {
+        new ResetBigquerySyncJob(state, origin).start();
         return "{'ok':'true'}";
     }
 

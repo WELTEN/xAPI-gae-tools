@@ -31,6 +31,67 @@ import java.util.Iterator;
  */
 public class CourseDateToObjectDefinitionManager {
 
+    public static String getResourcesCommittedD3(String courseId, String userId, String resourceId) {
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+        Query.Filter courseFilter =
+                new Query.FilterPredicate(CourseUserDateToObjectDefinition.COURSEID_COLUMN,
+                        Query.FilterOperator.EQUAL,
+                        courseId);
+
+        Query.Filter actorFilter =
+                new Query.FilterPredicate(CourseUserDateToObjectDefinition.ACTORID_COLUMN,
+                        Query.FilterOperator.EQUAL,
+                        userId);
+
+        Query.Filter compositeFilter =
+                Query.CompositeFilterOperator.and(courseFilter, actorFilter);
+
+
+        Query q = new Query(CourseUserDateToObjectDefinition.TABLE_NAME)
+                .setFilter(compositeFilter);
+
+        PreparedQuery pq = datastore.prepare(q);
+        HashMap<String, Long> keyToCount = new HashMap<>();
+        for (Entity result : pq.asIterable()) {
+            try {
+                JSONObject entry = new JSONObject(((Text) result.getProperty(CourseUserDateToObjectDefinition.VALUE_COLUMN)).getValue());
+                String key = result.getKey().getName();
+                String date = key.substring(key.indexOf(courseId) + courseId.length() + 1);
+                Iterator<String> keyIter = entry.keys();
+                int resultInt = 0;
+
+                while (keyIter.hasNext()){
+                    String activityKey = keyIter.next();
+                    if (activityKey.contains(resourceId) || resourceId.equals("all")){
+                        resultInt += entry.getInt(activityKey);
+                        if (!keyToCount.containsKey(activityKey)) {
+                            keyToCount.put(activityKey, (long) entry.getInt(activityKey));
+                        } else {
+                            keyToCount.put(activityKey, keyToCount.get(activityKey) + ((long) entry.getInt(activityKey)));
+                        }
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        boolean first = true;
+        String resultString = "[";
+        for (String key:keyToCount.keySet()){
+            if (first == false) {
+                resultString +=",";
+            } else {
+                first = false;
+            }
+            resultString += "{\"label\":\""+keyMapper(key)+"\",\"rate\":"+keyToCount.get(key)+"}";
+
+        }
+
+        return resultString + "]";
+    }
+
     public static String getResourcesCommittedGData(String courseId, String userId, String resourceId) {
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -100,7 +161,8 @@ public class CourseDateToObjectDefinitionManager {
     }
 
 
-    private static  String keyMapper(String key) {
+    public static  String keyMapper(String key) {
+        key = key.toLowerCase();
         if (key.contains("article")) {
             return "article";
         } else if (key.contains("course")) {
@@ -109,6 +171,8 @@ public class CourseDateToObjectDefinitionManager {
             return "discussion";
         } else if (key.contains("task")) {
             return "task";
+        } else if (key.contains("peerassessment")) {
+            return "peerassessment";
         } else if (key.contains("assessment")) {
             return "assessment";
         } if (key.contains("page")) {
@@ -117,21 +181,23 @@ public class CourseDateToObjectDefinitionManager {
             return "module";
         } else if (key.contains("video")) {
             return "video";
-        } else if (key.contains("peerassessment")) {
-            return "peerassessment";
-        } else if (key.contains("peerfeedback")) {
+        }  else if (key.contains("peerfeedback")) {
             return "peerfeedback";
-        } else if (key.contains("forumMessage")) {
-            return "forumMessage";
+        } else if (key.contains("forummessage")) {
+            return "F" +
+                    "orum Message";
         } else if (key.contains("book")) {
             return "book";
         } else if (key.contains("syllabus")) {
             return "syllabus";
         } else if (key.contains("discussionthread")) {
             return "discussionthread";
+        } else if (key.contains("activitystream")) {
+            return "activitystream";
         } else if (key.contains("blog")) {
             return "blog";
         }
+
         return key;
     }
 }

@@ -1,5 +1,6 @@
 package nl.welteninstituut.tel.la.mapreduce;
 
+import com.google.appengine.api.datastore.Query;
 import com.google.appengine.tools.mapreduce.MapJob;
 import com.google.appengine.tools.mapreduce.MapReduceJob;
 import com.google.appengine.tools.mapreduce.MapReduceJobException;
@@ -43,9 +44,11 @@ import java.io.Serializable;
 public class ResetBigquerySyncJob extends Job {
 
     private int state;
+    private String origin;
 
-    public ResetBigquerySyncJob(int state) {
+    public ResetBigquerySyncJob(int state, String origin) {
         this.state = state;
+        this.origin = origin;
     }
 
     public void start() {
@@ -57,12 +60,23 @@ public class ResetBigquerySyncJob extends Job {
 
     private MapSpecification<Entity, Entity, Void> getMapCreationJobSpec(int bytesPerEntity, int entities,
                                                                          int shardCount) {
+
+        Query.Filter propertyFilter =
+                new Query.FilterPredicate("origin",
+                        Query.FilterOperator.EQUAL,
+                        origin);
+        Query q = new Query("Statement");
+        if (origin != null){
+            q = q.setFilter(propertyFilter);
+        }
+
         MapSpecification<Entity, Entity, Void> spec = new MapSpecification.Builder<Entity, Entity, Void>(
-                new DatastoreInput("Statement", shardCount ),
+                new DatastoreInput(q, shardCount ),
                 new MapOnlyCountMapper(),
                 new DatastoreOutput())
                 .setJobName("Update synchronisation state of entities")
                 .build();
+
         return spec;
     }
 

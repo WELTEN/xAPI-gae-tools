@@ -40,3 +40,7 @@
     stroke: #008937;
     stroke-width: 1.5px;
 }
+
+.chart {
+    width: 100%;
+}

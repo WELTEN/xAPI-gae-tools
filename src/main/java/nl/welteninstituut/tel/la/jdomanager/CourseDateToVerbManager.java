@@ -72,10 +72,8 @@ public class CourseDateToVerbManager {
                 try {
                     Date d =format.parse(date);
                     toDate = ""+(d.getYear()+1900)+","+d.getMonth()+","+d.getDate();
-                    if ((d.getYear()+1900)>2015) {
+                    if (d.getTime() > System.currentTimeMillis()) {
                         toDate = null;
-                    } else {
-                        System.out.println("could not convert "+date);
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -88,6 +86,77 @@ public class CourseDateToVerbManager {
                 } else {
                     first = false;
                 }
+
+                    resultString += "{\n" +
+                            "\t\t\"c\": [{\n" +
+                            "\t\t\t\"v\": \"Date(" + toDate + ")\"\n" +
+                            "\t\t}, {\n" +
+                            "\t\t\t\"v\": \"" + resultInt + "\"\n" +
+                            "\t\t}]\n" +
+                            "\t}";
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+            }
+        }
+
+        resultString += "]}";
+        return resultString;
+    }
+
+    public static String getCourseDateGDataD3(String courseId, String activityId) {
+        String resultString = "{\"cols\": [{\"id\": \"Date\",\"label\": \"Date\",\n" +
+                "\t\t\"type\": \"date\"\n" +
+                "\t}, {\n" +
+                "\t\t\"id\": \"Logins\",\n" +
+                "\t\t\"label\": \"Logins\",\n" +
+                "\t\t\"type\": \"number\"\n" +
+                "\t}],\n" +
+                "\t\"rows\": [";
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        boolean first = true;
+        Query q = new Query(CourseDateToVerb.TABLE_NAME)
+                .setFilter(new Query.FilterPredicate(CourseDateToVerb.COURSEID_COLUMN,
+                        Query.FilterOperator.EQUAL,
+                        courseId));
+
+        PreparedQuery pq = datastore.prepare(q);
+        for (Entity result : pq.asIterable()) {
+            try {
+                JSONObject entry = new JSONObject(((Text) result.getProperty(CourseDateToVerb.VALUE_COLUMN)).getValue());
+                String key = result.getKey().getName();
+                String date = key.substring(key.indexOf(courseId) + courseId.length() + 1);
+                Iterator<String> keyIter = entry.keys();
+                int resultInt = 0;
+                while (keyIter.hasNext()){
+                    String activityKey = keyIter.next();
+                    if (activityKey.contains(activityId) || activityId.equals("all")){
+                        resultInt += entry.getInt(activityKey);
+                    }
+                }
+
+
+                String toDate = null;
+                try {
+                    Date d =format.parse(date);
+                    toDate = ""+(d.getYear()+1900)+","+d.getMonth()+","+d.getDate();
+                    if ((d.getYear()+1900)>2015) {
+                        toDate = null;
+                    } else {
+                        System.out.println("could not convert "+date);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                if (toDate!=null) {
+                    if (first == false) {
+                        resultString +=",";
+
+                    } else {
+                        first = false;
+                    }
 
                     resultString += "{\n" +
                             "\t\t\"c\": [{\n" +

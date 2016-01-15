@@ -49,6 +49,10 @@ public class CalendarObject extends ChartObject {
         }
     }
 
+    public void addRow(String date, int amount) {
+        hm.put(date, amount);
+    }
+
     public JSONObject toJsonObject() {
         for (String dateString : hm.keySet()) {
             addRow(dateString, "" + hm.get(dateString));

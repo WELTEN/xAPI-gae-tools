@@ -18,9 +18,6 @@ window.RepresentationObject = Backbone.Model.extend({
 });
 
 window.CalendarActivity = Backbone.Model.extend({
-    initialize: function(studentId){
-        this.studentId = studentId;
-    },
     url: function(){
         return "/data-proxy/query/result/calendar/user/gdata";
         //return "/data-proxy/query/result/calendar/user/"+this.studentId+"/gdata";
@@ -59,6 +56,37 @@ window.CalendarActivityCourse = Backbone.Model.extend({
     },
     url: function(){
         return "/data-proxy/query/result/calendar/course/"+this.courseId;
+    },
+    defaults:{
+        "courseId": ""
+    }
+});
+
+
+window.CalendarLoginsAll = Backbone.Model.extend({
+    initialize: function(){
+
+    },
+    url: function(){
+        return "/data-proxy/query/result-fake/calendar/logins/gdata";
+        //return "/data-proxy/query/result/calendar/logins/gdata";
+    }
+});
+//        return "/data-proxy/query/result/calendar/logins/gdata";
+
+window.CalendarLoginsMe = Backbone.Model.extend({
+    initialize: function(){
+
+    },
+    url: function(){
+        //return "/data-proxy/query/result-fake/calendar/logins/gdata";
+        return "/data-proxy/query/result/calendar/logins/user/gdata";
+    }
+});
+
+window.Progress = Backbone.Model.extend({
+    url: function(){
+        return "/data-proxy/query/result-fake/progress/"+this.courseId+"/gdata";
     },
     defaults:{
         "courseId": ""

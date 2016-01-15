@@ -27,9 +27,114 @@ window.UserSidebarView = Backbone.View.extend({
     }
 });
 
+window.ProgressView = Backbone.View.extend({
+    tagName: "section",
+    className: "col-lg-6 connectedSortable ui-sortable",
+    initialize: function(options){
+        this.template = _.template(tpl.get('widget'));
+        this.title = options.title;
+    },
+    drawVisualization: function () {
+        this.data = new google.visualization.DataTable(this.model);
+        $(this.el).html(this.template({ title: this.title }));
+        var chart = new Backbone.GoogleChart({
+            chartType: 'BarChart',
+            dataTable: this.data,
+            backgroundColor: { fill:'#76a7fa' },
+            options: {
+                title: 'You progress in this MOOC',
+                chartArea: {width: '50%'},
+                hAxis: {
+                    title: 'Percentage',
+                    minValue: 0,
+                    maxValue: 100
+                }
+            }
+        });
+        this.$('.box-body').append(chart.render().el);
+    },
+    render: function() {
+        google.load('visualization', '1', {
+            'callback': _.bind(this.drawVisualization, this),
+            'packages': ['corechart', 'bar']
+        });
+        return this;
+    }
+});
+
+window.ColumnChartView = Backbone.View.extend({
+    tagName: "section",
+    className: "col-lg-12 connectedSortable ui-sortable",
+    initialize: function(options){
+        this.template = _.template(tpl.get('widget'));
+        this.title = options.title;
+    },
+    drawVisualization: function () {
+        this.data = new google.visualization.DataTable(this.model);
+        $(this.el).html(this.template({ title: this.title }));
+        var chart = new Backbone.GoogleChart({
+            chartType: 'ColumnChart',
+            dataTable: this.data,
+            options: {
+                //title: this.title,
+                chartArea: {width: '90%'},
+                'backgroundColor': 'transparent',
+
+
+                //,
+                //hAxis: {
+                //    title: 'Percentage',
+                //    minValue: 0,
+                //    maxValue: 100
+                //}
+            }
+        });
+        this.$('.box-body').append(chart.render().el);
+    },
+    render: function() {
+        google.load('visualization', '1', {
+            'callback': _.bind(this.drawVisualization, this),
+            'packages': ['corechart', 'bar']
+        });
+        return this;
+    }
+});
+
+window.GaugeView = Backbone.View.extend({
+    tagName: "section",
+    className: "col-lg-6 connectedSortable ui-sortable",
+    initialize: function(options){
+        this.template = _.template(tpl.get('widget'));
+        this.title = options.title;
+    },
+    drawVisualization: function () {
+        this.data = new google.visualization.DataTable(this.model);
+        $(this.el).html(this.template({ title: this.title }));
+        var chart = new Backbone.GoogleChart({
+            chartType: 'Gauge',
+            dataTable: this.data,
+            backgroundColor: { fill:'#76a7fa' },
+            options: {
+                width: 400, height: 120,
+                redFrom: 90, redTo: 100,
+                yellowFrom:75, yellowTo: 90,
+                minorTicks: 5
+            }
+        });
+        this.$('.box-body').append(chart.render().el);
+    },
+    render: function() {
+        google.load('visualization', '1', {
+            'callback': _.bind(this.drawVisualization, this),
+            'packages': ['gauge']
+        });
+        return this;
+    }
+});
+
 window.CalendarView = Backbone.View.extend({
     tagName: "section",
-    className: "col-lg-10 connectedSortable ui-sortable",
+    className: "col-lg-12 connectedSortable ui-sortable",
     initialize: function(options){
         this.template = _.template(tpl.get('widget'));
         this.title = options.title;
@@ -42,6 +147,9 @@ window.CalendarView = Backbone.View.extend({
             dataTable: this.data,
             backgroundColor: { fill:'#76a7fa' },
             options: {
+                width: '100%',
+                height:340,
+
                 calendar: {
                     monthLabel: {
                         fontName: 'Times-Roman',
@@ -244,9 +352,16 @@ window.CourseItemView = Backbone.View.extend({
     }
 });
 
-window.SandboxView1 = Backbone.View.extend({
+
+
+window.BarChartView = Backbone.View.extend({
     tagName:  "section",
     className: "col-lg-12 connectedSortable ui-sortable",
+    xScale: null,
+    yScale: null,
+    margin: {},
+    barSvg: null,
+    height: 0,
     initialize: function(options){
 
         this.template = _.template(tpl.get('widget'));
@@ -255,58 +370,61 @@ window.SandboxView1 = Backbone.View.extend({
         $(this.el).html(this.template({ title: this.title }));
         this.container = this.$('.box-body')[0];
 
-        $(this.container).html("hola");
-    },
-    render: function(){
         $(this.container).html("");
-        var margin = {top: 50, bottom: 50, left:150, right: 40};
-        if($( window ).width() < 760){
-            var width = $( window ).width()- 50 - margin.left - margin.right;
-        }else{
-            var width = $( window ).width() - 300 - margin.left - margin.right;
-        }
-        var height = 450 - margin.top - margin.bottom;
 
-        var xScale = d3.scale.linear().range([0, width]);
-        var yScale = d3.scale.ordinal().rangeRoundBands([0, height], 1.8,0);
+        this.margin = {top: 50, bottom: 50, left:150, right: 40};
+        if($( window ).width() < 760){
+            var width = $( window ).width()- 50 - this.margin.left - this.margin.right;
+        }else{
+            var width = $( window ).width() - 300 - this.margin.left - this.margin.right;
+        }
+        this.height = 450 - this.margin.top - this.margin.bottom;
+
+        this.xScale = d3.scale.linear().range([0, width]);
+        this.yScale = d3.scale.ordinal().rangeRoundBands([0, this.height], 1.8,0);
+
+
 
         var numTicks = 5;
-        var xAxis = d3.svg.axis().scale(xScale)
+        var xAxis = d3.svg.axis().scale(this.xScale)
             .orient("top")
-            .tickSize((-height))
+            .tickSize((-this.height))
             .ticks(numTicks);
 
-
-
         var svg = d3.select(this.container).append("svg")
-            .attr("width", width+margin.left+margin.right)
-            .attr("height", height+margin.top+margin.bottom)
+            .attr("width", width+this.margin.left+this.margin.right)
+            .attr("height", this.height+this.margin.top+this.margin.bottom)
             .attr("class", "base-svg");
 
-        var barSvg = svg.append("g")
-            .attr("transform", "translate("+margin.left+","+margin.top+")")
+        this.barSvg = svg.append("g")
+            .attr("transform", "translate("+this.margin.left+","+this.margin.top+")")
             .attr("class", "bar-svg");
 
-        var x = barSvg.append("g").attr("class", "x-axis");
+        var x = this.barSvg.append("g").attr("class", "x-axis");
 
-        var data = JSON.parse(this.model);
 
+    },
+    update: function(options){
+
+        //var data = JSON.parse(options);
+        data = options;
         var xMax = d3.max(data, function(d) { return d.rate; } );
         var xMin = 0;
 
+        this.xScale.domain([xMin, xMax]);
+        this.yScale.domain(data.map(function(d) { return d.label; }));
 
-        xScale.domain([xMin, xMax]);
-        yScale.domain(data.map(function(d) { return d.country; }));
+        var yScale = this.yScale;
+        var xScale = this.xScale;
 
         d3.select(".base-svg").append("text")
-            .attr("x", margin.left)
-            .attr("y", (margin.top)/2)
+            .attr("x", this.margin.left)
+            .attr("y", (this.margin.top)/2)
             .attr("text-anchor", "start")
-            .text("Narrowly defined unemployment rates: top 20 countries (2010)")
+            .text(this.title)
             .attr("class", "title");
 
-        var groups = barSvg.append("g")
-            .attr("class", "labels")
+        var groups = this.barSvg.append("g").attr("class", "labels")
             .selectAll("text")
             .data(data)
             .enter()
@@ -314,39 +432,25 @@ window.SandboxView1 = Backbone.View.extend({
 
         groups.append("text")
             .attr("x", "0")
-            .attr("y", function(d) { return yScale(d.country); })
-            .text(function(d) { return d.country; })
+            .attr("y", function(d) { return yScale(d.label); })
+            .text(function(d) { return d.label; })
             .attr("text-anchor", "end")
             .attr("dy", ".9em")
             .attr("dx", "-.32em")
             .attr("id", function(d,i) { return "label"+i; });
 
-        //x.call(xAxis);
-        //var grid = xScale.ticks(numTicks);
-        //barSvg.append("g").attr("class", "grid")
-        //    .selectAll("line")
-        //    .data(grid, function(d) { return d; })
-        //    .enter().append("line")
-        //    .attr("y1", 0)
-        //    .attr("y2", height+margin.bottom)
-        //    .attr("x1", function(d) { return xScale(d); })
-        //    .attr("x2", function(d) { return xScale(d); })
-        //    .attr("stroke", "white");
-
-
         var bars = groups
             .attr("class", "bars")
             .append("rect")
             .attr("width", function(d) { return xScale(d.rate); })
-            .attr("height", height/20)
+            .attr("height", this.height/20)
             .attr("x", xScale(xMin))
-            .attr("y", function(d) { return yScale(d.country); })
+            .attr("y", function(d) { return yScale(d.label); })
             .attr("id", function(d,i) { return "bar"+i; });
-
 
         groups.append("text")
             .attr("x", function(d) { return xScale(d.rate); })
-            .attr("y", function(d) { return yScale(d.country); })
+            .attr("y", function(d) { return yScale(d.label); })
             .text(function(d) { return d.rate; })
             .attr("text-anchor", "end")
             .attr("dy", "1.2em")
@@ -364,9 +468,13 @@ window.SandboxView1 = Backbone.View.extend({
                 currentGroup.select("rect").style("fill", "steelblue");
                 currentGroup.select("text").style("font-weight", "normal");
             });
+    },
+    render: function(){
+
         return this;
     }
 });
+
 
 window.SandboxView2 = Backbone.View.extend({
     tagName:  "section",

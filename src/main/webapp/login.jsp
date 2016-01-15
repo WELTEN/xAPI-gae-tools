@@ -32,13 +32,16 @@
   <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="index2.html"> Learning<b>Pulse</b> project</a>
+        <a href="index2.html"> ECO<b>Learning Analytics</b> login</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
         <div class="social-auth-links text-center">
         <%
           boolean showOr= false;
+//          System.out.println("metaccount "+Configuration.getAppId());
+//          System.out.println(Configuration.get(Configuration.METAACCOUNT));
+//            Configuration.printOut();
           if (Configuration.listContains(Configuration.METAACCOUNT, AccountJDO.GOOGLECLIENT)){
             showOr= true;
               OauthConfigurationJDO jdo = OauthKeyManager.getConfigurationObject(AccountJDO.GOOGLECLIENT);

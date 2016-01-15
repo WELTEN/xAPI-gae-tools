@@ -38,7 +38,7 @@ public class Configuration {
     public static final String EXPORTERS = "exporters";
     public static final String IMPORTERS = "importers";
     private static Properties props = new Properties();
-    private static String serviceAccountName = AppIdentityServiceFactory.getAppIdentityService().getServiceAccountName();
+    private static String serviceAccountName = null;
 
     public static final String METAACCOUNT = "metaAccount";
     public static final String SECONDARY_ACCOUNT = "secondaryAccounts";
@@ -50,7 +50,8 @@ public class Configuration {
 
     static {
         InputStream is = Configuration.class.getClassLoader().getResourceAsStream("./META-INF/configuration.properties");
-
+        serviceAccountName = AppIdentityServiceFactory.getAppIdentityService().getServiceAccountName();
+        if (serviceAccountName.contains("localhost")) serviceAccountName = "localhost";
         try {
             props.load(is);
         } catch (IOException e) {
@@ -91,5 +92,9 @@ public class Configuration {
 
     public static String getAppId() {
         return serviceAccountName;
+    }
+
+    public static void printOut(){
+        props.list(System.out);
     }
 }

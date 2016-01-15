@@ -102,9 +102,14 @@ public class BigQuerySyncTask extends GenericBean {
                 try {
                     TableDataInsertAllRequest.Rows rows = new TableDataInsertAllRequest.Rows();
                     rows.setInsertId(entity.getKey().getName());
-                    rows.setJson(xAPItoRow(((Text) entity.getProperty("statementPayload")).getValue(), entity.getKey().getName(), (String) entity.getProperty("origin")));
-                    rowList.add(rows);
-                    entity.setProperty(StatementManager.BIGQUERYSYNCSTATE, Statement.SYNCED);
+                    TableRow tableRow = xAPItoRow(((Text) entity.getProperty("statementPayload")).getValue(), entity.getKey().getName(), (String) entity.getProperty("origin"));
+                    if (tableRow!=null) {
+                        rows.setJson(tableRow);
+                        rowList.add(rows);
+                        entity.setProperty(StatementManager.BIGQUERYSYNCSTATE, Statement.SYNCED);
+                    } else {
+                        entity.setProperty(StatementManager.BIGQUERYSYNCSTATE, Statement.ERROR);
+                    }
                 } catch (Exception e) {
                     entity.setProperty(StatementManager.BIGQUERYSYNCSTATE, Statement.ERROR);
                 }
@@ -232,6 +237,8 @@ public class BigQuerySyncTask extends GenericBean {
             log.log(Level.SEVERE, e.getMessage(), e);
             e.printStackTrace();
         }
+
+        System.out.println("uuid "+uuid + " failed ");
 
         return null;
     }

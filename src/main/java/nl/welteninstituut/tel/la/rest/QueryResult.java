@@ -3,6 +3,7 @@ package nl.welteninstituut.tel.la.rest;
 import nl.welteninstituut.tel.la.chartobjects.DropOutObject;
 import nl.welteninstituut.tel.la.chartobjects.LearnerAverageActivities;
 import nl.welteninstituut.tel.la.jdomanager.*;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -72,22 +73,33 @@ public class QueryResult extends Service {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/calendar/course/{courseId}")
     public String getCalendarCourse(@PathParam("courseId") String courseId) throws IOException {
-
         return CourseDateToVerbManager.getCourseDateGData(courseId, "all");
-//        return "{\"cols\": [{\"id\": \"Date\",\"label\": \"Date\",\n" +
-//                "\t\t\"type\": \"date\"\n" +
-//                "\t}, {\n" +
-//                "\t\t\"id\": \"Logins\",\n" +
-//                "\t\t\"label\": \"Logins\",\n" +
-//                "\t\t\"type\": \"number\"\n" +
-//                "\t}],\n" +
-//                "\t\"rows\": []}";
     }
 
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/calendar/logins/gdata")
+    public String getCalendarLogins() throws IOException {
+        return QueryCacheManager.getQueryResult("calendar_logins");
+    }
 
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/calendar/logins/user/gdata")
+    public String getCalendarLogins(@HeaderParam("Authorization") String token) throws IOException {
+        if (!validCredentials(token))
+            return getInvalidCredentialsBean();
+        return QueryCacheManager.getQueryResult("calendar_logins_"+userId);
+    }
 
-
-
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/calendar/course/{courseId}/d3")
+    public String getCalendarCourseD3(@PathParam("courseId") String courseId) throws IOException {
+        //return CourseDateToVerbManager.getCourseDateGData(courseId, "all");
+        //todo
+        return "";
+    }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON })
@@ -108,44 +120,29 @@ public class QueryResult extends Service {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON })
-    @Path("/resourceTypes/course/{courseId}/gdata")
+    @Path("/resourceTypes/course/{courseId}/d3")
     public String getResoucesUsed(@HeaderParam("Authorization") String token,
                                   @PathParam("courseId") String courseId) throws IOException {
-//        if (!validCredentials(token))
-//            return getInvalidCredentialsBean();
-        userId = "5458df628a24efd87e90ad00";
-        System.out.println("userId "+userId);
+        if (!validCredentials(token))
+            return getInvalidCredentialsBean();
+//        userId = "549986a4cd35f8064e81cf12";
+//        userId = "562bea850213f05409423ea8";
+        final String cacheKey = "resourceTypes_"+courseId+"_"+userId;
+        return QueryCacheManager.getQueryResult(cacheKey);
+
+//        return CourseDateToObjectDefinitionManager.getResourcesCommittedD3(courseId, userId, "all");
+
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/resourceTypes/course/{courseId}/gdata")
+    public String getResoucesUsedGdata(@HeaderParam("Authorization") String token,
+                                  @PathParam("courseId") String courseId) throws IOException {
+        if (!validCredentials(token))
+            return getInvalidCredentialsBean();
+//        userId = "5561fcf53a8538f429d6aba2";
         return CourseDateToObjectDefinitionManager.getResourcesCommittedGData(courseId, userId,  "all");
-//        return "{\n" +
-//                "\t\"cols\": [{\n" +
-//                "\t\t\"id\": \"Average all learners in the course\",\n" +
-//                "\t\t\"label\": \"Resources committed\",\n" +
-//                "\t\t\"type\": \"string\"\n" +
-//                "\t}, {\n" +
-//                "\t\t\"id\": \"http://activitystrea.ms/schema/1.0/task\",\n" +
-//                "\t\t\"label\": \"task\",\n" +
-//                "\t\t\"type\": \"number\"\n" +
-//                "\t}, {\n" +
-//                "\t\t\"id\": \"http://activitystrea.ms/schema/1.0/video\",\n" +
-//                "\t\t\"label\": \"video\",\n" +
-//                "\t\t\"type\": \"number\"\n" +
-//                "\t}, {\n" +
-//                "\t\t\"id\": \"http://www.ecolearning.eu/expapi/activitytype/syllabus\",\n" +
-//                "\t\t\"label\": \"syllabus\",\n" +
-//                "\t\t\"type\": \"number\"\n" +
-//                "\t}],\n" +
-//                "\t\"rows\": [{\n" +
-//                "\t\t\"c\": [{\n" +
-//                "\t\t\t\"v\": \"Resources\"\n" +
-//                "\t\t}, {\n" +
-//                "\t\t\t\"v\": \"1\"\n" +
-//                "\t\t}, {\n" +
-//                "\t\t\t\"v\": \"1\"\n" +
-//                "\t\t}, {\n" +
-//                "\t\t\t\"v\": \"1\"\n" +
-//                "\t\t}]\n" +
-//                "\t}]\n" +
-//                "}";
     }
 
     @GET
@@ -173,4 +170,47 @@ public class QueryResult extends Service {
     public String dropoutMonitorForCourse(@PathParam("courseId") final String courseId) throws IOException {
         return QueryCacheManager.getQueryResult("course_activities_"+courseId);
     }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/resourceTypes/meso/course/{courseId}/d3")
+    public String queryResoucesUsed(@PathParam("courseId") final String courseId) throws IOException {
+        return QueryCacheManager.getQueryResult("resourceTypes_meso_"+courseId);
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/progress/{courseId}/gdata")
+    public String getProgress(@HeaderParam("Authorization") String token,
+                              @PathParam("courseId") String courseId) throws IOException {
+        if (!validCredentials(token))
+            return getInvalidCredentialsBean();
+        String course = QueryCacheManager.getQueryResult("progress_"+courseId);
+        if (course.equals("{}")) return course;
+        String user = QueryCacheManager.getQueryResult("progress_"+courseId+"_"+userId);
+        if (user.equals("{}")) return course;
+        try {
+            System.out.println(course);
+            JSONArray courseArray = new JSONArray(course);
+            JSONArray userArray = new JSONArray(user);
+            int progress = 0;
+            if (courseArray.length()!=0) {
+                progress=  ( userArray.length()  *100)  /courseArray.length();
+            }
+            return "{\"cols\":[{\"label\":\"City\",\"type\":\"string\"},{\"label\":\"Progress\",\"type\":\"number\"}],\"rows\":[{\"c\":[{\"v\":\"You\"},{\"v\":"+progress+"}]}]}";
+        } catch (JSONException e) {
+
+    e.printStackTrace();
+        }
+        return "{\"cols\":[{\"label\":\"City\",\"type\":\"string\"},{\"label\":\"Progress\",\"type\":\"number\"}],\"rows\":[{\"c\":[{\"v\":\"You\"},{\"v\":66}]}]}";
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/interactivitySort/{courseId}/gdata")
+    public String interactivitySort(@PathParam("courseId") final String courseId) throws IOException {
+        final String cacheKey = "interactivitySort_"+courseId;
+        return QueryCacheManager.getQueryResult(cacheKey);
+    }
+
 }

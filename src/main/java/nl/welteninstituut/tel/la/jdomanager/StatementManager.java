@@ -128,11 +128,17 @@ public class StatementManager {
 
         try {
 //            return ((Statement) pm.getObjectById()).getErrorMessage().getValue();
-            return pm.getObjectById(Statement.class,  Long.parseLong(id)).getStatementPayload().getValue();
+//             DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            return ((Text)datastore.get(KeyFactory.createKey(Statement.class.getSimpleName(), id)).getProperty(STATEMENTPAYLOAD)).getValue();
+//            return pm.getObjectById(Statement.class, KeyFactory.createKey(Statement.class.getSimpleName(), id)).getStatementPayload().getValue();
+//            return pm.getObjectById(Statement.class,  Long.parseLong(id)).getStatementPayload().getValue();
 //            return ((Statement) pm.getObjectById(KeyFactory.createKey(Statement.class.getSimpleName(), id))).getErrorMessage().getValue();
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
         } finally {
             pm.close();
         }
+        return "{}";
     }
 
     public static String getStatements(String startCursor) {
