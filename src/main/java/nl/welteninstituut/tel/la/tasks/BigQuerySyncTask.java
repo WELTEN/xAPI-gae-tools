@@ -1,5 +1,6 @@
 package nl.welteninstituut.tel.la.tasks;
 
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.google.api.services.bigquery.model.TableDataInsertAllRequest;
 import com.google.api.services.bigquery.model.TableDataInsertAllResponse;
 import com.google.api.services.bigquery.model.TableRow;
@@ -52,6 +53,7 @@ public class BigQuerySyncTask extends GenericBean {
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
     private static DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static ISO8601DateFormat isoParser = new ISO8601DateFormat();
 
     public BigQuerySyncTask() {
 
@@ -98,12 +100,15 @@ public class BigQuerySyncTask extends GenericBean {
         TransactionOptions options = TransactionOptions.Builder.withXG(true);
         Transaction txn = datastore.beginTransaction(options);
         try {
+            boolean oneSuccessFullHeader = false;
             for (Entity entity : results) {
                 try {
                     TableDataInsertAllRequest.Rows rows = new TableDataInsertAllRequest.Rows();
                     rows.setInsertId(entity.getKey().getName());
                     TableRow tableRow = xAPItoRow(((Text) entity.getProperty("statementPayload")).getValue(), entity.getKey().getName(), (String) entity.getProperty("origin"));
+
                     if (tableRow!=null) {
+                        oneSuccessFullHeader = true;
                         rows.setJson(tableRow);
                         rowList.add(rows);
                         entity.setProperty(StatementManager.BIGQUERYSYNCSTATE, Statement.SYNCED);
@@ -113,16 +118,19 @@ public class BigQuerySyncTask extends GenericBean {
                 } catch (Exception e) {
                     entity.setProperty(StatementManager.BIGQUERYSYNCSTATE, Statement.ERROR);
                 }
-
                 datastore.put(entity);
             }
-            TableDataInsertAllResponse response = InsertAPI.getInstance().insertRowList(rowList, Configuration.get(Configuration.BQTableId));
+            if (oneSuccessFullHeader){
+                TableDataInsertAllResponse response = InsertAPI.getInstance().insertRowList(rowList, Configuration.get(Configuration.BQTableId));
+            }
             txn.commit();
         } catch (Exception ex) {
+            log.log(Level.SEVERE, "exception occurred so rollback", ex);
             ex.printStackTrace();
             txn.rollback();
         } finally {
             if (txn.isActive()) {
+                log.log(Level.SEVERE, "doing rollback");
                 txn.rollback();
             }
         }
@@ -143,13 +151,17 @@ public class BigQuerySyncTask extends GenericBean {
             JSONObject actorObject = jsonObject.getJSONObject("actor");
             long timestampLong = 0l;
             if (jsonObject.has("timestamp")) {
-//                System.out.println("date from gae: "+jsonObject.getString("timestamp"));
                 String timestamp = jsonObject.getString("timestamp");
                 try {
-                    timestampLong = df.parse(timestamp).getTime();
-                } catch (ParseException e) {
-                    timestampLong = df2.parse(timestamp).getTime();
+                    timestampLong = isoParser.parse(timestamp).getTime();
+                } catch (Exception ex) {
+                    try {
+                        timestampLong = df.parse(timestamp).getTime();
+                    } catch (ParseException e) {
+                        timestampLong = df2.parse(timestamp).getTime();
+                    }
                 }
+
             }
             String actorType = actorObject.getString("objectType");
             String actorId = StringPool.BLANK;
@@ -160,11 +172,16 @@ public class BigQuerySyncTask extends GenericBean {
             }
 
             String verbId = jsonObject.getJSONObject("verb").getString("id");
-            String objectType = jsonObject.getJSONObject("object").getString("objectType");
-            String objectId = jsonObject.getJSONObject("object").getString("id");
+
+            String objectType = StringPool.BLANK;//jsonObject.getJSONObject("object").getString("objectType");
+            String objectId = StringPool.BLANK;//jsonObject.getJSONObject("object").getString("id");
             String objectDefinition = "";
-            String courseId = "todo";
+            String objectAccountId = StringPool.BLANK;
+            String courseId = StringPool.BLANK;
             String resultResponse = StringPool.BLANK;
+            String objectDescription = StringPool.BLANK;
+            String objectDefinitionName = StringPool.BLANK;
+
             double resultDuration = 0l;
             if (jsonObject.has("result")) {
                 JSONObject resultObject = jsonObject.getJSONObject("result");
@@ -208,7 +225,15 @@ public class BigQuerySyncTask extends GenericBean {
                 if (context.has("contextActivities")) {
                     JSONObject contextActivities = context.getJSONObject("contextActivities");
                     if (contextActivities.has("parent")) {
-                        JSONObject parent = contextActivities.getJSONArray("parent").getJSONObject(0);
+                        Object parentObject = contextActivities.get("parent");
+                        JSONObject parent= null;
+                        if (parentObject instanceof JSONArray) {
+                            parent = ((JSONArray) parentObject).getJSONObject(0);
+                        } else {
+                            parent =((JSONObject) parentObject);
+                        }
+
+                        //JSONObject parent = contextActivities.getJSONArray("parent").getJSONObject(0);
                         if (
                                 parent.has("id") &&
                                 parent.has("definition") &&
@@ -220,13 +245,61 @@ public class BigQuerySyncTask extends GenericBean {
                     }
                 }
             }
+
+
             try {
-                objectDefinition = jsonObject.getJSONObject("object").getJSONObject("definition").getString("type");
+                JSONObject object = jsonObject.getJSONObject("object");
+
+                if (object.has("objectType")) objectType = object.getString("objectType");
+                if (object.has("id")) objectId = object.getString("id");
+                if (object.has("account")) {
+                    if (object.getJSONObject("account").has("name")) {
+                        objectAccountId = object.getJSONObject("account").getString("name");
+                    } else {
+                        objectAccountId = object.getString("mbox");
+                    }
+                }
+                if (object.has("definition")) {
+                    JSONObject objectDefinitionJObject = object.getJSONObject("definition");
+                    if (objectDefinitionJObject.has("type")) {
+                        objectDefinition = objectDefinitionJObject.getString("type");
+                    }
+                    if (objectDefinitionJObject.has("name")) {
+                        JSONObject objectDefinitionNameJObject = objectDefinitionJObject.getJSONObject("name");
+                        if (objectDefinitionNameJObject.has("en-US")) {
+                            objectDefinitionName = objectDefinitionNameJObject.getString("en-US");
+                        } else {
+                            if (objectDefinitionNameJObject.length() >=1) {
+                                objectDefinitionName = objectDefinitionNameJObject.getString((String)objectDefinitionNameJObject.keys().next());
+                            }
+                            //if (objectDefinitionNameJObject.)
+                        }
+                    }
+                    if (objectDefinitionJObject.has("description")) {
+                        JSONObject objectDescriptionJObject = objectDefinitionJObject.getJSONObject("description");
+                        if (objectDescriptionJObject.has("en-US")) {
+                            objectDescription = objectDescriptionJObject.getString("en-US");
+                        } else {
+                            if (objectDescriptionJObject.length() >=1) {
+                                objectDescription = objectDescriptionJObject.getString((String)objectDescriptionJObject.keys().next());
+                            }
+                        }
+
+                    }
+                }
+
+                if (courseId == StringPool.BLANK && objectId != null) {
+                    if (objectId.contains("https://hub0.ecolearning.eu/course/smooc-step-by-step")) courseId = "oai:eu.ecolearning.hub0:2";
+                    if (objectId.contains("https://hub0.ecolearning.eu/course/smooc-step-by-step-2ed")) courseId = "oai:eu.ecolearning.hub0:4";
+                }
+//                objectDefinition = jsonObject.getJSONObject("object").getJSONObject("definition").getString("type");
             } catch (Exception e) {
                 e.printStackTrace();
+                log.log(Level.SEVERE, "exception occured with " + uuid, e);
+                return null;
             }
 
-            return createTableRow(uuid, timestampLong, actorType, actorId, verbId, objectType, objectId, objectDefinition, lat, lng, courseId, origin, resultResponse, resultDuration);
+            return createTableRow(uuid, timestampLong, actorType, actorId, verbId, objectType, objectId, objectDefinition, lat, lng, courseId, origin, resultResponse, resultDuration, objectDefinitionName, objectDescription, objectAccountId);
         } catch (JSONException e) {
             log.log(Level.SEVERE, e.getMessage(), e);
             e.printStackTrace();
@@ -235,6 +308,7 @@ public class BigQuerySyncTask extends GenericBean {
             e.printStackTrace();
         } catch (ParseException e) {
             log.log(Level.SEVERE, e.getMessage(), e);
+            log.log(Level.SEVERE, "in parse exception");
             e.printStackTrace();
         }
 
@@ -243,8 +317,9 @@ public class BigQuerySyncTask extends GenericBean {
         return null;
     }
 
-    public TableRow createTableRow(String id, long timestamp, String actorType, String actorId, String verbId, String objectType, String objectId, String objectDefinition, Double lat, Double lng, String courseId, String origin, String resultResponse, double resultDuration) throws IOException {
+    public TableRow createTableRow(String id, long timestamp, String actorType, String actorId, String verbId, String objectType, String objectId, String objectDefinition, Double lat, Double lng, String courseId, String origin, String resultResponse, double resultDuration, String objectDefinitionName, String objectDescription, String objectAccountId) throws IOException {
         TableRow row = new TableRow();
+
         row.set("activityId", id);
 //        System.out.println("date to bigquery: "+format.format(timestamp));
         row.set("timestamp", format.format(timestamp));
@@ -260,6 +335,16 @@ public class BigQuerySyncTask extends GenericBean {
         row.set("origin", origin);
         row.set("resultResponse", resultResponse);
         row.set("resultDuration", resultDuration);
+        row.set("objectDefinitionName", objectDefinitionName);
+        row.set("objectDescription", objectDescription);
+        row.set("objectAccountId", objectAccountId);
         return row;
+    }
+
+
+    public static void main(String[] args) throws Exception {
+        BigQuerySyncTask task = new BigQuerySyncTask();
+        String postdata = "{\"actor\":{\"objectType\":\"Agent\",\"account\":{\"homePage\":\"https://portal.ecolearning.eu?user=55f017b3f9f489bb45c8edbe\",\"name\":\"55f017b3f9f489bb45c8edbe\"},\"name\":\"Liliana Melo\",\"mbox\":\"lmcmelo@gmail.com\"},\"verb\":{\"id\":\"http://activitystrea.ms/schema/1.0/access\",\"display\":{\"en-US\":\"Indicates the learner accessed something\"}},\"object\":{\"objectType\":\"Activity\",\"id\":\"http://eco.imooc.uab.pt/mimooc/mod/book/view.php?id=323&chapterid=78\",\"definition\":{\"name\":{\"pt-PT\":\"Guia de Aprendizagem\"},\"description\":{\"pt-PT\":\"<p><em><span style=\\\"color: #ff6600;\\\"><strong>Guia de Aprendizagem do ECOiMOOC</strong></span><strong> - 2Âª EdiÃ§Ã£o</strong></em></p>\"},\"type\":\"http://id.tincanapi.com/activitytype/book\"}},\"context\":{\"contextActivities\":{\"parent\":[{\"objectType\":\"Activity\",\"id\":\"oai:pt.uab.imooc.eco:course_11_e-skills-C\",\"definition\":{\"type\":\"http://adlnet.gov/expapi/activities/course\",\"name\":{\"pt-PT\":\"CompetÃªncias digitais para professores (3Âª ediÃ§Ã£o)\"}}}]}},\"timestamp\":\"2016-01-01T22:32:50+00:00\",\"version\":\"1.0.1\"}";
+        System.out.println(task.xAPItoRow(postdata, "uuid", "edx").toPrettyString());
     }
 }
