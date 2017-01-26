@@ -2,10 +2,45 @@
 <!DOCTYPE cronentries>
 <cronentries>
     <cron>
-        <url>/importers</url>
-        <description>Repopulate the cache every 2 minutes</description>
-        <schedule>every 60 minutes</schedule>
+        <url>/syncBigQuery</url>
+        <description>Sync statements to big query every 5 minutes</description>
+        <schedule>every 5 minutes</schedule>
+    </cron>
+
+    <cron>
+        <url>/data-proxy/query/studentPaths/eu.ecolearning.hub0:11</url>
+        <description>Sync statements to big query every 5 minutes</description>
+        <schedule>every 24 hours</schedule>
+    </cron>
+
+    <cron>
+        <url>/data-proxy/query/studentPaths/eu.ecolearning.hub8:20</url>
+        <description>Sync statements to big query every 5 minutes</description>
+        <schedule>every 24 hours</schedule>
+    </cron>
+
+    <cron>
+        <url>/data-proxy/query/studentPaths/eu.ecolearning.hub5:57</url>
+        <description>Sync statements to big query every 5 minutes</description>
+        <schedule>every 24 hours</schedule>
+    </cron>
+
+    <cron>
+        <url>/data-proxy/query/studentPaths/eu.ecolearning.hub8:59</url>
+        <description>Sync statements to big query every 5 minutes</description>
+        <schedule>every 24 hours</schedule>
+    </cron>
+
+    <cron>
+        <url>/data-proxy/query/studentPaths/eu.ecolearning.hub10b:13</url>
+        <description>Sync statements to big query every 5 minutes</description>
+        <schedule>every 24 hours</schedule>
     </cron>
 
 
+    <cron>
+        <url>/data-proxy/query/studentPaths/eu.ecolearning.hub11:20</url>
+        <description>Sync statements to big query every 5 minutes</description>
+        <schedule>every 24 hours</schedule>
+    </cron>
 </cronentries>

@@ -1,7 +1,23 @@
 <a href="#"><i class="fa fa-circle-o"></i> <%= title[0].string.substr(0,23) %> <i class="fa fa-angle-left pull-right"></i></a>
 <ul class="treeview-menu menu-open">
-    <li><a href="#/mooc/<%= oaiPmhIdentifier %>/student"><i class="fa fa-circle-o"></i> My Data</a></li>
-    <li><a href="#/mooc/<%= oaiPmhIdentifier %>/teacher"><i class="fa fa-circle-o"></i> Mooc Data</a></li>
+    <li class="active"><a href="#/mooc/<%= oaiPmhIdentifier %>/student" data-i18n='myData' ><i class="fa fa-circle-o"></i> My Data</a>
+        <ul class="treeview-menu menu-open">
+            <li><a href="#/mooc/<%= oaiPmhIdentifier %>/student"  data-i18n='default'><i class="fa fa-circle-o"></i> Default</a>
+            <li><a href="#/mooc/<%= oaiPmhIdentifier %>/student/resource"  data-i18n='resources'><i class="fa fa-circle-o"></i> Resources</a>
+            <li><a href="#/mooc/<%= oaiPmhIdentifier %>/student/performance"  data-i18n='performance'><i class="fa fa-circle-o"></i> Perfomance</a>
+
+
+        </ul>
+    </li>
+    <li class="active"><a href="#/mooc/<%= oaiPmhIdentifier %>/teacher" data-i18n='moocData' ><i class="fa fa-circle-o"></i> Mooc Data</a>
+        <ul class="treeview-menu menu-open">
+            <li><a href="#/mooc/<%= oaiPmhIdentifier %>/teacher" data-i18n='default'><i class="fa fa-circle-o"></i> Default</a>
+            <li><a href="#/mooc/<%= oaiPmhIdentifier %>/teacher/resource" data-i18n='resources'><i class="fa fa-circle-o"></i> Resources</a>
+            <li><a href="#/mooc/<%= oaiPmhIdentifier %>/student/path" data-i18n='path'><i class="fa fa-circle-o"></i> Path</a>
+            <li><a href="#/mooc/<%= oaiPmhIdentifier %>/teacher/studentActivity" data-i18n='studentactivity'><i class="fa fa-circle-o"></i> Student activity</a>
+            <li><a href="#/mooc/<%= oaiPmhIdentifier %>/teacher/social" data-i18n='social'><i class="fa fa-circle-o"></i> Social</a>
+        </ul>
+    </li>
     <!--<li><a href="#/mooc/<%= oaiPmhIdentifier %>/admin"><i class="fa fa-circle-o"></i> Administrator</a></li>-->
 
 </ul>

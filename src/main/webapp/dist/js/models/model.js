@@ -110,6 +110,11 @@ window.DropOutMonitor = Backbone.Model.extend({
 
 window.Course = Backbone.Model.extend({});
 
+window.TimeLineItem = Backbone.Model.extend({
+
+
+});
+
 //////////////
 // Collections
 //////////////
@@ -139,6 +144,16 @@ window.CoursesCollection = Backbone.Collection.extend({
     parse: function (response) {
         // Return people object which is the array from response
         return response.courses;
+    }
+});
+
+window.TimeLineCollection = Backbone.Collection.extend({
+    model: TimeLineItem,
+    url: '/data-proxy/query/result/timeline',
+    //url: '/test/trend/data.json',
+
+    parse: function (response) {
+        return response.results;
     }
 });
 

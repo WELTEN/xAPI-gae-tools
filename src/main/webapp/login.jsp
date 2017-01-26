@@ -64,7 +64,7 @@
             String url = "http://idp.ecolearning.eu/authorize?response_type=code&scope=openid+profile+email&client_id="+client_id+"&redirect_uri="+redirect_uri;
 
         %>
-          <a class="btn btn-block btn-social btn-ecolearning btn-flat" href="<%=url%>"><i class="fa fa-ecolearning"></i>[Dev] Login with ECO</a>
+          <a class="btn btn-block btn-social btn-ecolearning btn-flat" href="<%=url%>"><i class="fa fa-ecolearning"></i>Login with ECO</a>
 
 
           <%

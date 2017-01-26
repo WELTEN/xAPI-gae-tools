@@ -80,7 +80,6 @@ public class InteractivitySortQT extends GenericBean {
 
                         resultObject.addRow(""+(index++), count);
                     }
-                System.out.println("index count "+index);
                 QueryCacheManager.addQueryResult(cacheKey, resultObject.toJsonObject().toString());
             } else {
                 scheduleTask();

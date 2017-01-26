@@ -65,6 +65,13 @@ public class ResetBigquerySyncJob extends Job {
                 new Query.FilterPredicate("origin",
                         Query.FilterOperator.EQUAL,
                         origin);
+
+//        Query.Filter propertyFilter =
+//                new Query.FilterPredicate("BigQuerySyncronisationState",
+//                        Query.FilterOperator.EQUAL,
+//                        2);
+
+
         Query q = new Query("Statement");
         if (origin != null){
             q = q.setFilter(propertyFilter);

@@ -44,7 +44,8 @@ public class Courses extends Service {
         try {
             return "{\n" +
                     "  \"courses\":" +
-                    readURL(new URL("https://backend.ecolearning.eu/courseprogress/"+userId+"?cached=1"),getBearer(token)).replace("PmhIdentifier\":\"eu.ecolearning.", "PmhIdentifier\":\"oai:eu.ecolearning.")
+                    readURL(new URL("https://backend.ecolearning.eu/courseprogress/"+userId+"?cached=1"),getBearer(token))
+                    //readURL(new URL("https://backend.ecolearning.eu/courseprogress/"+userId+"?cached=1"),getBearer(token)).replace("PmhIdentifier\":\"eu.ecolearning.", "PmhIdentifier\":\"oai:eu.ecolearning.")
                     +"}";
         } catch (JSONException e) {
             e.printStackTrace();

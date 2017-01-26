@@ -62,13 +62,26 @@ public class Query extends Service {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON })
+    @Path("/calendar/course/threadopening/{courseId}")
+    public String queryCourseThreadOpening(@PathParam("courseId") final String courseId) throws IOException {
+        long lastModificationDate = QueryCacheManager.getLastModificationDate("calendar_course_"+courseId);
+        return executeOnlyIfResultIsOutDated(DAY, "calendar_course_threadopening_"+courseId, new Runnable() {
+
+            public void run() {
+                bigQuery.queryCourseThreadOpeningMessages(courseId);
+            }
+        });
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
     @Path("/calendar/course/{courseId}")
     public String queryCourse(@PathParam("courseId") final String courseId) throws IOException {
         long lastModificationDate = QueryCacheManager.getLastModificationDate("calendar_course_"+courseId);
         return executeOnlyIfResultIsOutDated(DAY, "calendar_course_"+courseId, new Runnable() {
 
             public void run() {
-                bigQuery.queryCourse(courseId);
+                bigQuery.queryCourseActivities(courseId);
             }
         });
     }
@@ -85,20 +98,6 @@ public class Query extends Service {
             }
         });
     }
-
-//    @GET
-//    @Produces({MediaType.APPLICATION_JSON })
-//    @Path("/calendar/logins/user/{user}")
-//    public String queryCalendarLoginsUser(@HeaderParam("Authorization") String token, @PathParam("user") final String user) throws IOException {
-////        if (!validCredentials(token))
-////            return getInvalidCredentialsBean();
-//        return executeOnlyIfResultIsOutDated(DAY, "calendar_logins_"+user, new Runnable() {
-//
-//            public void run() {
-//                bigQuery.queryLogins(user);
-//            }
-//        });
-//    }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON })
@@ -154,10 +153,11 @@ public class Query extends Service {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/dropoutMonitor")
     public String dropoutMonitor(@HeaderParam("Authorization") String token) throws IOException {
-        return executeOnlyIfResultIsOutDated(DAY, "course_login_overview", new Runnable() {
+        final String cacheKey = "dropoutMonitor";
+        return executeOnlyIfResultIsOutDated(DAY, cacheKey, new Runnable() {
 
             public void run() {
-                bigQuery.courseLoginOverview();
+                bigQuery.dropoutMonitor(cacheKey);
             }
         });
     }
@@ -229,4 +229,125 @@ public class Query extends Service {
             }
         });
     }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/interactivitySort/{courseId}/me")
+    public String interactivitySortMe(@HeaderParam("Authorization") String token,
+                                    @PathParam("courseId") final String courseId) throws IOException {
+        if (!validCredentials(token))
+            return getInvalidCredentialsBean();
+        final String cacheKey = "interactivitySort_"+courseId+"_"+userId;
+        return executeOnlyIfResultIsOutDated(DAY, cacheKey, new Runnable() {
+
+            public void run() {
+                bigQuery.interactivitySort(courseId, cacheKey, userId);
+            }
+        });
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/studentPaths/{courseId}")
+    public String studentPaths(@HeaderParam("Authorization") String token,
+                                    @PathParam("courseId") final String courseId) throws IOException {
+        final String cacheKey = "studentPaths_"+courseId;
+        return executeOnlyIfResultIsOutDated(DAY, cacheKey, new Runnable() {
+
+            public void run() {
+                bigQuery.studentPaths(courseId, cacheKey);
+            }
+        });
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/social/follows")
+    public String socialFollows(@HeaderParam("Authorization") String token) throws IOException {
+        final String cacheKey = "socialFollows";
+        return executeOnlyIfResultIsOutDated(DAY, cacheKey, new Runnable() {
+
+            public void run() {
+                bigQuery.socialFollows(cacheKey);
+            }
+        });
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/social/{courseId}/follows")
+    public String socialCourseFollows(@HeaderParam("Authorization") String token,
+                                @PathParam("courseId") final String courseId) throws IOException {
+        final String cacheKey = "socialFollows_"+courseId;
+        return executeOnlyIfResultIsOutDated(DAY, cacheKey, new Runnable() {
+
+            public void run() {
+                bigQuery.socialFollows(cacheKey, courseId);
+            }
+        });
+    }
+
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/timeline")
+    public String timeLineUser(@HeaderParam("Authorization") String token,
+                                      @PathParam("courseId") final String courseId) throws IOException {
+        if (!validCredentials(token))
+            return getInvalidCredentialsBean();
+        final String cacheKey = "timeline_"+userId;
+        return executeOnlyIfResultIsOutDated(DAY, cacheKey, new Runnable() {
+
+            public void run() {
+                bigQuery.timeline(cacheKey, userId);
+            }
+        });
+    }
+
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/allCourseActivities")
+    public String allCourseActivities() throws IOException {
+        final String cacheKey = "allCourseActivities";
+        return executeOnlyIfResultIsOutDated(DAY, cacheKey, new Runnable() {
+
+            public void run() {
+                bigQuery.allCourseActivities(cacheKey);
+            }
+        });
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/rob/{courseId}")
+    public String rob(@HeaderParam("Authorization") String token,
+                               @PathParam("courseId") final String courseId) throws IOException {
+//        if (!validCredentials(token))
+//            return getInvalidCredentialsBean();
+        final String cacheKey = "calendar_course_"+courseId;
+        return executeOnlyIfResultIsOutDated(DAY, cacheKey, new Runnable() {
+
+            public void run() {
+                bigQuery.rob(cacheKey, courseId);
+            }
+        });
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/rob")
+    public String robAll(@HeaderParam("Authorization") String token,
+                      @PathParam("courseId") final String courseId) throws IOException {
+//        if (!validCredentials(token))
+//            return getInvalidCredentialsBean();
+        final String cacheKey = "calendar_course_all";
+        return executeOnlyIfResultIsOutDated(DAY, cacheKey, new Runnable() {
+
+            public void run() {
+                bigQuery.rob(cacheKey);
+            }
+        });
+    }
+
 }

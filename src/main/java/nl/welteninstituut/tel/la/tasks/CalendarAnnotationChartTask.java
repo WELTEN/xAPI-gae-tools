@@ -6,8 +6,7 @@ import com.google.api.services.bigquery.model.TableCell;
 import com.google.api.services.bigquery.model.TableRow;
 import nl.welteninstituut.tel.la.bigquery.Common;
 import nl.welteninstituut.tel.la.bigquery.QueryAPI;
-import nl.welteninstituut.tel.la.chartobjects.LearnerAverageActivities;
-import nl.welteninstituut.tel.la.jdomanager.CourseDateToObjectDefinitionManager;
+import nl.welteninstituut.tel.la.chartobjects.CalendarAnnotationChartObject;
 import nl.welteninstituut.tel.la.jdomanager.QueryCacheManager;
 
 import java.io.IOException;
@@ -33,16 +32,18 @@ import java.util.List;
  * Contributors: Stefaan Ternier
  * ****************************************************************************
  */
-public class MesoResourceTypesCourseTask  extends GenericBean {
-    private String jobId;
-    private String cacheKey;
+public class CalendarAnnotationChartTask extends GenericBean {
 
-    public MesoResourceTypesCourseTask() {
+    private String jobId;
+    private String queryId;
+
+    public CalendarAnnotationChartTask(){
 
     }
-    public MesoResourceTypesCourseTask(String jobId, String cacheKey) {
+
+    public CalendarAnnotationChartTask(String jobId, String queryId) {
         this.jobId = jobId;
-        this.cacheKey = cacheKey;
+        this.queryId = queryId;
     }
 
     public String getJobId() {
@@ -53,12 +54,12 @@ public class MesoResourceTypesCourseTask  extends GenericBean {
         this.jobId = jobId;
     }
 
-    public String getCacheKey() {
-        return cacheKey;
+    public String getQueryId() {
+        return queryId;
     }
 
-    public void setCacheKey(String cacheKey) {
-        this.cacheKey = cacheKey;
+    public void setQueryId(String queryId) {
+        this.queryId = queryId;
     }
 
     @Override
@@ -69,30 +70,26 @@ public class MesoResourceTypesCourseTask  extends GenericBean {
             if (pollJob.getStatus().getState().equals(Common.DONE)) {
                 GetQueryResultsResponse queryResult = QueryAPI.getInstance().getQueryResultsResponse(jobId);
                 List<TableRow> rows = queryResult.getRows();
-                LearnerAverageActivities learnerAverageActivities = new LearnerAverageActivities();
-                String csv = "ResourceType, amountOfActivity\n";
-                String result = "[";
-                boolean first = true;
-                if (rows !=null)
+                CalendarAnnotationChartObject calendarObject = new CalendarAnnotationChartObject();
+                System.out.println("rows length "+rows.size());
+                if (rows != null)
                     for (TableRow row : rows) {
                         List rowList = row.getF();
-                        String courseId = ((TableCell) rowList.get(0)).getV()+"";
+                        String date = ((TableCell) rowList.get(0)).getV()+"";
                         String count = ((TableCell) rowList.get(1)).getV()+"";
-                        if (!first) {
-                            result += ",";
-                        } else {
-                            first = false;
-                        }
-                        result += "{\"label\":\""+ CourseDateToObjectDefinitionManager.keyMapper(courseId)+"\",\"rate\":"+count+"}";
-                        csv += CourseDateToObjectDefinitionManager.keyMapper(courseId)+","+count+"\n";
+                        String year = date.substring(0,4);
+                        String month = date.substring(5,7);
+                        String day = date.substring(8, 10);
+                        month = ","+(Integer.parseInt(month)-1);
+                        day = ","+(Integer.parseInt(day))+")";
+                        calendarObject.addRow("Date("+year+month+day, Integer.parseInt(count));
                     }
-                result += "]";
-                QueryCacheManager.addQueryResult(cacheKey, result);
-                QueryCacheManager.addQueryResult(cacheKey+"_csv", csv);
+                QueryCacheManager.addQueryResult("calendar_course_" + queryId, calendarObject.toJsonObject().toString());
             } else {
                 scheduleTask();
             }
         } catch (IOException e) {
+            System.out.println("exception "+e.getMessage());
             e.printStackTrace();
         }
 

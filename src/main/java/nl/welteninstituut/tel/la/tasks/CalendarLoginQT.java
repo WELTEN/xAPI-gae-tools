@@ -76,6 +76,7 @@ public class CalendarLoginQT extends GenericBean {
                 GetQueryResultsResponse queryResult = QueryAPI.getInstance().getQueryResultsResponse(jobId);
                 List<TableRow> rows = queryResult.getRows();
                 CalendarObject calendarObject = new CalendarObject();
+
                 if (rows != null)
                     for (TableRow row : rows) {
                         List rowList = row.getF();
@@ -85,8 +86,8 @@ public class CalendarLoginQT extends GenericBean {
                         String month = date.substring(5,7);
                         String day = date.substring(8, 10);
                         month = ","+(Integer.parseInt(month)-1);
-                        day = ","+(Integer.parseInt(day)-1)+")";
-                        calendarObject.addRow("Date("+year+month+day, count);
+                        day = ","+(Integer.parseInt(day))+")";
+                        calendarObject.addRow("Date("+year+month+day, Integer.parseInt(count));
                     }
                 QueryCacheManager.addQueryResult("calendar_logins"+userId, calendarObject.toJsonObject().toString());
             } else {

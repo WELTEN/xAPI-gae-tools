@@ -26,6 +26,7 @@ import org.codehaus.jettison.json.JSONObject;
  * Contributors: Stefaan Ternier
  * ****************************************************************************
  */
+@Deprecated
 public class DropoutMonitorAggregationTask extends GenericBean {
 
     private String queryId;

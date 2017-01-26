@@ -1,0 +1,70 @@
+{
+  "myActivities": "My Activities",
+  "loginData" : "Login Data",
+  "moocMonitor" : "MOOC monitor",
+  "courses" : "My MOOCs",
+
+  "myData" : "My Data",
+  "moocData" : "Mooc Data",
+  "default" : "Default",
+  "resources" : "Resources",
+  "perfomance" : "Performance",
+  "path" : "Path",
+  "studentactivity" : "Student Activity",
+  "social" : "Social",
+  "Menu" : "Menu",
+
+  "pleasewait" : "Please wait",
+
+  "loading" : "Loading ...",
+
+
+  "activityFeedExplanation": "The <b>Activity feed</b>  displays the most interesting, recent activity taking place in ECO MOOCS.",
+  "you" : "you",
+  "watchedcoursedetails" : "watched course details",
+  "launchedacourse" : "launched a course",
+  "updatedprofileinformation" : "updated your profile information",
+  "followedsomebody" : "followed somebody",
+  "accessed" : "accessed",
+  "authored" : "authored",
+  "commented" : "commented",
+  "exited" : "exited",
+  "rated" : "rated",
+  "submittedfor" : "submitted for ",
+  "registeredfor" : "registered for ",
+
+  "studentActivitySortedTitle": "Student activity",
+  "studentActivitySortedExplanation": "This graph below sorts all students according to there level of activity. Active students are displayed more the right, passive students are displayed at the left. This page therefor gives a rough overview of what ratio of the students is active",
+  "studentActivitySortedExplanationb": "Try different Clustering",
+  "studentActivitySortedChartTitle": "All students sorted according to activity level",
+
+
+  "teacherSocialTitle": "Social Network Data",
+  "teacherSocialExplanation": "This page shows the connections between users in this MOOCs. A line represents a user following another user in this course. The size of the user node gives an estimation of the amount of peers a user follows. The bigger the node, the more peers this user is following.",
+  "teacherSocialChartTitle": "Graphs representing who follows who in this course",
+
+  "ecoLoginTitle": "Login Data",
+  "ecoLoginExplanation": "This page shows how often you logged in to ECO. In addition it shows how often all ECO logged in over time.",
+  "ecoLoginChartTitle": "Logins of all ECO users",
+
+  "ecoMonitorTitle": "ECO MOOC Monitor ",
+  "ecoMonitorExplanation": "This Monitor shows if the typical dropout pattern is effecting one of the ECO MOOCs. The y-axis shows the ‘amount of launches’ from the ECO portal to a MOOC. So if a student signs-up for a MOOC from the ECO portal this is registered as a ‘launch’. The y-axis shows the amount of activities that all learners did in a course. The size of the bubble shows the amount of users in a course. If there is a high dropout rate for a course, it will be placed on the left side of the graph. Showing an amount of launches and than only few activities what is a sign of a high dropout rate. If the course is place on the right side of the graph than there are many activities after the students signed up for a MOOC and so there is a low dropout rate.",
+  "ecoMonitorChartTitle": "ECO MOOC Monitor",
+
+  "studentDefaultTitle": "Resource Data",
+  "studentDefaultExplanation": "This page shows your activities in this mooc outlined on a calendar view.",
+  "studentDefaultChartTitle": "All your activities in ECO (regardless of the course)",
+
+  "studentResourcesTitle": "Resource Data",
+  "studentResourcesExplanation": "This page shows what kind of resources used by you in this MOOC",
+  "studentResourcesChartTitle": "Resources consumed by you in this course",
+
+  "studentPerformanceTitle": "Performance Data",
+  "studentPerformanceExplanation": "This page shows your performance compared to the average user in this MOOC",
+  "studentPerformanceChartTitle": "your performance compared to the average performance",
+  "studentPerformance2ChartTitle": "your progress",
+  "studentPerformancePeersvsyou": "Peers versus you",
+  "studentPerformancePeers": "Peers",
+  "studentPerformanceYou": "you"
+
+}

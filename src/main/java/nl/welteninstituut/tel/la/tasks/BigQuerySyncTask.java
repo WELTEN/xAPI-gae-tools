@@ -291,7 +291,33 @@ public class BigQuerySyncTask extends GenericBean {
                 if (courseId == StringPool.BLANK && objectId != null) {
                     if (objectId.contains("https://hub0.ecolearning.eu/course/smooc-step-by-step")) courseId = "oai:eu.ecolearning.hub0:2";
                     if (objectId.contains("https://hub0.ecolearning.eu/course/smooc-step-by-step-2ed")) courseId = "oai:eu.ecolearning.hub0:4";
+
+                    if (objectId.contains("https://hub1.ecolearning.eu/course/innovacion-educativa-y-desarrollo-profesional-posi")) courseId = "oai:eu.ecolearning.hub1:6";
+
+                    if (objectId.contains("https://hub2.ecolearning.eu/course/videos-for-teaching-learning-and-communication")) courseId = "oai:eu.ecolearning.hub2:1";
+
+                    if (objectId.contains("https://hub4.ecolearning.eu/course/introducao-aos-sistemas-de-informacao-geografica")) courseId = "oai:eu.ecolearning.hub4:1";
+                    if (objectId.contains("https://hub4.ecolearning.eu/course/introducao-sistemas-informacao-geografica-3ed")) courseId = "oai:eu.ecolearning.hub4:12";
+                    if (objectId.contains("https://hub4.ecolearning.eu/course/necessidades-educativas-especiais-como-ensinar-com")) courseId = "oai:eu.ecolearning.hub4:2";
+                    if (objectId.contains("https://hub4.ecolearning.eu/course/necessidades-educativas-especiais-3ed/")) courseId = "oai:eu.ecolearning.hub4:11";
+
+                    if (objectId.contains("https://hub5.ecolearning.eu/course/diy-do-it-yourself")) courseId = "oai:eu.ecolearning.hub5:1";
+                    if (objectId.contains("https://hub5.ecolearning.eu/course/mpsw-ma-pedagogie-a-la-sauce-web-20")) courseId = "oai:eu.ecolearning.hub5:2";
+
+                    if (objectId.contains("https://hub7.ecolearning.eu/course/competencias-artisticas-y-creativas-del-profesorad")) courseId = "oai:eu.ecolearning.hub7:1";
+                    if (objectId.contains("https://hub7.ecolearning.eu/course/competencias-artisticas-creativas-profesorado-3ed")) courseId = "oai:eu.ecolearning.hub7:5";
+
+                    if (objectId.contains("https://hub8.ecolearning.eu/course/recursos-educativos-abiertos-aplicaciones-pedagogi")) courseId = "oai:eu.ecolearning.hub8:7";
+                    if (objectId.contains("https://hub8.ecolearning.eu/course/alfabetizacion-digital-para-personas-en-riesgo-de")) courseId = "oai:eu.ecolearning.hub8:8";
+                    if (objectId.contains("https://hub8.ecolearning.eu/course/comunicacion-y-aprendizaje-movil")) courseId = "oai:eu.ecolearning.hub8:9";
+                    if (objectId.contains("https://hub8.ecolearning.eu/course/educacion-sexual")) courseId = "oai:eu.ecolearning.hub8:10";
+                    if (objectId.contains("https://hub8.ecolearning.eu/course/teoria-del-arte-ii")) courseId = "oai:eu.ecolearning.hub8:18";
+                    if (objectId.contains("https://hub8.ecolearning.eu/course/artes-y-tecnologias-para-educar")) courseId = "oai:eu.ecolearning.hub8:19";
+                    if (objectId.contains("https://hub8.ecolearning.eu/course/estrategia-en-la-gestion-de-comunidades-online-el")) courseId = "oai:eu.ecolearning.hub8:20";
+                    if (objectId.contains("https://hub8.ecolearning.eu/course/how-to-succeed-in-the-english-b1-level-exam")) courseId = "oai:eu.ecolearning.hub8:56";
                 }
+                if (courseId !=null && courseId.startsWith("oai:eu.ecolearning.hub")) courseId = courseId.substring(4);
+                if (objectId !=null && objectId.startsWith("oai:eu.ecolearning.hub")) objectId = objectId.substring(4);
 //                objectDefinition = jsonObject.getJSONObject("object").getJSONObject("definition").getString("type");
             } catch (Exception e) {
                 e.printStackTrace();

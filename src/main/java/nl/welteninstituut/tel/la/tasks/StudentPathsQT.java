@@ -6,7 +6,9 @@ import com.google.api.services.bigquery.model.TableCell;
 import com.google.api.services.bigquery.model.TableRow;
 import nl.welteninstituut.tel.la.bigquery.Common;
 import nl.welteninstituut.tel.la.bigquery.QueryAPI;
+import nl.welteninstituut.tel.la.chartobjects.ActivitySortColumnChartObject;
 import nl.welteninstituut.tel.la.chartobjects.LearnerAverageActivities;
+import nl.welteninstituut.tel.la.chartobjects.StudentPath;
 import nl.welteninstituut.tel.la.jdomanager.CourseDateToObjectDefinitionManager;
 import nl.welteninstituut.tel.la.jdomanager.QueryCacheManager;
 
@@ -33,14 +35,14 @@ import java.util.List;
  * Contributors: Stefaan Ternier
  * ****************************************************************************
  */
-public class MesoResourceTypesCourseTask  extends GenericBean {
+public class StudentPathsQT extends GenericBean {
     private String jobId;
     private String cacheKey;
 
-    public MesoResourceTypesCourseTask() {
+    public StudentPathsQT() {
 
     }
-    public MesoResourceTypesCourseTask(String jobId, String cacheKey) {
+    public StudentPathsQT(String jobId, String cacheKey) {
         this.jobId = jobId;
         this.cacheKey = cacheKey;
     }
@@ -69,26 +71,38 @@ public class MesoResourceTypesCourseTask  extends GenericBean {
             if (pollJob.getStatus().getState().equals(Common.DONE)) {
                 GetQueryResultsResponse queryResult = QueryAPI.getInstance().getQueryResultsResponse(jobId);
                 List<TableRow> rows = queryResult.getRows();
-                LearnerAverageActivities learnerAverageActivities = new LearnerAverageActivities();
-                String csv = "ResourceType, amountOfActivity\n";
-                String result = "[";
-                boolean first = true;
+                System.out.println("amount of rows "+rows.size());
+                StudentPath resultObject = new StudentPath();
+                int index = 0;
+                String lastActorId= null;
+                String actorId = null;
                 if (rows !=null)
                     for (TableRow row : rows) {
                         List rowList = row.getF();
-                        String courseId = ((TableCell) rowList.get(0)).getV()+"";
-                        String count = ((TableCell) rowList.get(1)).getV()+"";
-                        if (!first) {
-                            result += ",";
-                        } else {
-                            first = false;
+                        actorId = ((TableCell) rowList.get(0)).getV()+"";
+
+                        if (lastActorId !=null && !lastActorId.equals(actorId)){
+                            System.out.println("new ActorId!");
+                            QueryCacheManager.addQueryResult(cacheKey+"_"+index++, resultObject.toJsonObject().toString());
+                            QueryCacheManager.addQueryResult(cacheKey+"_"+lastActorId, resultObject.toJsonObject().toString());
+                            System.out.println("writing "+ cacheKey+"_"+lastActorId);
+                            resultObject = new StudentPath();
                         }
-                        result += "{\"label\":\""+ CourseDateToObjectDefinitionManager.keyMapper(courseId)+"\",\"rate\":"+count+"}";
-                        csv += CourseDateToObjectDefinitionManager.keyMapper(courseId)+","+count+"\n";
+
+                        String objectId = ((TableCell) rowList.get(1)).getV()+"";
+                        String objectDefinition = ((TableCell) rowList.get(2)).getV()+"";
+                        String verbId = ((TableCell) rowList.get(3)).getV()+"";
+                        int relativeTime = (int) Double.parseDouble(((TableCell) rowList.get(4)).getV()+"");
+                        resultObject.addRow(objectId, objectDefinition,verbId, relativeTime);
+
+
+                        lastActorId = actorId;
                     }
-                result += "]";
-                QueryCacheManager.addQueryResult(cacheKey, result);
-                QueryCacheManager.addQueryResult(cacheKey+"_csv", csv);
+                QueryCacheManager.addQueryResult(cacheKey+"_"+index++, resultObject.toJsonObject().toString());
+                QueryCacheManager.addQueryResult(cacheKey+"_"+actorId, resultObject.toJsonObject().toString());
+                System.out.println("writing "+ cacheKey+"_"+actorId);
+
+
             } else {
                 scheduleTask();
             }
@@ -97,4 +111,6 @@ public class MesoResourceTypesCourseTask  extends GenericBean {
         }
 
     }
+
+
 }

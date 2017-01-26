@@ -58,12 +58,12 @@ public class ChartObject {
 
     }
 
-    public void addRow(String... row) {
+    public void addRow(Object... row) {
         try {
             JSONObject rowObject = new JSONObject();
             JSONArray cArray = new JSONArray();
             rowObject.put("c", cArray);
-            for (String r : row) {
+            for (Object r : row) {
                 JSONObject rObject = new JSONObject();
                 rObject.put("v", r);
                 cArray.put(rObject);
@@ -91,9 +91,9 @@ public class ChartObject {
         ChartObject object = new ChartObject();
         object.addCol(0, "Date", DATE);
         object.addCol(1, "Logins", NUMBER);
-        object.addRow("Date(2012, 3, 13)", "37032");
-        object.addRow("Date(2012, 3, 14)", "20");
-        object.addRow("Date(2012, 3, 16)", "20");
+        object.addRow("Date(2012, 3, 13)", 37032);
+        object.addRow("Date(2012, 3, 14)", 20);
+        object.addRow("Date(2012, 3, 16)", 20);
         System.out.println(object.toJsonObject().toString());
 
         CalendarObject calendarObject = new CalendarObject();

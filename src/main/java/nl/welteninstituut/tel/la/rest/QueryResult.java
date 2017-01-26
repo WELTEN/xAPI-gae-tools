@@ -73,7 +73,23 @@ public class QueryResult extends Service {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/calendar/course/{courseId}")
     public String getCalendarCourse(@PathParam("courseId") String courseId) throws IOException {
-        return CourseDateToVerbManager.getCourseDateGData(courseId, "all");
+        return QueryCacheManager.getQueryResult("calendar_course_"+courseId);
+        //return CourseDateToVerbManager.getCourseDateGData(courseId, "all");
+    }
+
+    @GET
+    @Produces({"application/csv" })
+    @Path("/calendar/course/{courseId}/csv")
+    public String getCalendarCourseCSV(@PathParam("courseId") String courseId) throws IOException {
+        return QueryCacheManager.getQueryResult("calendar_course_"+courseId+"_csv");
+
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/calendar/course/threadopening/{courseId}")
+    public String getCalendarCourseThreadOpening(@PathParam("courseId") String courseId) throws IOException {
+        return QueryCacheManager.getQueryResult("calendar_course_threadopening_"+courseId);
     }
 
     @GET
@@ -166,6 +182,16 @@ public class QueryResult extends Service {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON })
+    @Path("/dropoutMonitorLang")
+    public String getDropoutMonitorLang() throws IOException {
+
+        return QueryCacheManager.getQueryResult("dropoutMonitor_lang");
+
+//        return QueryCacheManager.getQueryResult("course_login_overview");
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
     @Path("/dropoutMonitor/{courseId}")
     public String dropoutMonitorForCourse(@PathParam("courseId") final String courseId) throws IOException {
         return QueryCacheManager.getQueryResult("course_activities_"+courseId);
@@ -176,6 +202,13 @@ public class QueryResult extends Service {
     @Path("/resourceTypes/meso/course/{courseId}/d3")
     public String queryResoucesUsed(@PathParam("courseId") final String courseId) throws IOException {
         return QueryCacheManager.getQueryResult("resourceTypes_meso_"+courseId);
+    }
+
+    @GET
+    @Produces({"application/csv"})
+    @Path("/resourceTypes/meso/course/{courseId}/d3/csv")
+    public String queryResoucesUsedCSV(@PathParam("courseId") final String courseId) throws IOException {
+        return QueryCacheManager.getQueryResult("resourceTypes_meso_"+courseId+"_csv");
     }
 
     @GET
@@ -213,4 +246,83 @@ public class QueryResult extends Service {
         return QueryCacheManager.getQueryResult(cacheKey);
     }
 
-}
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/interactivitySort/{courseId}/me/gdata")
+    public String interactivitySortMe(@HeaderParam("Authorization") String token,
+                                      @PathParam("courseId") final String courseId) throws IOException {
+        if (!validCredentials(token))
+            return getInvalidCredentialsBean();
+        final String cacheKey = "interactivitySort_"+courseId+"_"+userId;
+        return QueryCacheManager.getQueryResult(cacheKey);
+    }
+
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/studentPaths/{courseId}/{detail}")
+    public String studentPaths(@HeaderParam("Authorization") String token,
+                               @PathParam("courseId") final String courseId,
+                               @PathParam("detail") final String detail) throws IOException {
+        final String cacheKey = "studentPaths_"+courseId;
+        return QueryCacheManager.getQueryResult(cacheKey+"_"+detail);
+
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/studentPaths/{courseId}/me")
+    public String studentPaths(@HeaderParam("Authorization") String token,
+                               @PathParam("courseId") final String courseId
+                               ) throws IOException {
+        if (!validCredentials(token))
+            return getInvalidCredentialsBean();
+        final String cacheKey = "studentPaths_"+courseId;
+        return QueryCacheManager.getQueryResult(cacheKey+"_"+userId);
+
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/social/follows")
+    public String followers() throws IOException {
+        final String cacheKey = "socialFollows";
+        return QueryCacheManager.getQueryResult(cacheKey);
+    }
+
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/social/{courseId}/follows")
+    public String courseFollowers(@PathParam("courseId") final String courseId) throws IOException {
+        final String cacheKey = "socialFollows_"+courseId;
+        return QueryCacheManager.getQueryResult(cacheKey);
+    }
+
+    @GET
+    @Produces({"application/csv"})
+    @Path("/social/{courseId}/follows/csv")
+    public String courseFollowersCSV(@PathParam("courseId") final String courseId) throws IOException {
+        final String cacheKey = "socialFollows_"+courseId+"_csv";
+        return QueryCacheManager.getQueryResult(cacheKey);
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/timeline")
+    public String timeLineUser(@HeaderParam("Authorization") String token) throws IOException {
+        if (!validCredentials(token))
+            return getInvalidCredentialsBean();
+        final String cacheKey = "timeline_"+userId;
+        return QueryCacheManager.getQueryResult(cacheKey);
+    }
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/allCourseActivities")
+    public String allCourseActivities(String cacheKey){
+
+        return QueryCacheManager.getQueryResult("allCourseActivities");
+    }
+
+
+    }

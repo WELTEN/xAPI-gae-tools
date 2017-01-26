@@ -65,31 +65,36 @@ public class CourseQueryTask extends GenericBean {
         this.queryId = queryId;
     }
 
-    @Override
+   @Override
     public void run() {
         Job pollJob = null;
+       String csv = "Date,amount\n";
         try {
             pollJob = QueryAPI.getInstance().getJob(jobId);
             if (pollJob.getStatus().getState().equals(Common.DONE)) {
                 GetQueryResultsResponse queryResult = QueryAPI.getInstance().getQueryResultsResponse(jobId);
                 List<TableRow> rows = queryResult.getRows();
-                CalendarObject calendarObject = new CalendarObject();
-                if (rows !=null)
-                for (TableRow row : rows) {
-                    for (TableCell field : row.getF()) {
-                        long epoch = Double.valueOf(""+field.getV()).longValue();
-                        epoch = epoch*1000;
-                        calendarObject.addRow(epoch);
+                CalendarObject calendarObject = new CalendarObject("Activities");
+                if (rows != null)
+                    for (TableRow row : rows) {
+                        List rowList = row.getF();
+                        String date = ((TableCell) rowList.get(0)).getV()+"";
+                        String count = ((TableCell) rowList.get(1)).getV()+"";
+                        csv += date.replaceAll(",","/")+","+count+"\n";
+                        String year = date.substring(0,4);
+                        String month = date.substring(5,7);
+                        String day = date.substring(8, 10);
+                        month = ","+(Integer.parseInt(month)-1);
+                        day = ","+(Integer.parseInt(day))+")";
+                        calendarObject.addRow("Date("+year+month+day, Integer.parseInt(count));
                     }
-
-
-                }
-                System.out.println(calendarObject.toJsonObject());
                 QueryCacheManager.addQueryResult("calendar_course_" + queryId, calendarObject.toJsonObject().toString());
+                QueryCacheManager.addQueryResult("calendar_course_" + queryId+"_csv", csv);
             } else {
                 scheduleTask();
             }
         } catch (IOException e) {
+            System.out.println("exception "+e.getMessage());
             e.printStackTrace();
         }
 

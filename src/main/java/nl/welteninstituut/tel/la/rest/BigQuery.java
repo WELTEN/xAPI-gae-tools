@@ -157,10 +157,10 @@ public class BigQuery {
 
     }
 
-    public void queryCourse(String courseId) {
-        String query = "SELECT timestamp FROM [" + Configuration.get(Configuration.BQDataSet) + "." + Configuration.get(Configuration.BQTableId) + "] where courseId =  '" + courseId + "'";
-        new CourseQueryTask(QueryAPI.getInstance().createQueryJob(query), courseId).scheduleTask();
-    }
+//    public void queryCourse(String courseId) {
+//        String query = "SELECT timestamp FROM [" + Configuration.get(Configuration.BQDataSet) + "." + Configuration.get(Configuration.BQTableId) + "] where courseId =  '" + courseId + "'";
+//        new CourseQueryTask(QueryAPI.getInstance().createQueryJob(query), courseId).scheduleTask();
+//    }
 
     public void averageActivityPerLearner(String courseId) {
         String query = "SELECT actorId, count(*)  FROM [" + Configuration.get(Configuration.BQDataSet) + "." + Configuration.get(Configuration.BQTableId) + "] where courseId =  '" + courseId + "' group by actorId";
@@ -170,6 +170,29 @@ public class BigQuery {
     public void courseLoginOverview() {
         String query = "SELECT objectId , count(*) FROM " +getTable()+"   where verbId = \"http://adlnet.gov/expapi/verbs/launched\" group by objectId";
         new CourseLoginOverviewQueryTask(QueryAPI.getInstance().createQueryJob(query)).scheduleTask();
+    }
+
+
+    public void dropoutMonitor(String cacheKey) {
+        String query = "SELECT a.courseId, a.statements, b.launched, b.users\n" +
+                "FROM\n" +
+                " (SELECT courseId, count(*) as statements\n" +
+                " FROM "+getTable()+" where courseId != 'todo' and courseId != ''\n" +
+                " GROUP BY courseId\n" +
+                " ) a \n" +
+                " JOIN (\n" +
+                "   SELECT c.objectId as object, c.launched as launched, d.users as users FROM (\n" +
+                "    SELECT f.objectId, count(*) as launched\n" +
+                "    FROM "+getTable()+" f where verbId = 'http://adlnet.gov/expapi/verbs/launched' group by f.objectId\n" +
+                "   ) c JOIN (\n" +
+                "     SELECT courseId, count(distinct actorId) as users\n" +
+                "     FROM "+getTable()+"  group by courseId\n" +
+                "   ) d on c.objectId = d.courseId\n" +
+                "    \n" +
+                " ) b ON a.courseId = b.object";
+        System.out.println("query "+query);
+        new DropoutMonitorTask(QueryAPI.getInstance().createQueryJob(query),  cacheKey).scheduleTask();
+
     }
 
     public void courseActivitiesOverview(String courseId){
@@ -213,13 +236,85 @@ public class BigQuery {
         new ProgressQT(QueryAPI.getInstance().createQueryJob(query),userId,courseId).scheduleTask();
     }
 
+    public void queryCourseActivities(String courseId){
+
+        String query = "SELECT STRFTIME_UTC_USEC(timestamp(timestamp), '%Y,%m,%d') as day, count(*)  " +
+                "FROM " +getTable()+"   where " +
+                " courseId = '"+courseId+"' group by day order by day";
+        System.out.println("query: "+query);
+        new CourseQueryTask(QueryAPI.getInstance().createQueryJob(query), courseId).scheduleTask();
+    }
+
+    public void queryCourseThreadOpeningMessages(String courseId){
+
+        String query = "SELECT STRFTIME_UTC_USEC(timestamp(timestamp), '%Y,%m,%d') as day, count(*)  " +
+                "FROM " +getTable()+"   where " +
+                " courseId = '"+courseId+"' and objectDescription = 'This is a thread-opening forum message'  group by day order by day";
+        new CourseQueryTask(QueryAPI.getInstance().createQueryJob(query), courseId).scheduleTask();
+    }
+
     public void interactivitySort(String courseId,String cacheKey){
         String query = "SELECT count(*) as count  FROM "+getTable()+"  where courseId = \""+courseId+"\" group by actorId order by count asc";
-        System.out.println(query);
         new InteractivitySortQT(QueryAPI.getInstance().createQueryJob(query), cacheKey).scheduleTask();
+    }
+
+    public void interactivitySort(String courseId,String cacheKey, String userId){
+        String query = "SELECT count(*) as count  FROM "+getTable()+"  where courseId = \""+courseId+"\" and actorId = \""+userId+"\" group by actorId order by count asc";
+        new InteractivitySortQT(QueryAPI.getInstance().createQueryJob(query), cacheKey).scheduleTask();
+    }
+
+    public void studentPaths(String courseId,String cacheKey){ //(actorid='5708559163d1117f4a0c9b54'|| actorId="56655a9906666ea27fd4b205") and
+        String query = "SELECT a.actorId as actorId, a.objectId as objectId,a.objectDefinition as objectDefinition, a.verbId as verbId, ROUND((( a.firstAccess - b.firstAccess)+1)/(7*24 * 3600 * 1000000))  as RelativeTime " +
+                "FROM (SELECT actorId, objectId, objectDefinition, verbId, min(timestamp) as firstAccess,     FROM  "+getTable()+" where      " +
+                "courseId=\""+courseId+"\"  group by actorId, objectId, objectDefinition, verbId order by firstAccess asc) a cross join (SELECT actorId, min(timestamp) as firstAccess " +
+                "FROM  "+getTable()+" where courseId=\""+courseId+"\" group by actorId)  b WHERE a.actorId = b.actorId ORDER BY a.actorId, RelativeTime";
+        System.out.println(query);
+        new StudentPathsQT(QueryAPI.getInstance().createQueryJob(query), cacheKey).scheduleTask();
+    }
+
+    public void socialFollows(String cacheKey){
+        String query = "SELECT actorId, objectAccountId FROM "+getTable()+" where not( objectAccountId == '') and verbId = 'http://activitystrea.ms/schema/1.0/follow'";
+        new SocialFollowsQT(QueryAPI.getInstance().createQueryJob(query), cacheKey).scheduleTask();
+    }
+
+    public void socialFollows(String cacheKey, String courseId){
+        String query = "SELECT actorId, objectAccountId FROM "+getTable()+" where not( objectAccountId == '') and verbId = 'http://activitystrea.ms/schema/1.0/follow' and actorId in (select actorId  from [xAPIStatements.xapiTable] where courseId = '"+courseId+"')";
+        new SocialFollowsQT(QueryAPI.getInstance().createQueryJob(query), cacheKey).scheduleTask();
     }
 
     private String getTable() {
         return "[" + Configuration.get(Configuration.BQDataSet) + "." + Configuration.get(Configuration.BQTableId) + "]";
+    }
+
+    public void timeline(String cacheKey, String userId){
+//        String query = "SELECT  verbId, objectDefinition, courseId, objectDefinitionName, objectDescription, FORMAT_UTC_USEC(timestamp) as timestamp , objectId, origin, objectAccountId, activityId FROM "+getTable()+" where  origin = 'OpenMOOC' and not (verbId = 'https://brindlewaye.com/xAPITerms/verbs/loggedin') order by timestamp desc limit 200";
+
+        String query = "SELECT  verbId, objectDefinition, courseId, objectDefinitionName, objectDescription, FORMAT_UTC_USEC(timestamp) as timestamp , objectId, origin, objectAccountId, activityId  FROM "+getTable()+" where actorId = '"+userId+"' and (origin = 'OpenMOOC' or origin = 'Portal') and not (verbId = 'https://brindlewaye.com/xAPITerms/verbs/loggedin') order by timestamp desc limit 50";
+        new TimeLineQT(QueryAPI.getInstance().createQueryJob(query), cacheKey).scheduleTask();
+    }
+
+    public void allCourseActivities(String cacheKey){
+
+        String query = "SELECT STRFTIME_UTC_USEC(timestamp(timestamp), '%Y,%m,%d') as day, courseId, count(*)  " +
+                "FROM " +getTable()+"   where courseId != 'todo' and courseId != ''" +
+                " group by day, courseId order by day";
+        System.out.println("query: "+query);
+        new CalendarAnnotationChartTask(QueryAPI.getInstance().createQueryJob(query), cacheKey).scheduleTask();
+//        new CourseQueryTask(QueryAPI.getInstance().createQueryJob(query), courseId).scheduleTask();
+    }
+
+    public void rob(String cacheKey, String courseId){
+
+        String query = "SELECT STRFTIME_UTC_USEC(timestamp(date), '%Y,%m,%d') as day, count(*)  " +
+                "FROM " +getTable()+"   where " +
+                " OBJECT_ID = '"+courseId+"' group by day order by day";
+        new CourseQueryTask(QueryAPI.getInstance().createQueryJob(query), courseId).scheduleTask();
+    }
+
+    public void rob(String cacheKey){
+
+        String query = "SELECT STRFTIME_UTC_USEC(timestamp(date), '%Y,%m,%d') as day, count(*)  " +
+                "FROM " +getTable()+"   group by day order by day";
+        new CourseQueryTask(QueryAPI.getInstance().createQueryJob(query), "all").scheduleTask();
     }
 }

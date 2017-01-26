@@ -6,12 +6,15 @@ import com.google.api.services.bigquery.model.TableCell;
 import com.google.api.services.bigquery.model.TableRow;
 import nl.welteninstituut.tel.la.bigquery.Common;
 import nl.welteninstituut.tel.la.bigquery.QueryAPI;
-import nl.welteninstituut.tel.la.chartobjects.LearnerAverageActivities;
-import nl.welteninstituut.tel.la.jdomanager.CourseDateToObjectDefinitionManager;
 import nl.welteninstituut.tel.la.jdomanager.QueryCacheManager;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * ****************************************************************************
@@ -33,14 +36,15 @@ import java.util.List;
  * Contributors: Stefaan Ternier
  * ****************************************************************************
  */
-public class MesoResourceTypesCourseTask  extends GenericBean {
+public class SocialFollowsQT extends GenericBean {
     private String jobId;
     private String cacheKey;
 
-    public MesoResourceTypesCourseTask() {
+    public SocialFollowsQT() {
 
     }
-    public MesoResourceTypesCourseTask(String jobId, String cacheKey) {
+
+    public SocialFollowsQT(String jobId, String cacheKey) {
         this.jobId = jobId;
         this.cacheKey = cacheKey;
     }
@@ -66,28 +70,48 @@ public class MesoResourceTypesCourseTask  extends GenericBean {
         Job pollJob = null;
         try {
             pollJob = QueryAPI.getInstance().getJob(jobId);
+            String csv = "User,UserThatIsFollowed\n";
             if (pollJob.getStatus().getState().equals(Common.DONE)) {
                 GetQueryResultsResponse queryResult = QueryAPI.getInstance().getQueryResultsResponse(jobId);
                 List<TableRow> rows = queryResult.getRows();
-                LearnerAverageActivities learnerAverageActivities = new LearnerAverageActivities();
-                String csv = "ResourceType, amountOfActivity\n";
-                String result = "[";
-                boolean first = true;
-                if (rows !=null)
+
+//                ActivitySortColumnChartObject resultObject = new ActivitySortColumnChartObject();
+                HashMap<String, Vector<String>> resultMap = new HashMap<>();
+                int index = 0;
+                if (rows != null)
                     for (TableRow row : rows) {
                         List rowList = row.getF();
-                        String courseId = ((TableCell) rowList.get(0)).getV()+"";
-                        String count = ((TableCell) rowList.get(1)).getV()+"";
-                        if (!first) {
-                            result += ",";
-                        } else {
-                            first = false;
-                        }
-                        result += "{\"label\":\""+ CourseDateToObjectDefinitionManager.keyMapper(courseId)+"\",\"rate\":"+count+"}";
-                        csv += CourseDateToObjectDefinitionManager.keyMapper(courseId)+","+count+"\n";
+                        String actorId = ((TableCell) rowList.get(0)).getV() + "";
+                        String targetId = ((TableCell) rowList.get(1)).getV() + "";
+                        if (!resultMap.containsKey(actorId)) resultMap.put(actorId, new Vector<String>());
+                        if (!resultMap.containsKey(targetId)) resultMap.put(targetId, new Vector<String>());
+                        resultMap.get(actorId).add(targetId);
                     }
-                result += "]";
-                QueryCacheManager.addQueryResult(cacheKey, result);
+                JSONObject resultJson = new JSONObject();
+                JSONArray array = new JSONArray();
+                try {
+                    resultJson.put("followers", array);
+
+                    for (String actorId : resultMap.keySet()) {
+                        JSONObject actorObject = new JSONObject();
+                        actorObject.put("id", actorId);
+                        actorObject.put("name", actorId);
+                        actorObject.put("image", "http://mypic.nl/00001");
+                        JSONArray arrayFollows = new JSONArray();
+                        for (String targetActor: resultMap.get(actorId)){
+                            JSONObject targetobject = new JSONObject();
+                            targetobject.put("id", targetActor);
+                            csv += actorId+","+targetActor+"\n";
+                            arrayFollows.put(targetobject);
+
+                        }
+                        actorObject.put("follows", arrayFollows);
+                        array.put(actorObject);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                QueryCacheManager.addQueryResult(cacheKey, resultJson.toString());
                 QueryCacheManager.addQueryResult(cacheKey+"_csv", csv);
             } else {
                 scheduleTask();

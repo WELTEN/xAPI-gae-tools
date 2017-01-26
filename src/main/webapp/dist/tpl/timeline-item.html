@@ -1,0 +1,131 @@
+
+<% if (model.origin == 'Portal') {%>
+
+    <% if (model.verbId == 'http://activitystrea.ms/schema/1.0/watch') {%>
+    <i class="fa fa-eye bg-blue"></i>
+    <div class="timeline-item">
+        <span class="time"><a href="#/code/<%=model.activityId%>" class="fa fa-code"></a> <i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%=model.timeStamp%>"></time></span>
+
+        <h3 class="timeline-header"><a href="#" data-i18n='you'>You</a><span data-i18n='watchedcoursedetails'> watched course details</span></h3>
+
+
+    </div>
+
+    <% } else if (model.verbId == 'http://adlnet.gov/expapi/verbs/launched') {%>
+
+    <i class="fa fa-mouse-pointer bg-blue"></i>
+    <div class="timeline-item">
+        <span class="time"><a href="#/code/<%=model.activityId%>" class="fa fa-code"> </a><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%=model.timeStamp%>"></time></span>
+
+        <h3 class="timeline-header"><a href="#" data-i18n='you'>You</a><span data-i18n='launchedacourse'> launched a course</span></h3>
+
+
+    </div>
+
+    <% } else if (model.verbId == 'http://activitystrea.ms/schema/1.0/update') {%>
+        <i class="fa fa-pencil bg-blue"></i>
+        <div class="timeline-item">
+            <span class="time"><a href="#/code/<%=model.activityId%>" class="fa fa-code"></a> <i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%=model.timeStamp%>"></time></span>
+
+            <h3 class="timeline-header"><a href="#" data-i18n='you'>You</a> <span data-i18n='updatedprofileinformation'> updated your profile information</span></h3>
+
+
+        </div>
+
+    <% } %>
+
+<% } else if (model.origin == 'OpenMOOC') {%>
+<% if (model.verbId == 'http://activitystrea.ms/schema/1.0/follow') {%>
+<i class="fa fa-share-alt bg-blue"></i>
+<div class="timeline-item">
+    <span class="time"><a href="#/code/<%=model.activityId%>" class="fa fa-code"></a><i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%=model.timeStamp%>"></time></span>
+
+    <h3 class="timeline-header"><a href="#" data-i18n='you'>You</a><span data-i18n='followedsomebody'> followed somebody</span></h3>
+
+</div>
+
+<% } else if (model.verbId == 'http://adlnet.gov/expapi/verbs/registered') {%>
+
+    <i class="fa fa-registered bg-blue"></i>
+    <div class="timeline-item">
+        <span class="time"><a href="#/code/<%=model.activityId%>" class="fa fa-code"> </a> <i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%=model.timeStamp%>"></time></span>
+
+        <h3 class="timeline-header"><a href="#" data-i18n='you'>You</a>  <span data-i18n='registeredfor'> registered for </span> <%= model.objectDefinitionName%></h3>
+
+        <div class="timeline-body">
+            <%= model.objectDescription%>
+        </div>
+
+    </div>
+
+    <% } else if (model.verbId == 'http://activitystrea.ms/schema/1.0/access') {%>
+
+    <i class="fa  fa-sitemap bg-blue"></i>
+    <div class="timeline-item">
+        <span class="time"><a href="#/code/<%=model.activityId%>" class="fa fa-code"> </a> <i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%=model.timeStamp%>"></time></span>
+        <h3 class="timeline-header"><a href="#" data-i18n='you'>You</a> <span data-i18n='accessed'> accessed </span>  <%= model.objectDefinitionName%></h3>
+        <div class="timeline-body">
+            <%= model.objectDescription%>
+        </div>
+    </div>
+
+    <% } else if (model.verbId == 'http://activitystrea.ms/schema/1.0/author') {%>
+
+    <i class="fa  fa-edit bg-blue"></i>
+    <div class="timeline-item">
+        <span class="time"><a href="#/code/<%=model.activityId%>" class="fa fa-code"> </a> <i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%=model.timeStamp%>"></time></span>
+        <h3 class="timeline-header"><a href="#" data-i18n='you'>You</a> <span data-i18n='authored'> authored </span>  <a href="<%=model.objectid %>"><%= model.objectDefinitionName%></a></h3>
+        <div class="timeline-body">
+            <%= model.objectDescription%>
+        </div>
+    </div>
+
+    <% } else if (model.verbId == 'http://adlnet.gov/expapi/verbs/commented') {%>
+
+    <i class="fa  fa-comment bg-blue"></i>
+    <div class="timeline-item">
+        <span class="time"><a href="#/code/<%=model.activityId%>" class="fa fa-code"> </a> <i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%=model.timeStamp%>"></time></span>
+        <h3 class="timeline-header"><a href="#" data-i18n='you'>You</a> <span data-i18n='commented'> commented </span>  <a href="<%=model.objectid %>"><%= model.objectDefinitionName%></a></h3>
+
+    </div>
+    <% } else if (model.verbId == 'http://adlnet.gov/expapi/verbs/exited') {%>
+
+    <i class="fa  fa-sign-out bg-blue"></i>
+    <div class="timeline-item">
+    <span class="time"><a href="#/code/<%=model.activityId%>" class="fa fa-code"> </a> <i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%=model.timeStamp%>"></time></span>
+    <h3 class="timeline-header"><a href="#" data-i18n='you'>You</a> <span data-i18n='exited'> exited </span> <%= model.objectDefinitionName%></h3>
+    <div class="timeline-body">
+    <%= model.objectDescription%>
+    </div>
+    </div>
+
+    <% } else if (model.verbId == 'http://id.tincanapi.com/verb/rated') {%>
+
+    <i class="fa  fa-star bg-blue"></i>
+    <div class="timeline-item">
+        <span class="time"><a href="#/code/<%=model.activityId%>" class="fa fa-code"> </a> <i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%=model.timeStamp%>"></time></span>
+        <h3 class="timeline-header"><a href="#" data-i18n='you'>You</a> <span data-i18n='rated'> rated </span>  <%= model.objectDefinitionName%></h3>
+        <div class="timeline-body">
+            <%= model.objectDescription%>
+        </div>
+    </div>
+
+    <% } else if (model.verbId == 'http://activitystrea.ms/schema/1.0/submit') {%>
+
+    <i class="fa  fa-paper-plane-o bg-blue"></i>
+    <div class="timeline-item">
+        <span class="time"><a href="#/code/<%=model.activityId%>" class="fa fa-code"> </a> <i class="fa fa-clock-o"></i> <time class="timeago" datetime="<%=model.timeStamp%>"></time></span>
+        <h3 class="timeline-header"><a href="#" data-i18n='you'>You</a> <span data-i18n='submittedfor'> submitted for </span> <%= model.objectDefinitionName%></h3>
+        <div class="timeline-body">
+            <%= model.objectDescription%>
+        </div>
+    </div>
+    <% }else { %>
+
+
+
+
+<% }%>
+
+<% }%>
+

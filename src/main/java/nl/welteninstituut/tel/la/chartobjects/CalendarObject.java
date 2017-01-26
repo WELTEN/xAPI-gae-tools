@@ -36,6 +36,11 @@ public class CalendarObject extends ChartObject {
         addCol(1, "Logins", NUMBER);
     }
 
+    public CalendarObject(String name) {
+        addCol(0, "Date", DATE);
+        addCol(1, name, NUMBER);
+    }
+
     public void addRow(long date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date(date));
@@ -55,11 +60,16 @@ public class CalendarObject extends ChartObject {
 
     public JSONObject toJsonObject() {
         for (String dateString : hm.keySet()) {
-            addRow(dateString, "" + hm.get(dateString));
+            super.addRow(dateString, hm.get(dateString));
         }
 
         return super.toJsonObject();
     }
 
 
+    public static void main(String[] args) {
+        CalendarObject object = new CalendarObject();
+        object.addRow("date", 3);
+        System.out.println(object.toJsonObject());
+    }
 }

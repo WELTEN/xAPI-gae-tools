@@ -6,8 +6,7 @@ import com.google.api.services.bigquery.model.TableCell;
 import com.google.api.services.bigquery.model.TableRow;
 import nl.welteninstituut.tel.la.bigquery.Common;
 import nl.welteninstituut.tel.la.bigquery.QueryAPI;
-import nl.welteninstituut.tel.la.chartobjects.LearnerAverageActivities;
-import nl.welteninstituut.tel.la.jdomanager.CourseDateToObjectDefinitionManager;
+import nl.welteninstituut.tel.la.chartobjects.DropOutObject;
 import nl.welteninstituut.tel.la.jdomanager.QueryCacheManager;
 
 import java.io.IOException;
@@ -33,16 +32,17 @@ import java.util.List;
  * Contributors: Stefaan Ternier
  * ****************************************************************************
  */
-public class MesoResourceTypesCourseTask  extends GenericBean {
-    private String jobId;
-    private String cacheKey;
+public class DropoutMonitorTask extends GenericBean {
 
-    public MesoResourceTypesCourseTask() {
+    private String queryId;
+    private String jobId;
+
+    public DropoutMonitorTask() {
 
     }
-    public MesoResourceTypesCourseTask(String jobId, String cacheKey) {
+    public DropoutMonitorTask(String jobId, String queryId) {
+        this.queryId=queryId;
         this.jobId = jobId;
-        this.cacheKey = cacheKey;
     }
 
     public String getJobId() {
@@ -53,48 +53,45 @@ public class MesoResourceTypesCourseTask  extends GenericBean {
         this.jobId = jobId;
     }
 
-    public String getCacheKey() {
-        return cacheKey;
+    public String getQueryId() {
+        return queryId;
     }
 
-    public void setCacheKey(String cacheKey) {
-        this.cacheKey = cacheKey;
+    public void setQueryId(String queryId) {
+        this.queryId = queryId;
     }
 
     @Override
     public void run() {
         Job pollJob = null;
         try {
+            System.out.println(jobId);
             pollJob = QueryAPI.getInstance().getJob(jobId);
             if (pollJob.getStatus().getState().equals(Common.DONE)) {
                 GetQueryResultsResponse queryResult = QueryAPI.getInstance().getQueryResultsResponse(jobId);
                 List<TableRow> rows = queryResult.getRows();
-                LearnerAverageActivities learnerAverageActivities = new LearnerAverageActivities();
-                String csv = "ResourceType, amountOfActivity\n";
-                String result = "[";
-                boolean first = true;
-                if (rows !=null)
+                DropOutObject dropOutObject = new DropOutObject();
+                if (rows != null)
                     for (TableRow row : rows) {
                         List rowList = row.getF();
                         String courseId = ((TableCell) rowList.get(0)).getV()+"";
-                        String count = ((TableCell) rowList.get(1)).getV()+"";
-                        if (!first) {
-                            result += ",";
-                        } else {
-                            first = false;
-                        }
-                        result += "{\"label\":\""+ CourseDateToObjectDefinitionManager.keyMapper(courseId)+"\",\"rate\":"+count+"}";
-                        csv += CourseDateToObjectDefinitionManager.keyMapper(courseId)+","+count+"\n";
+                        String statements = ((TableCell) rowList.get(1)).getV()+"";
+                        String launches = ((TableCell) rowList.get(2)).getV()+"";
+                        String users = ((TableCell) rowList.get(3)).getV()+"";
+                        dropOutObject.setActivites(courseId, Integer.parseInt(statements));
+                        dropOutObject.setLaunches(courseId, Integer.parseInt(launches));
+                        dropOutObject.setUsers(courseId, Integer.parseInt(users));
                     }
-                result += "]";
-                QueryCacheManager.addQueryResult(cacheKey, result);
-                QueryCacheManager.addQueryResult(cacheKey+"_csv", csv);
+                QueryCacheManager.addQueryResult( queryId, dropOutObject.toJsonObject().toString());
+                QueryCacheManager.addQueryResult( queryId+"_lang", dropOutObject.toJsonObjectLang().toString());
             } else {
                 scheduleTask();
             }
         } catch (IOException e) {
+            System.out.println("exception "+e.getMessage());
             e.printStackTrace();
         }
 
     }
+
 }
