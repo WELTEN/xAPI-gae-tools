@@ -59,6 +59,7 @@ public class OauthFbWorker extends OauthWorker {
 			String result = readURL(url);
 			String accessToken = null;
 			Integer expires = null;
+			log.log(Level.SEVERE, "result "+result);
 			String[] pairs = result.split("&");
 			for (String pair : pairs) {
 				String[] kv = pair.split("=");

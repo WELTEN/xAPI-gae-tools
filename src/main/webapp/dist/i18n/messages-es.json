@@ -1,0 +1,68 @@
+{
+  "myActivities": "Mis actividades",
+  "loginData" : "Datos de acceso",
+  "moocMonitor" : "Monitor del MOOC",
+  "courses" : "Mis MOOCs",
+
+  "myData" : "Mi datos",
+  "moocData" : "Datos del MOOC",
+  "default" : "Por defecto",
+  "resources" : "Recursos",
+  "perfomance" : "Rendimiento",
+  "path" : "Trayectoria",
+  "studentactivity" : "Actividad del estudiante",
+  "social" : "Social",
+  "Menu" : "Menu",
+
+  "pleasewait" : "Espere por favor",
+  "loading" : "Cargando ...",
+
+  "activityFeedExplanation": "La sección <b>novedades</b> muestra las actividades recientes mas importantes de ECO MOOCs.",
+  "you" : "tu",
+  "watchedcoursedetails" : "has visto detalles del curso",
+  "launchedacourse" : "has lanzado un curso",
+  "updatedprofileinformation" : "has actualizado la información de tu perfil",
+  "followedsomebody" : "has seguido a alguien",
+  "accessed" : "accedido",
+  "authored" : "escrito",
+  "commented" : "comentado",
+  "exited" : "salido",
+  "rated" : "valorado",
+  "submittedfor" : "presentado para ",
+  "registeredfor" : "registrado para ",
+
+  "studentActivitySortedTitle": "Actividad del estudiante",
+  "studentActivitySortedExplanation": "Este gráfico abajo ordena a todos los estudiantes de acuerdo a su nivel de actividad. Los estudiantes activos se muestran más a la derecha y los estudiantes pasivos se muestran a la izquierda. Esta página proporciona una visión general aproximada de la proporción de estudiantes activos",
+  "studentActivitySortedExplanationb": "Prueba una agrupación differente",
+  "studentActivitySortedChartTitle": "Todo los estudiantes ordenador por su nivel de actividad.",
+
+
+  "teacherSocialTitle": "Analisis de redes sociales",
+  "teacherSocialExplanation": "Esta página muestra las conexiones entre los usuarios en este MOOCs. Una línea representa un usuario que sigue a otro usuario en este curso. El tamaño del nodo de usuario da una estimación de la cantidad de pares que un usuario sigue. Cuanto más grande es el nodo, más pares sigue este usuario.",
+  "teacherSocialChartTitle": "El gráfico muestra a quien sigue en este curso",
+
+  "ecoLoginTitle": "Analisis de datos de acceso",
+  "ecoLoginExplanation": "Esta página muestra la frecuencia con que inicia sesion en ECO. Además muestra la frecuencia con la que todos los usuarios de ECO han iniciado sesión.",
+  "ecoLoginChartTitle": "Inicios de sesion de todo los usuarios de ECO",
+
+  "ecoMonitorTitle": "Monitor de ECO MOOC",
+  "ecoMonitorExplanation": "El Monitor muestra si el patrón habital de abandono afecta alguno de los MOOC. El eje 'y' muestra el numero de 'lanzamientos' desde el portal de ECO hacia un curso MOOC. Así que si un estudiante se inscribe en un MOOC desde el portal de ECO esto se registra como un 'lanzamiento'. El eje x del grafico muestra la cantidad de actividades que todos los alumnos realizaron en el curso. El tamaño de la burbuja muestra la cantidad de usuarios en un curso. Si hay un alto índice de abandono, el curso se colocará en el lado izquierdo de la gráfica. Mostrando una gran cantidad de lanzamientos y muy pocas actividades. Esto es un signo de un alto indice de abandono. Por el contrario, si el curso está en el lado derecho del gráfico y hay muchas actividades después de que los estudiantes se inscribieran en el MOOC, es signo de un bajo indice de abandono.",
+  "ecoMonitorChartTitle": "Monitor de ECO MOOC",
+
+  "studentDefaultTitle": "Analisis de recursos",
+  "studentDefaultExplanation": "Esta página muestra sus actividades en el MOOC esbozado en una vista de calendario.",
+  "studentDefaultChartTitle": "Todas sus actividades en ECO (independiente del curso)",
+
+  "studentResourcesTitle": "Analisis de recursos",
+  "studentResourcesExplanation": "Esta página muestra el tipo de recursos que ha utilizado en este MOOC",
+  "studentResourcesChartTitle": "Recursos utilizados por usted en este curso",
+
+  "studentPerformanceTitle": "Analisis de rendimiento",
+  "studentPerformanceExplanation": "Esta página muestra su rendimiento comparado con el promedio de los estudiantes de este MOOC",
+  "studentPerformanceChartTitle": "su rendimiento comparado con el rendimiento promedio",
+  "studentPerformance2ChartTitle": "tu progreso",
+  "studentPerformancePeersvsyou": "compañros y usted",
+  "studentPerformancePeers": "Compañeros",
+  "studentPerformanceYou": "tu"
+
+}

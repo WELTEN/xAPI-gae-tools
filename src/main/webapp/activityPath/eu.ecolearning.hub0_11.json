@@ -1,0 +1,158 @@
+{
+  "activityPath": [
+    {
+      "serial": 1,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit75/kq175",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/video",
+      "verbId": "http://activitystrea.ms/schema/1.0/access",
+      "relativeTime": 1
+    },
+    {
+      "serial": 2,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit75/kq176",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/video",
+      "verbId": "http://activitystrea.ms/schema/1.0/access",
+      "relativeTime": 1
+    },
+    {
+      "serial": 3,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit75/kq177",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/video",
+      "verbId": "http://activitystrea.ms/schema/1.0/access",
+      "relativeTime": 1
+    },
+    {
+      "serial": 4,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit75/kq177/q",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/task",
+      "verbId": "http://activitystrea.ms/schema/1.0/access",
+      "relativeTime": 1
+    },
+    {
+      "serial": 5,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit75/kq177/q",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/task",
+      "verbId": "http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime": 2
+    },
+    {
+      "serial": 6,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit76/kq178",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/video",
+      "verbId": "http://activitystrea.ms/schema/1.0/access",
+      "relativeTime": 2
+    },
+    {
+      "serial": 7,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/forum/56fe2c9e918dbb7668ff96fe",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/forum",
+      "verbId": "http://activitystrea.ms/schema/1.0/comment",
+      "relativeTime": 3
+    },
+    {
+      "serial": 8,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/forum/56dd60a3918dbb2054d1c9fe",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/forum",
+      "verbId": "http://activitystrea.ms/schema/1.0/comment",
+      "relativeTime": 3
+    },
+    {
+      "serial": 9,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/forum/56dc55c2918dbb2054d1c900",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/forum",
+      "verbId": "http://activitystrea.ms/schema/1.0/comment",
+      "relativeTime": 3
+    },
+    {
+      "serial": 10,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/forum/56d952d2918dbb2054d1c878",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/forum",
+      "verbId": "http://activitystrea.ms/schema/1.0/comment",
+      "relativeTime": 3
+    },
+    {
+      "serial": 11,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit76/kq179",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/video",
+      "verbId": "http://activitystrea.ms/schema/1.0/access",
+      "relativeTime": 4
+    },
+    {
+      "serial": 12,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit76/kq179/q",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/task",
+      "verbId": "http://activitystrea.ms/schema/1.0/access",
+      "relativeTime": 5
+    },
+    {
+      "serial": 13,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit76/kq179/q",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/task",
+      "verbId": "http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime": 5
+    },
+    {
+      "serial": 14,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit77/kq180",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/video",
+      "verbId": "http://activitystrea.ms/schema/1.0/access",
+      "relativeTime": 6
+    },
+    {
+      "serial": 15,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit77/kq181",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/video",
+      "verbId": "http://activitystrea.ms/schema/1.0/access",
+      "relativeTime": 6
+    },
+    {
+      "serial": 16,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit77/kq182",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/video",
+      "verbId": "http://activitystrea.ms/schema/1.0/access",
+      "relativeTime": 6
+    },
+    {
+      "serial": 17,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/forum/56fe2cbe918dbb7668ff9700",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/forum",
+      "verbId": "http://activitystrea.ms/schema/1.0/comment",
+      "relativeTime": 7
+    },
+    {
+      "serial": 18,
+      "objectId": "https://hub0.ecolearning.eu/media/attachments/EN_Content_Session_3_4.pdf",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/article",
+      "verbId": "http://activitystrea.ms/schema/1.0/access",
+      "relativeTime": 7
+    },
+    {
+      "serial": 19,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit77/kq183",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/video",
+      "verbId": "http://activitystrea.ms/schema/1.0/access",
+      "relativeTime": 8
+    },
+    {
+      "serial": 20,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/forum/56fe2cbe918dbb7668ff9700",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/forum",
+      "verbId": "http://activitystrea.ms/schema/1.0/comment",
+      "relativeTime": 8
+    },
+    {
+      "serial": 21,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit77/kq183/q",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/task",
+      "verbId": "http://activitystrea.ms/schema/1.0/access",
+      "relativeTime": 8
+    },
+    {
+      "serial": 22,
+      "objectId": "https://hub0.ecolearning.eu/course/smooc-step-by-step-3ed/classroom/#unit77/kq183/q",
+      "objectDefinition": "http://activitystrea.ms/schema/1.0/task",
+      "verbId": "http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime": 8
+    }
+  ]
+}

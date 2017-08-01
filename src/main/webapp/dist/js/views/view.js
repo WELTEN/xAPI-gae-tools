@@ -542,11 +542,10 @@ window.BarChartView = Backbone.View.extend({
         }else{
             var width = $( window ).width() - 300 - this.margin.left - this.margin.right;
         }
-        this.height = 450 - this.margin.top - this.margin.bottom;
+        this.height = 400 - this.margin.top - this.margin.bottom;
 
         this.xScale = d3.scale.linear().range([0, width]);
         this.yScale = d3.scale.ordinal().rangeRoundBands([0, this.height], 1.8,0);
-
 
 
         var numTicks = 5;
@@ -557,8 +556,10 @@ window.BarChartView = Backbone.View.extend({
 
         var svg = d3.select(this.container).append("svg")
             .attr("width", width+this.margin.left+this.margin.right)
-            .attr("height", this.height+this.margin.top+this.margin.bottom)
-            .attr("class", "base-svg");
+            .attr("height", this.height+this.margin.top+this.margin.bottom+50)
+            .attr("class", "base-svg")
+            ;
+
 
         this.barSvg = svg.append("g")
             .attr("transform", "translate("+this.margin.left+","+this.margin.top+")")

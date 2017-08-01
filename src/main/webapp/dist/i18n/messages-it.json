@@ -1,0 +1,17 @@
+{
+  "myActivities": "Le mie attivi",
+  "loginData" : "Login Data - it",
+  "moocMonitor" : "MOOC monitor",
+  "courses" : "My MOOCs",
+
+  "activityFeedExplanation": "The <b>Activity feed</b>  displays the most interesting, recent activity taking place in ECO MOOCS. -it",
+
+  "studentActivitySortedTitle": "Student activity",
+  "studentActivitySortedExplanation": "This graph below sorts all students according to there level of activity. Active students are displayed more the right, passive students are displayed at the left. This page therefor gives a rough overview of what ratio of the students is active",
+  "studentActivitySortedExplanationb": "Try different Clustering",
+  "studentActivitySortedChartTitle": "All students sorted according to activity level",
+
+  "teacherSocialTitle": "Social Network Data",
+  "teacherSocialExplanation": "This page shows the connections between users in this MOOCs. A line represents a user following another user in this course. The size of the user node gives an estimation of the amount of peers a user follows. The bigger the node, the more peers this user is following.",
+  "teacherSocialChartTitle": "Graphs representing who follows who in this course"
+}

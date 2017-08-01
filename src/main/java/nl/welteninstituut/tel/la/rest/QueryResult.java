@@ -192,6 +192,13 @@ public class QueryResult extends Service {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON })
+    @Path("/langDistribution")
+    public String languageDistribution(@HeaderParam("Authorization") String token) throws IOException {
+        return QueryCacheManager.getQueryResult("langDistribution");
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
     @Path("/dropoutMonitor/{courseId}")
     public String dropoutMonitorForCourse(@PathParam("courseId") final String courseId) throws IOException {
         return QueryCacheManager.getQueryResult("course_activities_"+courseId);

@@ -1,0 +1,871 @@
+{"activityPath":[
+{
+      "serial":1,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit60/kq353/p",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":2,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit60/kq353/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":1
+},
+{
+      "serial":3,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit60/kq354",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/slide-deck",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":4,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq355",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":5,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq356",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":6,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq356/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":7,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq356/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},
+{
+      "serial":8,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq357",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":10,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq357/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":11,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq357/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},
+{
+      "serial":12,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq358",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":13,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq358/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":14,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq358/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},
+{
+      "serial":15,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq359",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":16,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq359/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":17,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq359/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},
+{
+      "serial":18,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq360",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":19,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq360/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+
+{
+      "serial":20,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq360/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},
+{
+      "serial":21,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq361",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":22,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq361/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":23,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq361/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},
+{
+      "serial":24,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq362",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":25,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq363",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":26,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq363/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":27,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq363/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},
+{
+      "serial":28,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq364",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":29,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq364/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":30,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq364/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},
+{
+      "serial":31,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq365",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":32,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq365/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":33,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq365/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},{
+      "serial":34,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq366",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":35,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq366/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":36,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq366/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},
+{
+      "serial":37,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq367",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":38,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq367/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":39,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq367/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},
+{
+      "serial":40,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq368",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":41,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq368/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":42,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq368/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},
+{
+      "serial":43,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq369",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":44,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq369/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":45,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq369/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},
+{
+      "serial":46,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq370",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":47,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq370/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":48,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit61/kq370/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},
+{
+      "serial":49,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq371",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":50,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq371/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":51,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq371/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":3
+},
+{
+      "serial":52,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq372",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":53,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq372/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":54,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq372/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":3
+},
+{
+      "serial":55,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq373",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":56,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq373/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+
+{
+      "serial":57,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq373/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":3
+},
+{
+      "serial":58,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq374",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":59,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq374/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":60,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq374/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":3
+},
+{
+      "serial":61,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq375",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":62,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq375/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":63,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq375/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":3
+},
+{
+      "serial":64,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq376",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":65,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq376/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":66,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq376/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":3
+},
+{
+      "serial":67,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq377",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":68,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq377/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":69,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq377/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":3
+},
+{
+      "serial":70,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq378",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":71,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq378/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":72,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq378/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":73,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq379",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":74,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq379/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":75,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit62/kq379/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":3
+},
+{
+      "serial":76,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq382",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":77,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq382/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":78,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq382/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":4
+},
+{
+      "serial":79,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq383",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":80,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq383/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":81,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq383/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":4
+},
+{
+      "serial":82,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq384",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":83,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq384/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":84,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq384/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":4
+},
+{
+      "serial":85,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq385",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":86,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq385/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":87,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq385/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":4
+},
+{
+      "serial":88,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq386",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":89,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq386/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "relativeTime":4
+},
+{
+      "serial":90,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq386/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":4
+},
+{
+      "serial":91,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq387",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":92,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq387/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":93,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq387/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":94,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq389",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+
+{
+      "serial":95,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq390",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":96,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq391",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":97,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq392",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":98,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq388",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/slide-deck",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":99,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq388/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":100,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit63/kq388/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":4
+},
+{
+      "serial":101,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq393",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":102,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq393/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":103,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq393/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":5
+},
+{
+      "serial":104,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq394",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":105,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq394/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":106,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq394/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":107,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq395",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":108,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq395/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":109,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq395/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":5
+},
+{
+      "serial":110,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq396",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":111,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq396/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":112,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq396/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":5
+},{
+      "serial":113,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq397",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":114,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq397/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":115,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq397/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":5
+},
+{
+      "serial":116,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq398",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":117,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq398/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":118,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq398/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":5
+},
+{
+      "serial":119,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq399",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/slide-deck",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":120,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq399/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":121,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq399/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":5
+},
+{
+      "serial":122,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit64/kq409",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":123,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit66/kq401",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/slide-deck",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":6
+},
+{
+      "serial":124,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit66/kq401/p",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":6
+},
+{
+      "serial":125,
+      "objectId":"https://hub10b.ecolearning.eu/course/mappare-il-mondodalle-carte-alla-terra-digitale-4/classroom/#unit66/kq401/p",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":6
+}
+]
+}

@@ -1,0 +1,215 @@
+{"activityPath":[
+{
+      "serial":1,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit343/kq581",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":2,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/MOOC_Nuevos_profesionales_digitales_Guia_General_del_Curso_Ed01.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":3,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Calendario_del_curso_Edicion_01.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":4,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Criterios_de_evaluacion.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":5,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit344/kq582",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":6,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit344/kq583",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":7,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit344/kq583/p",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":8,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit344/kq583/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/asessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":9,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit345/kq584",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":10,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit345/kq585",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":11,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit345/kq585/p",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":12,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit345/kq585/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":4
+},
+{
+      "serial":13,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit346/kq586",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":14,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/La_profesion_del_community_manager_2.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":15,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Situacion_laboral_community_manager_en_empresas_2.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":16,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/60_consejos_practicos_mejorar_imagen_personal.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":17,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Community_manager_y_comunicacion_2.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":18,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit346/kq587",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":19,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit346/kq587/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":20,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit346/kq587/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":4
+},
+{
+      "serial":21,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit347/kq588",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+
+{
+      "serial":22,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit347/kq589",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":23,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit347/kq589/p",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+
+{
+      "serial":24,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit347/kq589/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":6
+},
+{
+      "serial":25,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit348/kq590",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":6
+},
+{
+      "serial":26,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Cuadernos_de_comunicacion.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":6
+},
+{
+      "serial":27,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Vademecum_2015_de_las_profesiones_digitales.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":6
+},
+{
+      "serial":28,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit348/kq591",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":6
+},
+{
+      "serial":29,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit348/kq591/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":6
+},
+{
+      "serial":30,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit348/kq591/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":6
+}
+]
+}

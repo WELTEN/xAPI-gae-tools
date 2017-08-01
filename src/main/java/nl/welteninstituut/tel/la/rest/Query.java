@@ -47,6 +47,13 @@ public class Query extends Service {
         return "{'computing':false, 'reason':'result less then "+(time/60000)+"minutes old'}";
     }
 
+    @POST
+    @Consumes({MediaType.TEXT_PLAIN })
+    public String submitQuery() {
+
+        return "{}";
+    }
+
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/calendar/user")
@@ -164,9 +171,21 @@ public class Query extends Service {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON })
+    @Path("/langDistribution")
+    public String languageDistribution(@HeaderParam("Authorization") String token) throws IOException {
+        return executeOnlyIfResultIsOutDated(DAY, "langDistribution", new Runnable() {
+
+            public void run() {
+                bigQuery.langDistribution();
+            }
+        });
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
     @Path("/dropoutMonitor/{courseId}")
     public String dropoutMonitorForCourse(@HeaderParam("Authorization") String token,
-                                 @PathParam("courseId") final String courseId) throws IOException {
+                                          @PathParam("courseId") final String courseId) throws IOException {
         return executeOnlyIfResultIsOutDated(DAY, "course_activities_"+courseId, new Runnable() {
 
             public void run() {

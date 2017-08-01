@@ -1,0 +1,136 @@
+{"activityPath":[
+{
+      "serial":1,
+      "objectId":"https://hub11.ecolearning.eu/course/el-voluntari-que-hay-en-ti/classroom/#unit87/kq237",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":2,
+      "objectId":"https://hub11.ecolearning.eu/media/attachments/CRONOGRAMA_CURSO_VOLUNTARIADO_SEPTIEMBRE_2016.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":3,
+      "objectId":"https://hub11.ecolearning.eu/course/el-voluntari-que-hay-en-ti/classroom/#unit87/kq266",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":4,
+      "objectId":"https://hub11.ecolearning.eu/course/el-voluntari-que-hay-en-ti/classroom/#unit88/kq257",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":5,
+      "objectId":"https://hub11.ecolearning.eu/course/el-voluntari-que-hay-en-ti/classroom/#unit88/kq252",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":6,
+      "objectId":"https://hub11.ecolearning.eu/media/attachments/ADJUNTO_UNIDAD_1_PILDORA_1.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":7,
+      "objectId":"https://hub11.ecolearning.eu/media/attachments/guia_actividad_evaluable_UNIDAD_1_PILDORA_1.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":8,
+      "objectId":"https://hub11.ecolearning.eu/media/attachments/RUBRICA_PARTICIPACION_SOCIAL.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":9,
+      "objectId":"https://hub8.ecolearning.eu/course/emprendedores-digitales/classroom/#unit345/kq584",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":10,
+      "objectId":"https://hub11.ecolearning.eu/course/el-voluntari-que-hay-en-ti/classroom/#unit88/kq252/p",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":11,
+      "objectId":"https://hub11.ecolearning.eu/course/el-voluntari-que-hay-en-ti/classroom/#unit88/kq252/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":3
+},
+{
+      "serial":12,
+      "objectId":"https://hub11.ecolearning.eu/course/el-voluntari-que-hay-en-ti/classroom/#unit88/kq255",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":13,
+      "objectId":"https://hub11.ecolearning.eu/media/attachments/ADJUNTO_UNIDAD_1_PILDORA_2.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":14,
+      "objectId":"https://hub11.ecolearning.eu/course/el-voluntari-que-hay-en-ti/classroom/#unit88/kq256",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":15,
+      "objectId":"https://hub11.ecolearning.eu/media/attachments/ADJUNTO_MOTIVACION.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":16,
+      "objectId":"https://hub11.ecolearning.eu/media/attachments/guia_actividad_evaluable_UNIDAD_1_PILDORA_3.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":17,
+      "objectId":"https://hub11.ecolearning.eu/media/attachments/RUBRICA_MOTIVACION.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":18,
+      "objectId":"https://hub11.ecolearning.eu/course/el-voluntari-que-hay-en-ti/classroom/#unit88/kq256/p",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":19,
+      "objectId":"https://hub11.ecolearning.eu/course/el-voluntari-que-hay-en-ti/classroom/#unit88/kq256/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":3
+}
+]
+}

@@ -1,0 +1,243 @@
+{"activityPath":[
+{
+      "serial":1,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit339/kq580",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":2,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Calendario_del_curso_Edicion_01_1.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":3,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Criterios_de_evaluacion_1.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":4,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Guia_general_sMOOC_Robotica_Edicion01.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":5,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit338/kq574",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":6,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit338/kq575",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":7,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/DocumentoI.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":8,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/EA_Constructivista_1.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":9,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Robotica_Educacion.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":1
+},
+{
+      "serial":10,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit340/kq576",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":11,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Pensamiento_Computacional_Zapata_4.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":12,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Documento_Modulo_3.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":13,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit340/kq577",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":14,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit340/kq577/p",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":15,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit340/kq577/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":2
+},
+{
+      "serial":16,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Pensamiento_Computacional_Scratch_Perez_Roig.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":17,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Rubrica_Modulo_3.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":2
+},
+{
+      "serial":18,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit341/kq578",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":19,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/alfabetizacion_1.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":20,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/pedagogia_robots.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":21,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Robotica_herramienta_aprendizaje.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+
+{
+      "serial":22,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit341/kq578/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":3
+},
+{
+      "serial":23,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit341/kq578/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":3
+},
+
+{
+      "serial":24,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit342/kq579",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":25,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Modulo_V_Creando_modelo.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":26,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Modulo_didactico_robotica_educativa_1.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":27,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit342/kq579/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":4
+},
+{
+      "serial":28,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit342/kq579/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":4
+},
+{
+      "serial":29,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit342/kq604",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/video",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":30,
+      "objectId":"https://hub8.ecolearning.eu/media/attachments/Rubrica_Modulo_5.pdf",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/article",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":31,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit342/kq604/p",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":32,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit342/kq604/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/assessment",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":5
+},
+{
+      "serial":33,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit342/kq579/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/access",
+      "relativeTime":5
+},
+{
+      "serial":34,
+      "objectId":"https://hub8.ecolearning.eu/course/los-robots-en-la-educacion-digital-una-nueva-forma/classroom/#unit342/kq579/q",
+      "objectDefinition":"http://activitystrea.ms/schema/1.0/task",
+      "verbId":"http://activitystrea.ms/schema/1.0/submit",
+      "relativeTime":5
+}
+]
+}

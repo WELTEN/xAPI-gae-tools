@@ -26,6 +26,7 @@ var AppRouter = Backbone.Router.extend({
         "logout": "logout",
         "mooc/loginData": "loginData",
         "mooc/eco": "dropoutView",
+        "mooc/multiculturalism": "multiculturalism",
         "mooc/:id/student": "studentView",
         "mooc/:id/student/resource": "studentResourceView",
         "mooc/:id/student/performance": "studentPerformanceView",
@@ -313,6 +314,26 @@ var AppRouter = Backbone.Router.extend({
         $(document).i18n();
     },
 
+    // dropoutView:function(){
+    //
+    //     $("#dashboardtitle").html("<span data-i18n='ecoMonitorTitle'>Login Data</span> <small>Macro</small>");
+    //     $("#explanation").html("<span data-i18n='ecoMonitorExplanation'>Login Data</span>");
+    //
+    //     $('.content > .row').html("");
+    //
+    //     this.googleChart("allCourseActivities", "<span data-i18n='ecoMonitorTitle'>Login Data</span>",
+    //         '/data-proxy/query/dropoutMonitor',
+    //         '/data-proxy/query/result/dropoutMonitor', BubbleView);
+    //
+    //     this.googleChart("allCourseActivitiesLang", "<span data-i18n='ecoMonitorTitle'>Login Data</span>",
+    //         '/data-proxy/query/dropoutMonitor',
+    //         '/data-proxy/query/result/dropoutMonitorLang', BubbleViewLang);
+    //
+    //     $(document).i18n();
+    //
+    //
+    // },
+
     dropoutView:function(){
 
         $("#dashboardtitle").html("<span data-i18n='ecoMonitorTitle'>Login Data</span> <small>Macro</small>");
@@ -320,13 +341,32 @@ var AppRouter = Backbone.Router.extend({
 
         $('.content > .row').html("");
 
-        this.googleChart("allCourseActivities", "<span data-i18n='ecoMonitorTitle'>Login Data</span>",
+        this.googleChart("allCourseActivitiesLang", "<span data-i18n='ecoMonitorTitle'>Login Data</span>",
             '/data-proxy/query/dropoutMonitor',
             '/data-proxy/query/result/dropoutMonitor', BubbleView);
 
-        this.googleChart("allCourseActivitiesLang", "<span data-i18n='ecoMonitorTitle'>Login Data</span>",
+
+        $(document).i18n();
+
+
+    },
+
+    multiculturalism:function(){
+        $("#dashboardtitle").html("<span data-i18n='multiculturalism'>Login Data</span> <small>Macro</small>");
+        $("#explanation").html("<span data-i18n='multiculturalismExpl'>Login Data</span>");
+
+        $('.content > .row').html("");
+
+
+        this.googleChart("allCourseActivitiesLang", "<span data-i18n='ecoMonitorTitle'>Language distribution for all ECO MOOCs</span>",
             '/data-proxy/query/dropoutMonitor',
-            '/data-proxy/query/result/dropoutMonitorLang', BubbleView);
+            '/data-proxy/query/result/dropoutMonitorLang', BubbleViewLang);
+
+
+        this.d3Chart("LanguagesUsed", "Amount of activities per language",
+            '/data-proxy/query/langDistribution',
+            '/data-proxy/query/result/langDistribution',
+            BarChartView);
 
         $(document).i18n();
 
